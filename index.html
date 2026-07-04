@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>D'Cruz Guitars — Handcrafted Acoustic Guitars</title>
+  <meta name="description" content="D'Cruz Guitars builds heirloom-grade acoustic guitars by hand, one instrument at a time. Explore the collection or commission a custom build.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%B8%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="siteHeader">
+    <nav class="nav container" aria-label="Main navigation">
+      <a href="#top" class="brand" aria-label="D'Cruz Guitars — home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="20" r="9" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="16" cy="20" r="3.2" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M16 11V3M13.4 3h5.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="brand-name">D&rsquo;Cruz</span>
+        <span class="brand-sub">Guitars</span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <ul class="nav-links">
+          <li><a href="#collection">Collection</a></li>
+          <li><a href="#craft">The Craft</a></li>
+          <li><a href="#story">Our Story</a></li>
+          <li><a href="#voices">Voices</a></li>
+        </ul>
+        <a href="#commission" class="btn btn-outline nav-cta">Commission a Build</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="top">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow reveal">Est. 1998 &middot; Handmade in small batches</p>
+          <h1 class="reveal delay-1">Guitars built to <em>sing</em> for a lifetime.</h1>
+          <p class="lede reveal delay-2">
+            Every D&rsquo;Cruz instrument is carved, voiced, and finished by hand in our
+            workshop — one luthier, one guitar, no shortcuts. Wood chosen by ear,
+            not by catalogue.
+          </p>
+          <div class="hero-actions reveal delay-3">
+            <a href="#collection" class="btn btn-primary">Explore the Collection</a>
+            <a href="#craft" class="btn btn-ghost">
+              See how they&rsquo;re made
+              <svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M4 10h12m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+          <dl class="hero-stats reveal delay-4">
+            <div><dt>27</dt><dd>Years at the bench</dd></div>
+            <div><dt>400+</dt><dd>Instruments built</dd></div>
+            <div><dt>12</dt><dd>Guitars per year</dd></div>
+          </dl>
+        </div>
+
+        <div class="hero-visual reveal delay-2" aria-hidden="true">
+          <div class="hero-disc"></div>
+          <svg class="hero-guitar" viewBox="0 0 300 760" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a handcrafted acoustic guitar">
+            <defs>
+              <radialGradient id="burstHero" cx="50%" cy="42%" r="75%">
+                <stop offset="0%" stop-color="#E3B778"/>
+                <stop offset="55%" stop-color="#B97F3E"/>
+                <stop offset="100%" stop-color="#4A2B14"/>
+              </radialGradient>
+              <linearGradient id="neckHero" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#2A1A10"/>
+                <stop offset="50%" stop-color="#4A3018"/>
+                <stop offset="100%" stop-color="#241408"/>
+              </linearGradient>
+            </defs>
+            <!-- headstock -->
+            <path d="M132 12 h36 l6 78 h-48 z" fill="url(#neckHero)" stroke="#C89B5A" stroke-opacity=".35"/>
+            <circle cx="140" cy="30" r="3.4" fill="#C89B5A"/><circle cx="160" cy="30" r="3.4" fill="#C89B5A"/>
+            <circle cx="140" cy="50" r="3.4" fill="#C89B5A"/><circle cx="160" cy="50" r="3.4" fill="#C89B5A"/>
+            <circle cx="140" cy="70" r="3.4" fill="#C89B5A"/><circle cx="160" cy="70" r="3.4" fill="#C89B5A"/>
+            <!-- neck -->
+            <rect x="134" y="90" width="32" height="300" fill="url(#neckHero)"/>
+            <g stroke="#C89B5A" stroke-opacity=".45" stroke-width="1.6">
+              <line x1="134" y1="120" x2="166" y2="120"/><line x1="134" y1="152" x2="166" y2="152"/>
+              <line x1="134" y1="184" x2="166" y2="184"/><line x1="134" y1="216" x2="166" y2="216"/>
+              <line x1="134" y1="248" x2="166" y2="248"/><line x1="134" y1="280" x2="166" y2="280"/>
+              <line x1="134" y1="312" x2="166" y2="312"/><line x1="134" y1="344" x2="166" y2="344"/>
+            </g>
+            <circle cx="150" cy="168" r="2.6" fill="#E8D5B0"/>
+            <circle cx="150" cy="232" r="2.6" fill="#E8D5B0"/>
+            <circle cx="150" cy="296" r="2.6" fill="#E8D5B0"/>
+            <!-- body -->
+            <path d="M150 372 C 196 372 232 388 238 424 C 243 452 226 474 224 496 C 222 520 240 534 246 566 C 254 614 226 668 150 668 C 74 668 46 614 54 566 C 60 534 78 520 76 496 C 74 474 57 452 62 424 C 68 388 104 372 150 372 Z"
+              fill="url(#burstHero)" stroke="#C89B5A" stroke-opacity=".5" stroke-width="2"/>
+            <!-- rosette + soundhole -->
+            <circle cx="150" cy="478" r="40" fill="none" stroke="#3A2412" stroke-width="7"/>
+            <circle cx="150" cy="478" r="40" fill="none" stroke="#C89B5A" stroke-opacity=".8" stroke-width="1.4"/>
+            <circle cx="150" cy="478" r="47" fill="none" stroke="#C89B5A" stroke-opacity=".45" stroke-width="1.2"/>
+            <circle cx="150" cy="478" r="33" fill="#160D06"/>
+            <!-- bridge -->
+            <rect x="112" y="576" width="76" height="16" rx="6" fill="#2A1A10" stroke="#C89B5A" stroke-opacity=".4"/>
+            <!-- strings -->
+            <g stroke="#EAD9B8" stroke-opacity=".75" stroke-width="1">
+              <line x1="141" y1="88" x2="128" y2="580"/><line x1="144.6" y1="88" x2="136.8" y2="580"/>
+              <line x1="148.2" y1="88" x2="145.6" y2="580"/><line x1="151.8" y1="88" x2="154.4" y2="580"/>
+              <line x1="155.4" y1="88" x2="163.2" y2="580"/><line x1="159" y1="88" x2="172" y2="580"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TONEWOOD STRIP ============ -->
+    <section class="strip" aria-label="Tonewoods we work with">
+      <div class="container strip-inner">
+        <span>Sitka Spruce</span><span class="dot" aria-hidden="true"></span>
+        <span>Indian Rosewood</span><span class="dot" aria-hidden="true"></span>
+        <span>Honduran Mahogany</span><span class="dot" aria-hidden="true"></span>
+        <span>Flamed Koa</span><span class="dot" aria-hidden="true"></span>
+        <span>Ebony</span><span class="dot" aria-hidden="true"></span>
+        <span>Adirondack Spruce</span>
+      </div>
+    </section>
+
+    <!-- ============ COLLECTION ============ -->
+    <section class="section" id="collection">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">The Collection</p>
+          <h2>Three voices. One standard.</h2>
+          <p class="section-lede">Each model is a platform we refine endlessly — then tailor to your hands, your touch, and the music you play.</p>
+        </div>
+
+        <div class="cards">
+          <!-- Meridian -->
+          <article class="card reveal">
+            <div class="card-visual" aria-hidden="true">
+              <svg viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="finishA" cx="50%" cy="38%" r="80%">
+                    <stop offset="0%" stop-color="#EFD9A7"/><stop offset="60%" stop-color="#D2A661"/><stop offset="100%" stop-color="#6B4520"/>
+                  </radialGradient>
+                </defs>
+                <rect x="138" y="0" width="24" height="110" fill="#2A1A10"/>
+                <path d="M150 96 C 196 96 232 112 238 148 C 243 176 226 198 224 220 C 222 244 240 258 246 290 C 254 338 226 392 150 392 C 74 392 46 338 54 290 C 60 258 78 244 76 220 C 74 198 57 176 62 148 C 68 112 104 96 150 96 Z" fill="url(#finishA)" stroke="#C89B5A" stroke-opacity=".45" stroke-width="2"/>
+                <circle cx="150" cy="202" r="30" fill="#160D06" stroke="#3A2412" stroke-width="6"/>
+                <circle cx="150" cy="202" r="36" fill="none" stroke="#C89B5A" stroke-opacity=".6" stroke-width="1.2"/>
+                <rect x="116" y="292" width="68" height="14" rx="6" fill="#2A1A10"/>
+              </svg>
+            </div>
+            <div class="card-body">
+              <div class="card-title-row">
+                <h3>The Meridian</h3>
+                <span class="tag">Dreadnought</span>
+              </div>
+              <p>Our flagship. Adirondack spruce over Indian rosewood with hand-scalloped X-bracing — cannon-like projection with a piano-clear low end.</p>
+              <ul class="specs">
+                <li>Adirondack spruce top</li>
+                <li>Indian rosewood back &amp; sides</li>
+                <li>25.4&Prime; scale, ebony board</li>
+              </ul>
+              <div class="card-foot">
+                <span class="price">from $6,800</span>
+                <a href="#commission" class="text-link">Enquire<svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Solano -->
+          <article class="card reveal delay-1">
+            <div class="card-visual" aria-hidden="true">
+              <svg viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="finishB" cx="50%" cy="38%" r="80%">
+                    <stop offset="0%" stop-color="#C88B4E"/><stop offset="55%" stop-color="#8F5426"/><stop offset="100%" stop-color="#2E1708"/>
+                  </radialGradient>
+                </defs>
+                <rect x="140" y="0" width="20" height="118" fill="#2A1A10"/>
+                <path d="M150 106 C 186 106 212 120 217 150 C 221 174 208 192 206 212 C 204 232 219 244 224 270 C 231 312 208 384 150 384 C 92 384 69 312 76 270 C 81 244 96 232 94 212 C 92 192 79 174 83 150 C 88 120 114 106 150 106 Z" fill="url(#finishB)" stroke="#C89B5A" stroke-opacity=".45" stroke-width="2"/>
+                <circle cx="150" cy="208" r="26" fill="#160D06" stroke="#3A2412" stroke-width="5"/>
+                <circle cx="150" cy="208" r="32" fill="none" stroke="#C89B5A" stroke-opacity=".6" stroke-width="1.2"/>
+                <rect x="120" y="292" width="60" height="13" rx="6" fill="#2A1A10"/>
+              </svg>
+            </div>
+            <div class="card-body">
+              <div class="card-title-row">
+                <h3>The Solano</h3>
+                <span class="tag">Parlor</span>
+              </div>
+              <p>An intimate fingerstyle machine. Small body, huge personality — warm mahogany voice that blooms under a light touch and records beautifully.</p>
+              <ul class="specs">
+                <li>Sitka spruce top</li>
+                <li>Honduran mahogany body</li>
+                <li>24.75&Prime; scale, 1&frac34;&Prime; nut</li>
+              </ul>
+              <div class="card-foot">
+                <span class="price">from $5,400</span>
+                <a href="#commission" class="text-link">Enquire<svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Vega -->
+          <article class="card reveal delay-2">
+            <div class="card-visual" aria-hidden="true">
+              <svg viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="finishC" cx="50%" cy="38%" r="80%">
+                    <stop offset="0%" stop-color="#F0E3BD"/><stop offset="65%" stop-color="#D8B878"/><stop offset="100%" stop-color="#7A5426"/>
+                  </radialGradient>
+                </defs>
+                <rect x="138" y="0" width="24" height="104" fill="#2A1A10"/>
+                <path d="M150 92 C 200 92 236 110 242 148 C 247 178 228 200 226 224 C 224 250 244 264 250 298 C 258 348 228 396 150 396 C 72 396 42 348 50 298 C 56 264 76 250 74 224 C 72 200 53 178 58 148 C 64 110 100 92 150 92 Z" fill="url(#finishC)" stroke="#C89B5A" stroke-opacity=".45" stroke-width="2"/>
+                <circle cx="150" cy="204" r="31" fill="#160D06" stroke="#3A2412" stroke-width="6"/>
+                <circle cx="150" cy="204" r="37" fill="none" stroke="#C89B5A" stroke-opacity=".6" stroke-width="1.2"/>
+                <rect x="112" y="300" width="76" height="14" rx="6" fill="#2A1A10"/>
+              </svg>
+            </div>
+            <div class="card-body">
+              <div class="card-title-row">
+                <h3>The Vega</h3>
+                <span class="tag">Grand Auditorium</span>
+              </div>
+              <p>The do-everything guitar. Flamed koa with a European spruce top — balanced across the fretboard, equally at home flatpicked or fingerpicked.</p>
+              <ul class="specs">
+                <li>European spruce top</li>
+                <li>Flamed koa back &amp; sides</li>
+                <li>25&Prime; scale, Venetian cutaway option</li>
+              </ul>
+              <div class="card-foot">
+                <span class="price">from $7,900</span>
+                <a href="#commission" class="text-link">Enquire<svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <p class="collection-note reveal">Every model is also available as a fully bespoke commission — different woods, scale lengths, appointments, and voicings.</p>
+      </div>
+    </section>
+
+    <!-- ============ CRAFT ============ -->
+    <section class="section section-alt" id="craft">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">The Craft</p>
+          <h2>Six months. Four hands. Zero shortcuts.</h2>
+          <p class="section-lede">From billet to first chord, every step happens on one bench — the way it&rsquo;s been done for three hundred years.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="step reveal">
+            <span class="step-num" aria-hidden="true">01</span>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 7c2 1.5 4 1.5 7 0s5-1.5 7 0M5 12c2 1.5 4 1.5 7 0s5-1.5 7 0M5 17c2 1.5 4 1.5 7 0s5-1.5 7 0"/></svg>
+            </div>
+            <h3>Tonewood selection</h3>
+            <p>We tap-tune every top before it&rsquo;s cut, listening for the ring that predicts a great soundboard. Our wood library seasons for a decade before it touches a blade.</p>
+          </li>
+          <li class="step reveal delay-1">
+            <span class="step-num" aria-hidden="true">02</span>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m14 5 5 5M4 20l4.5-1 10-10L14 4.5l-10 10L3 19z"/></svg>
+            </div>
+            <h3>Hand-carved bracing</h3>
+            <p>Braces are split, not sawn, then scalloped by chisel while the top is flexed and tapped — tuning stiffness to the individual piece of wood, gram by gram.</p>
+          </li>
+          <li class="step reveal delay-2">
+            <span class="step-num" aria-hidden="true">03</span>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18"/><path d="M12 7a5 5 0 0 1 0 10"/></svg>
+            </div>
+            <h3>French polish finish</h3>
+            <p>Hundreds of whisper-thin shellac layers applied by hand pad. The thinnest finish in the business — the top vibrates as if it were bare wood.</p>
+          </li>
+          <li class="step reveal delay-3">
+            <span class="step-num" aria-hidden="true">04</span>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18c3-1 5-4 6-8l1-6 2 2 4 1-1 3c-1 4-4 7-8 8l-4 0z"/><path d="m13 6 5 5"/></svg>
+            </div>
+            <h3>Setup &amp; voicing</h3>
+            <p>Strings on, we play each instrument for two weeks — adjusting saddle, nut, and neck relief until it feels effortless from the first fret to the fourteenth.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ STORY ============ -->
+    <section class="section" id="story">
+      <div class="container story-grid">
+        <div class="story-visual reveal" aria-hidden="true">
+          <div class="story-frame">
+            <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="woodGrain" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#3A2412"/><stop offset="50%" stop-color="#5C3A1C"/><stop offset="100%" stop-color="#2A1708"/>
+                </linearGradient>
+              </defs>
+              <rect width="400" height="400" rx="8" fill="url(#woodGrain)"/>
+              <g stroke="#C89B5A" stroke-opacity=".25" stroke-width="1.5">
+                <path d="M-20 60 Q 200 30 420 70"/><path d="M-20 120 Q 200 96 420 128"/>
+                <path d="M-20 180 Q 200 160 420 188"/><path d="M-20 240 Q 200 224 420 248"/>
+                <path d="M-20 300 Q 200 288 420 306"/><path d="M-20 360 Q 200 352 420 364"/>
+              </g>
+              <g transform="translate(200 205)">
+                <circle r="86" fill="none" stroke="#C89B5A" stroke-opacity=".7" stroke-width="2"/>
+                <circle r="70" fill="none" stroke="#C89B5A" stroke-opacity=".4" stroke-width="1.4"/>
+                <text text-anchor="middle" dominant-baseline="central" font-family="Playfair Display, serif" font-size="64" fill="#E8D5B0">D&rsquo;C</text>
+              </g>
+              <text x="200" y="352" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" letter-spacing="4" fill="#C89B5A">WORKSHOP &middot; EST. 1998</text>
+            </svg>
+          </div>
+        </div>
+        <div class="story-copy">
+          <p class="eyebrow reveal">Our Story</p>
+          <h2 class="reveal delay-1">A family name, carried in every soundhole.</h2>
+          <p class="reveal delay-2">
+            Mateo D&rsquo;Cruz built his first guitar at nineteen from a church pew someone was
+            throwing away. Twenty-seven years later the tools are better, the wood is better,
+            but the obsession is the same: build the instrument he wished he could have
+            afforded as a kid.
+          </p>
+          <p class="reveal delay-2">
+            We build twelve guitars a year. Not because we can&rsquo;t build more — because
+            we won&rsquo;t. Every top is tuned by ear, every neck shaped to its player, and
+            every instrument leaves the shop only when it sounds like a D&rsquo;Cruz.
+          </p>
+          <blockquote class="reveal delay-3">
+            &ldquo;A factory can make a good guitar. Only a person can make <em>your</em> guitar.&rdquo;
+            <cite>— Mateo D&rsquo;Cruz, founder &amp; luthier</cite>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TESTIMONIALS ============ -->
+    <section class="section section-alt" id="voices">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Voices</p>
+          <h2>What players say.</h2>
+        </div>
+        <div class="quotes">
+          <figure class="quote reveal">
+            <svg class="quote-mark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.6 5C6 6.8 3.8 9.8 3.8 13.9c0 3 1.8 5.1 4.3 5.1 2.2 0 3.8-1.6 3.8-3.7 0-2-1.4-3.4-3.3-3.4-.3 0-.7 0-.8.1.3-1.9 2-3.9 3.9-4.9L9.6 5Zm10 0c-3.6 1.8-5.8 4.8-5.8 8.9 0 3 1.8 5.1 4.3 5.1 2.2 0 3.8-1.6 3.8-3.7 0-2-1.4-3.4-3.3-3.4-.3 0-.6 0-.8.1.3-1.9 2-3.9 3.9-4.9L19.6 5Z"/></svg>
+            <blockquote>The Meridian is the loudest, clearest dreadnought I&rsquo;ve ever recorded. It made every other guitar in the studio sound like it was under a blanket.</blockquote>
+            <figcaption><strong>Sarah Okafor</strong><span>Session guitarist, Nashville</span></figcaption>
+          </figure>
+          <figure class="quote reveal delay-1">
+            <svg class="quote-mark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.6 5C6 6.8 3.8 9.8 3.8 13.9c0 3 1.8 5.1 4.3 5.1 2.2 0 3.8-1.6 3.8-3.7 0-2-1.4-3.4-3.3-3.4-.3 0-.7 0-.8.1.3-1.9 2-3.9 3.9-4.9L9.6 5Zm10 0c-3.6 1.8-5.8 4.8-5.8 8.9 0 3 1.8 5.1 4.3 5.1 2.2 0 3.8-1.6 3.8-3.7 0-2-1.4-3.4-3.3-3.4-.3 0-.6 0-.8.1.3-1.9 2-3.9 3.9-4.9L19.6 5Z"/></svg>
+            <blockquote>Mateo asked me to play for an hour before he&rsquo;d take my deposit. The parlor he built fits my hands like it grew there. Worth every month of the wait.</blockquote>
+            <figcaption><strong>James Tran</strong><span>Fingerstyle artist</span></figcaption>
+          </figure>
+          <figure class="quote reveal delay-2">
+            <svg class="quote-mark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.6 5C6 6.8 3.8 9.8 3.8 13.9c0 3 1.8 5.1 4.3 5.1 2.2 0 3.8-1.6 3.8-3.7 0-2-1.4-3.4-3.3-3.4-.3 0-.7 0-.8.1.3-1.9 2-3.9 3.9-4.9L9.6 5Zm10 0c-3.6 1.8-5.8 4.8-5.8 8.9 0 3 1.8 5.1 4.3 5.1 2.2 0 3.8-1.6 3.8-3.7 0-2-1.4-3.4-3.3-3.4-.3 0-.6 0-.8.1.3-1.9 2-3.9 3.9-4.9L19.6 5Z"/></svg>
+            <blockquote>I&rsquo;ve owned pre-war Martins and modern boutique builds. My Vega is the one that never goes back in the case. It simply does everything.</blockquote>
+            <figcaption><strong>Elena Vasquez</strong><span>Touring songwriter</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COMMISSION CTA ============ -->
+    <section class="section commission" id="commission">
+      <div class="container commission-inner reveal">
+        <p class="eyebrow">Commissions open</p>
+        <h2>Your guitar is waiting in a stack of wood.</h2>
+        <p class="section-lede">
+          We&rsquo;re taking commissions for next year&rsquo;s build slots. Tell us what you play,
+          how you play it, and the sound in your head — we&rsquo;ll build the rest.
+        </p>
+        <div class="hero-actions">
+          <a href="mailto:workshop@dcruzguitars.com" class="btn btn-primary">Start a Conversation</a>
+          <a href="tel:+15550142998" class="btn btn-ghost">+1 (555) 014-2998</a>
+        </div>
+        <p class="commission-note">Current wait: 9&ndash;11 months &middot; $500 refundable deposit reserves a slot</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="#top" class="brand" aria-label="D'Cruz Guitars — back to top">
+          <span class="brand-name">D&rsquo;Cruz</span>
+          <span class="brand-sub">Guitars</span>
+        </a>
+        <p class="footer-tag">Handcrafted acoustic guitars.<br>Built one at a time since 1998.</p>
+      </div>
+      <nav aria-label="Footer">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#collection">Collection</a></li>
+          <li><a href="#craft">The Craft</a></li>
+          <li><a href="#story">Our Story</a></li>
+          <li><a href="#commission">Commission</a></li>
+        </ul>
+      </nav>
+      <div>
+        <h4>Workshop</h4>
+        <ul>
+          <li>412 Alder Mill Road</li>
+          <li>Santa Rosa, CA 95401</li>
+          <li><a href="mailto:workshop@dcruzguitars.com">workshop@dcruzguitars.com</a></li>
+          <li><a href="tel:+15550142998">+1 (555) 014-2998</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-base">
+      <p>&copy; 2026 D&rsquo;Cruz Guitars. All rights reserved.</p>
+      <p>Visits by appointment only.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
