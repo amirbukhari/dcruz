@@ -96,4 +96,26 @@
       }
     });
   });
+
+  // ---- Enquiry form: build a prefilled email (static site, no backend) ----
+  // TODO: set this to the real D'Cruz inbox.
+  const ENQUIRY_EMAIL = "hello@dcruzguitars.com";
+  const form = document.getElementById("enquireForm");
+  const note = document.getElementById("formNote");
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const msg = form.message.value.trim();
+      if (!name || !email || !msg) {
+        if (note) note.textContent = "Please fill in your name, email, and what you\u2019re after.";
+        return;
+      }
+      const subject = encodeURIComponent(`Build enquiry from ${name}`);
+      const body = encodeURIComponent(`${msg}\n\n\u2014 ${name}\n${email}`);
+      window.location.href = `mailto:${ENQUIRY_EMAIL}?subject=${subject}&body=${body}`;
+      if (note) note.textContent = "Opening your email app\u2026 if nothing happens, email " + ENQUIRY_EMAIL;
+    });
+  }
 })();
