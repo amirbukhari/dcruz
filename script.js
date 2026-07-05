@@ -171,4 +171,64 @@
       });
     });
   }
+
+  // ---- Quick-view lightbox ----
+  const lightbox = document.getElementById("lightbox");
+  if (lightbox && catCards.length) {
+    const lbImg = document.getElementById("lbImg");
+    const lbName = document.getElementById("lbName");
+    const lbPrice = document.getElementById("lbPrice");
+    const lbTag = document.getElementById("lbTag");
+    const lbGlow = document.getElementById("lbGlow");
+    const lbClose = lightbox.querySelector(".lightbox-close");
+    let lastFocus = null;
+
+    const openLB = (card) => {
+      const img = card.querySelector(".card-guitar");
+      const name = card.querySelector("h3");
+      const price = card.querySelector(".price");
+      const tag = card.querySelector(".tag");
+      const cv = card.querySelector(".card-visual");
+      if (img) { lbImg.src = img.currentSrc || img.src; lbImg.alt = img.alt; }
+      lbName.textContent = name ? name.textContent : "";
+      lbPrice.textContent = price ? price.textContent : "";
+      lbTag.textContent = tag ? tag.textContent : "";
+      lbTag.hidden = !tag;
+      lbGlow.style.setProperty("--cardglow", (cv && cv.style.getPropertyValue("--cardglow")) || "#c89b5a");
+      lastFocus = document.activeElement;
+      lightbox.hidden = false;
+      document.body.classList.add("lb-open");
+      lbClose.focus();
+    };
+    const closeLB = () => {
+      lightbox.hidden = true;
+      document.body.classList.remove("lb-open");
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    };
+    lightbox.querySelectorAll("[data-close]").forEach((el) => el.addEventListener("click", closeLB));
+    document.addEventListener("keydown", (e) => {
+      if (lightbox.hidden) return;
+      if (e.key === "Escape") { closeLB(); return; }
+      if (e.key === "Tab") {
+        const f = lightbox.querySelectorAll("button, a[href]");
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // add a zoom button over each card image
+    catCards.forEach((card) => {
+      const cv = card.querySelector(".card-visual");
+      if (!cv) return;
+      const name = card.querySelector("h3");
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "card-zoom";
+      btn.setAttribute("aria-label", "View " + (name ? name.textContent : "guitar") + " larger");
+      btn.innerHTML = '<span>View<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span>';
+      btn.addEventListener("click", () => openLB(card));
+      cv.appendChild(btn);
+    });
+  }
 })();

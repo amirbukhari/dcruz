@@ -510,6 +510,23 @@
     </div>
   </footer>
 
+  <!-- Quick-view lightbox -->
+  <div class="lightbox" id="lightbox" hidden>
+    <div class="lightbox-backdrop" data-close></div>
+    <div class="lightbox-panel" role="dialog" aria-modal="true" aria-labelledby="lbName">
+      <button class="lightbox-close" type="button" data-close aria-label="Close quick view">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div class="lightbox-img" id="lbGlow"><img id="lbImg" src="" alt=""></div>
+      <div class="lightbox-meta">
+        <span class="tag" id="lbTag"></span>
+        <h3 id="lbName"></h3>
+        <p class="price" id="lbPrice"></p>
+        <a href="#enquire" class="btn btn-primary" data-close>Enquire about this build</a>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
