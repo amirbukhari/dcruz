@@ -4,14 +4,14 @@
    ========================================================================== */
 
 :root {
-  --bg: #14100c;
-  --bg-elevated: #1b1510;
-  --surface: #211913;
-  --surface-2: #281e15;
-  --text: #f3ecdf;
-  --text-muted: #b3a48c;
-  --accent: #c89b5a;
-  --accent-strong: #e0b878;
+  --bg: #0e0b07;
+  --bg-elevated: #16110c;
+  --surface: #1c1610;
+  --surface-2: #221a12;
+  --text: #f7f1e5;
+  --text-muted: #b0a086;
+  --accent: #cfa063;
+  --accent-strong: #edc37f;
   --accent-deep: #8a6430;
   --border: rgba(200, 155, 90, 0.16);
   --border-strong: rgba(200, 155, 90, 0.32);
@@ -414,6 +414,34 @@ p { max-width: 65ch; text-wrap: pretty; }
   height: 4px;
   border-radius: 50%;
   background: var(--accent);
+}
+
+/* ---------- statement band ---------- */
+
+.statement {
+  padding-block: clamp(4.5rem, 12vh, 9rem);
+  text-align: center;
+}
+.statement-line {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-optical-sizing: auto;
+  font-size: clamp(2.6rem, 8vw, 6rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  max-width: 18ch;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+.statement-line em { font-style: italic; font-weight: 500; color: var(--accent-strong); }
+.statement-kicker {
+  margin: 1.75rem auto 0;
+  max-width: 46ch;
+  font-size: 0.9375rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
 /* ---------- sections ---------- */
