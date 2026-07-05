@@ -24,7 +24,7 @@
   <meta name="twitter:image" content="https://amirbukhari.github.io/dcruz/assets/og-cover.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="image" href="assets/guitar-green.png" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/guitar-green.webp" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script type="application/ld+json">
@@ -111,18 +111,18 @@
         <div class="hero-visual reveal delay-2">
           <div class="hero-disc" aria-hidden="true"></div>
           <div class="hero-stage" id="heroStage">
-            <img class="hero-guitar" id="heroGuitar" src="assets/guitar-green.png" alt="D&rsquo;Cruz Surf Green S-style electric guitar" width="316" height="951">
+            <img class="hero-guitar" id="heroGuitar" src="assets/guitar-green.webp" alt="D&rsquo;Cruz Surf Green S-style electric guitar" width="316" height="951">
           </div>
           <div class="finish-picker" role="group" aria-label="Choose a finish">
             <span class="finish-label"><span id="finishName">Surf Green</span></span>
             <div class="swatches">
-              <button class="swatch is-active" style="--sw:#93cfae" data-img="assets/guitar-green.png" data-glow="#7fd0a6" data-name="Surf Green" aria-label="Surf Green" aria-pressed="true"></button>
-              <button class="swatch" style="--sw:#f2c94c" data-img="assets/guitar-yellow.png" data-glow="#f2c94c" data-name="Sonic Yellow" aria-label="Sonic Yellow" aria-pressed="false"></button>
-              <button class="swatch" style="--sw:#c0271f" data-img="assets/guitar-red.png" data-glow="#d8402f" data-name="Candy Red" aria-label="Candy Red" aria-pressed="false"></button>
-              <button class="swatch" style="--sw:#cbd0d6" data-img="assets/guitar-orange.png" data-glow="#e8843a" data-name="Silver / Orange" aria-label="Silver and orange" aria-pressed="false"></button>
-              <button class="swatch swatch-split" style="--sw:#1b1b1e" data-img="assets/guitar-blackgold.png" data-glow="#caa04a" data-name="Black &amp; Gold" aria-label="Black and Gold" aria-pressed="false"></button>
-              <button class="swatch" style="--sw:#c79a56" data-img="assets/guitar-maple.png" data-glow="#d8b26a" data-name="Natural Maple" aria-label="Natural Maple" aria-pressed="false"></button>
-              <button class="swatch" style="--sw:#161719" data-img="assets/guitar-supro.png" data-glow="#5a6b86" data-name="Supro Black" aria-label="Supro Black" aria-pressed="false"></button>
+              <button class="swatch is-active" style="--sw:#93cfae" data-img="assets/guitar-green.webp" data-glow="#7fd0a6" data-name="Surf Green" aria-label="Surf Green" aria-pressed="true"></button>
+              <button class="swatch" style="--sw:#f2c94c" data-img="assets/guitar-yellow.webp" data-glow="#f2c94c" data-name="Sonic Yellow" aria-label="Sonic Yellow" aria-pressed="false"></button>
+              <button class="swatch" style="--sw:#c0271f" data-img="assets/guitar-red.webp" data-glow="#d8402f" data-name="Candy Red" aria-label="Candy Red" aria-pressed="false"></button>
+              <button class="swatch" style="--sw:#cbd0d6" data-img="assets/guitar-orange.webp" data-glow="#e8843a" data-name="Silver / Orange" aria-label="Silver and orange" aria-pressed="false"></button>
+              <button class="swatch swatch-split" style="--sw:#1b1b1e" data-img="assets/guitar-blackgold.webp" data-glow="#caa04a" data-name="Black &amp; Gold" aria-label="Black and Gold" aria-pressed="false"></button>
+              <button class="swatch" style="--sw:#c79a56" data-img="assets/guitar-maple.webp" data-glow="#d8b26a" data-name="Natural Maple" aria-label="Natural Maple" aria-pressed="false"></button>
+              <button class="swatch" style="--sw:#161719" data-img="assets/guitar-supro.webp" data-glow="#5a6b86" data-name="Supro Black" aria-label="Supro Black" aria-pressed="false"></button>
             </div>
           </div>
         </div>
@@ -185,7 +185,7 @@
 
         <article class="feature reveal">
           <div class="feature-media">
-            <img src="assets/guitar-maple.png" alt="D&rsquo;Cruz Custom 004, natural maple electric with tremolo" loading="lazy" decoding="async" width="316" height="967"
+            <img src="assets/guitar-maple.webp" alt="D&rsquo;Cruz Custom 004, natural maple electric with tremolo" loading="lazy" decoding="async" width="316" height="967"
           </div>
           <div class="feature-body">
             <span class="tag">Flagship Custom</span>
@@ -204,11 +204,18 @@
           </div>
         </article>
 
+        <div class="filter-bar reveal" role="group" aria-label="Filter guitars">
+          <button class="filter-btn is-active" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter-btn" data-filter="partscaster" aria-pressed="false">Partscasters</button>
+          <button class="filter-btn" data-filter="custom" aria-pressed="false">Custom</button>
+          <button class="filter-btn" data-filter="vintage" aria-pressed="false">Vintage</button>
+        </div>
+
         <div class="cards">
           <!-- Squier Partscaster $250 -->
-          <article class="card reveal">
+          <article class="card reveal" data-cat="partscaster">
             <div class="card-visual" aria-hidden="true">
-              <img class="card-guitar" src="assets/guitar-orange.png" alt="D&rsquo;Cruz Squier partscaster, silver with orange pickguard" loading="lazy" decoding="async" width="337" height="964">
+              <img class="card-guitar" src="assets/guitar-orange.webp" alt="D&rsquo;Cruz Squier partscaster, silver with orange pickguard" loading="lazy" decoding="async" width="337" height="964">
             </div>
             <div class="card-body">
               <div class="card-title-row"><h3>Squier Partscaster</h3><span class="tag">Partscaster</span></div>
@@ -223,9 +230,9 @@
           </article>
 
           <!-- D'Cruz Partscaster (black & gold) $500 -->
-          <article class="card reveal delay-1">
+          <article class="card reveal delay-1" data-cat="partscaster">
             <div class="card-visual" aria-hidden="true">
-              <img class="card-guitar" src="assets/guitar-blackgold.png" alt="D&rsquo;Cruz black and gold S-style partscaster" loading="lazy" decoding="async" width="324" height="967">
+              <img class="card-guitar" src="assets/guitar-blackgold.webp" alt="D&rsquo;Cruz black and gold S-style partscaster" loading="lazy" decoding="async" width="324" height="967">
             </div>
             <div class="card-body">
               <div class="card-title-row"><h3>D&rsquo;Cruz Partscaster</h3><span class="tag">Partscaster</span></div>
@@ -240,9 +247,9 @@
           </article>
 
           <!-- D'Cruz Partscaster (yellow) $700 -->
-          <article class="card reveal delay-2">
+          <article class="card reveal delay-2" data-cat="partscaster">
             <div class="card-visual" aria-hidden="true">
-              <img class="card-guitar" src="assets/guitar-yellow.png" alt="D&rsquo;Cruz yellow S-style partscaster with neon humbuckers" loading="lazy" decoding="async" width="384" height="1155">
+              <img class="card-guitar" src="assets/guitar-yellow.webp" alt="D&rsquo;Cruz yellow S-style partscaster with neon humbuckers" loading="lazy" decoding="async" width="384" height="1155">
             </div>
             <div class="card-body">
               <div class="card-title-row"><h3>D&rsquo;Cruz Partscaster</h3><span class="tag">Partscaster</span></div>
@@ -257,9 +264,9 @@
           </article>
 
           <!-- D'Cruz Custom 003 (red) $900 -->
-          <article class="card reveal">
+          <article class="card reveal" data-cat="custom">
             <div class="card-visual" aria-hidden="true">
-              <img class="card-guitar" src="assets/guitar-red.png" alt="D&rsquo;Cruz Custom 003, candy-red T-style" loading="lazy" decoding="async" width="337" height="966">
+              <img class="card-guitar" src="assets/guitar-red.webp" alt="D&rsquo;Cruz Custom 003, candy-red T-style" loading="lazy" decoding="async" width="337" height="966">
             </div>
             <div class="card-body">
               <div class="card-title-row"><h3>D&rsquo;Cruz Custom 003</h3><span class="tag">Custom Build</span></div>
@@ -274,9 +281,9 @@
           </article>
 
           <!-- Supro Americana 1582 VJB $1,100 -->
-          <article class="card reveal delay-1">
+          <article class="card reveal delay-1" data-cat="vintage">
             <div class="card-visual" aria-hidden="true">
-              <img class="card-guitar" src="assets/guitar-supro.png" alt="Supro Americana 1582 VJB, black offset electric" loading="lazy" decoding="async" width="369" height="967">
+              <img class="card-guitar" src="assets/guitar-supro.webp" alt="Supro Americana 1582 VJB, black offset electric" loading="lazy" decoding="async" width="369" height="967">
             </div>
             <div class="card-body">
               <div class="card-title-row"><h3>Supro Americana 1582 VJB</h3><span class="tag">Vintage</span></div>
@@ -291,9 +298,9 @@
           </article>
 
           <!-- D'Cruz Custom 001 (green) $1,900 -->
-          <article class="card reveal delay-2">
+          <article class="card reveal delay-2" data-cat="custom">
             <div class="card-visual" aria-hidden="true">
-              <img class="card-guitar" src="assets/guitar-green.png" alt="D&rsquo;Cruz Custom 001, surf-green S-style" loading="lazy" decoding="async" width="316" height="951">
+              <img class="card-guitar" src="assets/guitar-green.webp" alt="D&rsquo;Cruz Custom 001, surf-green S-style" loading="lazy" decoding="async" width="316" height="951">
             </div>
             <div class="card-body">
               <div class="card-title-row"><h3>D&rsquo;Cruz Custom 001</h3><span class="tag">Custom Build</span></div>

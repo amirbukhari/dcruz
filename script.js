@@ -121,4 +121,40 @@
       if (note) note.textContent = "Opening your email app\u2026 if nothing happens, email " + ENQUIRY_EMAIL;
     });
   }
+
+  // ---- Catalogue filter ----
+  const filterBtns = Array.from(document.querySelectorAll(".filter-btn"));
+  const catCards = Array.from(document.querySelectorAll("#guitars .card"));
+  if (filterBtns.length && catCards.length) {
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const f = btn.dataset.filter;
+        filterBtns.forEach((b) => {
+          const on = b === btn;
+          b.classList.toggle("is-active", on);
+          b.setAttribute("aria-pressed", String(on));
+        });
+        catCards.forEach((card) => {
+          const show = f === "all" || card.dataset.cat === f;
+          card.hidden = !show;
+        });
+      });
+    });
+  }
+
+  // ---- Keyboard arrow-key nav for the finish swatches ----
+  if (swatches.length) {
+    swatches.forEach((sw, i) => {
+      sw.addEventListener("keydown", (e) => {
+        let j = null;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") j = (i + 1) % swatches.length;
+        else if (e.key === "ArrowLeft" || e.key === "ArrowUp") j = (i - 1 + swatches.length) % swatches.length;
+        if (j !== null) {
+          e.preventDefault();
+          swatches[j].focus();
+          swatches[j].click();
+        }
+      });
+    });
+  }
 })();
