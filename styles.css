@@ -72,11 +72,17 @@ p { max-width: 65ch; text-wrap: pretty; }
   margin-bottom: 1rem;
 }
 .sec-idx {
-  font-variant-numeric: tabular-nums;
-  color: var(--text-muted);
-  margin-right: 0.85rem;
-  padding-right: 0.85rem;
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--accent-strong);
+  vertical-align: -0.35em;
+  margin-right: 0.9rem;
+  padding-right: 0.9rem;
   border-right: 1px solid var(--border-strong);
+  font-variant-numeric: tabular-nums;
 }
 
 .lede, .section-lede {
@@ -606,13 +612,16 @@ p { max-width: 65ch; text-wrap: pretty; }
 
 .step-num {
   position: absolute;
-  top: 1.25rem;
+  top: 1rem;
   right: 1.4rem;
   font-family: var(--font-display);
-  font-size: 2.4rem;
+  font-size: 4.5rem;
+  font-weight: 600;
   font-style: italic;
-  color: rgba(200, 155, 90, 0.22);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(207, 160, 99, 0.35);
   line-height: 1;
+  pointer-events: none;
 }
 .step-icon {
   width: 46px;
