@@ -2,35 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Page not found — D'Cruz Guitars</title>
   <meta name="robots" content="noindex">
-  <meta name="theme-color" content="#14100c">
+  <meta name="theme-color" content="#0e0b07">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <!-- Same fonts URL as the homepage so the CSS and font files come from cache -->
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- GitHub Pages serves this file at whatever path 404'd, so every URL must be absolute -->
+  <link rel="stylesheet" href="/dcruz/styles.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="/dcruz/assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="/dcruz/assets/apple-touch-icon.png">
   <style>
     .nf { min-height: 100dvh; display: grid; place-items: center; text-align: center; padding: 2rem; }
-    .nf-inner { max-width: 30rem; }
+    .nf-inner { max-width: 34rem; }
     .nf h1 { font-size: clamp(3.5rem, 12vw, 6rem); margin-bottom: 0.5rem; }
     .nf p { margin: 0 auto 2rem; color: var(--text-muted); }
     .nf .brand { justify-content: center; margin-bottom: 2rem; }
+    .nf-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+    .nf-actions .btn { width: auto; }
   </style>
 </head>
 <body>
   <main class="nf">
     <div class="nf-inner">
       <a href="/dcruz/" class="brand" aria-label="D'Cruz Guitars — home">
-        <img class="brand-logo" src="assets/dcruz-logo-cream.png" alt="D&rsquo;Cruz" width="1171" height="303">
+        <img class="brand-logo" src="/dcruz/assets/dcruz-logo-cream-sm.png" alt="D&rsquo;Cruz" width="340" height="88">
         <span class="brand-sub">Guitars</span>
       </a>
       <p class="eyebrow">Error 404</p>
       <h1>Out of tune.</h1>
       <p>That page hit a dead string. Let&rsquo;s get you back to the guitars.</p>
-      <a href="/dcruz/" class="btn btn-primary">Back to home</a>
+      <div class="nf-actions">
+        <a href="/dcruz/" class="btn btn-primary">Back to home</a>
+        <a href="/dcruz/#guitars" class="btn btn-outline">See the catalogue</a>
+        <a href="/dcruz/#enquire" class="btn btn-outline">Start a build</a>
+      </div>
     </div>
   </main>
 </body>

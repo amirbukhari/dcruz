@@ -1,14 +1,15 @@
 {
+  "id": "/dcruz/",
   "name": "D'Cruz Guitars",
   "short_name": "D'Cruz",
   "description": "Custom electric guitars and partscasters, handcrafted in Belleville, Ontario.",
   "start_url": "/dcruz/",
   "scope": "/dcruz/",
   "display": "standalone",
-  "background_color": "#14100c",
-  "theme_color": "#14100c",
+  "background_color": "#0e0b07",
+  "theme_color": "#0e0b07",
   "icons": [
     { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
   ]
 }
