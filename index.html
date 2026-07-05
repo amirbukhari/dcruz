@@ -15,6 +15,7 @@
 <body>
 
   <a class="skip-link" href="#main">Skip to content</a>
+  <div class="grain" aria-hidden="true"></div>
 
   <header class="site-header" id="siteHeader">
     <nav class="nav container" aria-label="Main navigation">
@@ -69,22 +70,49 @@
           </dl>
         </div>
 
-        <div class="hero-visual reveal delay-2" aria-hidden="true">
-          <div class="hero-disc"></div>
-          <img class="hero-guitar" src="assets/guitar-yellow.png" alt="D&rsquo;Cruz yellow S-style partscaster with black pickguard and neon humbuckers" width="384" height="1155">
+        <div class="hero-visual reveal delay-2">
+          <div class="hero-disc" aria-hidden="true"></div>
+          <div class="hero-stage" id="heroStage">
+            <img class="hero-guitar" id="heroGuitar" src="assets/guitar-yellow.png" alt="D&rsquo;Cruz Sonic Yellow S-style partscaster — click to strum" width="384" height="1155">
+            <span class="strum-hint" id="strumHint" aria-hidden="true">click to strum</span>
+          </div>
+          <div class="finish-picker" role="group" aria-label="Choose a finish">
+            <span class="finish-label"><span id="finishName">Sonic Yellow</span></span>
+            <div class="swatches">
+              <button class="swatch is-active" style="--sw:#f2c94c" data-img="assets/guitar-yellow.png" data-glow="#f2c94c" data-name="Sonic Yellow" aria-label="Sonic Yellow" aria-pressed="true"></button>
+              <button class="swatch" style="--sw:#c0271f" data-img="assets/guitar-red.png" data-glow="#d8402f" data-name="Candy Red" aria-label="Candy Red" aria-pressed="false"></button>
+              <button class="swatch" style="--sw:#cbd0d6" data-img="assets/guitar-orange.png" data-glow="#e8843a" data-name="Silver / Orange" aria-label="Silver and orange" aria-pressed="false"></button>
+              <button class="swatch" style="--sw:#93cfae" data-img="assets/guitar-green.png" data-glow="#7fd0a6" data-name="Surf Green" aria-label="Surf Green" aria-pressed="false"></button>
+              <button class="swatch swatch-split" style="--sw:#1b1b1e" data-img="assets/guitar-blackgold.png" data-glow="#caa04a" data-name="Black &amp; Gold" aria-label="Black and Gold" aria-pressed="false"></button>
+              <button class="swatch" style="--sw:#c79a56" data-img="assets/guitar-maple.png" data-glow="#d8b26a" data-name="Natural Maple" aria-label="Natural Maple" aria-pressed="false"></button>
+              <button class="swatch" style="--sw:#161719" data-img="assets/guitar-supro.png" data-glow="#5a6b86" data-name="Supro Black" aria-label="Supro Black" aria-pressed="false"></button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ BUILD STRIP ============ -->
+    <!-- ============ BUILD STRIP (marquee) ============ -->
     <section class="strip" aria-label="What goes into a D'Cruz build">
-      <div class="container strip-inner">
-        <span>Warmoth Bodies</span><span class="dot" aria-hidden="true"></span>
-        <span>Maple Necks</span><span class="dot" aria-hidden="true"></span>
-        <span>Carparelli Pickups</span><span class="dot" aria-hidden="true"></span>
-        <span>Custom Wiring</span><span class="dot" aria-hidden="true"></span>
-        <span>Killswitch</span><span class="dot" aria-hidden="true"></span>
-        <span>Pro Setup</span>
+      <div class="marquee">
+        <div class="marquee-track" aria-hidden="false">
+          <span>Warmoth Bodies</span><span class="dot"></span>
+          <span>Maple Necks</span><span class="dot"></span>
+          <span>Carparelli Pickups</span><span class="dot"></span>
+          <span>Custom Wiring</span><span class="dot"></span>
+          <span>Killswitch</span><span class="dot"></span>
+          <span>Pro Setup</span><span class="dot"></span>
+          <span>Handcrafted in Canada</span><span class="dot"></span>
+        </div>
+        <div class="marquee-track" aria-hidden="true">
+          <span>Warmoth Bodies</span><span class="dot"></span>
+          <span>Maple Necks</span><span class="dot"></span>
+          <span>Carparelli Pickups</span><span class="dot"></span>
+          <span>Custom Wiring</span><span class="dot"></span>
+          <span>Killswitch</span><span class="dot"></span>
+          <span>Pro Setup</span><span class="dot"></span>
+          <span>Handcrafted in Canada</span><span class="dot"></span>
+        </div>
       </div>
     </section>
 
