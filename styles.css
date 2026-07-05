@@ -54,7 +54,7 @@ h1, h2, h3 {
   text-wrap: balance;
 }
 
-h1 { font-size: clamp(2.5rem, 5.6vw, 4.25rem); }
+h1 { font-size: clamp(2.9rem, 6.6vw, 5.25rem); letter-spacing: -0.02em; }
 h2 { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
 h3 { font-size: 1.375rem; }
 
@@ -340,9 +340,9 @@ p { max-width: 65ch; }
 .hero-guitar {
   position: relative;
   display: block;
-  width: min(230px, 56vw);
+  width: min(275px, 60vw);
   height: auto;
-  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55));
+  filter: drop-shadow(0 40px 52px rgba(0, 0, 0, 0.62));
   transition: opacity 0.4s var(--ease);
 }
 .hero-guitar.swapping { opacity: 0; }
