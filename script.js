@@ -72,10 +72,22 @@
     sections.forEach((section) => spy.observe(section));
   }
 
-  // ---- Finish switcher: quietly swap the hero guitar ----
+  // ---- Finish switcher: swap the hero guitar + tint the ambient glow ----
   const heroGuitar = document.getElementById("heroGuitar");
+  const heroDisc = document.querySelector(".hero-disc");
   const finishName = document.getElementById("finishName");
   const swatches = Array.from(document.querySelectorAll(".swatch"));
+
+  const hexToRGBA = (hex, a) => {
+    const n = parseInt(hex.slice(1), 16);
+    return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
+  };
+  const setGlow = (hex) => {
+    if (heroDisc && hex)
+      heroDisc.style.background = `radial-gradient(circle, ${hexToRGBA(hex, 0.18)}, transparent 66%)`;
+  };
+  const activeSwatch = document.querySelector(".swatch.is-active");
+  if (activeSwatch) setGlow(activeSwatch.dataset.glow);
 
   // preload finish images so swaps are instant
   swatches.forEach((s) => { const i = new Image(); i.src = s.dataset.img; });
@@ -88,6 +100,7 @@
         s.setAttribute("aria-pressed", String(s === swatch));
       });
       if (finishName) finishName.textContent = swatch.dataset.name;
+      setGlow(swatch.dataset.glow);
       if (heroGuitar) {
         heroGuitar.classList.add("swapping");
         const src = swatch.dataset.img;
