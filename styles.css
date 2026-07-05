@@ -336,24 +336,15 @@ p { max-width: 65ch; }
   background: radial-gradient(circle, rgba(200, 155, 90, 0.1), transparent 70%);
   border: 1px solid var(--border);
 }
-.hero-frame {
+.hero-guitar {
   position: relative;
-  margin: 0;
-  padding: clamp(0.8rem, 2vw, 1.3rem);
-  background: linear-gradient(155deg, #fbf9f3, #ece5d6);
-  border: 1px solid var(--border-strong);
-  border-radius: 18px;
-  box-shadow: var(--shadow-card);
-  transform: rotate(2.5deg);
-  transition: transform 0.4s var(--ease);
-}
-.hero-frame:hover { transform: rotate(0deg); }
-.hero-frame img {
-  display: block;
-  width: min(215px, 52vw);
+  width: min(230px, 58vw);
   height: auto;
-  border-radius: 8px;
+  filter: drop-shadow(0 34px 44px rgba(0, 0, 0, 0.6));
+  transform: rotate(4deg);
+  transition: transform 0.5s var(--ease);
 }
+.hero-guitar:hover { transform: rotate(0deg); }
 
 /* ---------- tonewood strip ---------- */
 
@@ -433,20 +424,15 @@ p { max-width: 65ch; }
 }
 .card:hover .card-visual svg { transform: translateY(-6px) scale(1.02); }
 
-/* Real-guitar silhouette (traced from photo), tinted per finish via CSS mask */
+/* Real D'Cruz guitar photos (background removed) */
 .card-guitar {
-  width: 132px;
+  width: auto;
   height: 300px;
   margin-inline: auto;
-  -webkit-mask: url(assets/guitar-mask.png) center / contain no-repeat;
-  mask: url(assets/guitar-mask.png) center / contain no-repeat;
-  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.5));
   transition: transform 0.35s var(--ease);
 }
-.card:hover .card-guitar { transform: translateY(-6px) scale(1.02); }
-.card-guitar--yellow { background: linear-gradient(158deg, #f6d46a 0%, #d79a24 55%, #9e6c15 100%); }
-.card-guitar--black  { background: linear-gradient(158deg, #4a4d54 0%, #26282d 55%, #0b0c0e 100%); }
-.card-guitar--red    { background: linear-gradient(158deg, #e2685a 0%, #b23122 55%, #661810 100%); }
+.card:hover .card-guitar { transform: translateY(-6px) scale(1.03); }
 
 .card-body {
   display: flex;
@@ -671,6 +657,31 @@ p { max-width: 65ch; }
   color: var(--text-muted);
   letter-spacing: 0.04em;
 }
+
+/* ---------- partners ---------- */
+
+.partners-section {
+  padding-block: clamp(3rem, 7vh, 4.5rem);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.partners-eyebrow { margin-bottom: 1.75rem; }
+.partners {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem clamp(1.5rem, 4vw, 3.25rem);
+}
+.partners li {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+  transition: color 0.2s var(--ease);
+}
+.partners li:hover { color: var(--accent-strong); }
 
 /* ---------- footer ---------- */
 
