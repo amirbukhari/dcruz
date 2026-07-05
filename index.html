@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="assets/guitar-green.webp" fetchpriority="high">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script type="application/ld+json">
   {
@@ -114,7 +114,7 @@
             <img class="hero-guitar" id="heroGuitar" src="assets/guitar-green.webp" alt="D&rsquo;Cruz Surf Green S-style electric guitar" width="316" height="951">
           </div>
           <div class="finish-picker" role="group" aria-label="Choose a finish">
-            <span class="finish-label"><span id="finishName">Surf Green</span></span>
+            <span class="finish-label" aria-live="polite">Finish: <span id="finishName">Surf Green</span></span>
             <div class="swatches">
               <button class="swatch is-active" style="--sw:#93cfae" data-img="assets/guitar-green.webp" data-glow="#7fd0a6" data-name="Surf Green" aria-label="Surf Green" aria-pressed="true"></button>
               <button class="swatch" style="--sw:#f2c94c" data-img="assets/guitar-yellow.webp" data-glow="#f2c94c" data-name="Sonic Yellow" aria-label="Sonic Yellow" aria-pressed="false"></button>
@@ -225,7 +225,7 @@
                 <li>Professional setup &amp; intonation</li>
                 <li>S-style, ready to gig</li>
               </ul>
-              <div class="card-foot"><span class="price">CA$250</span></div>
+              <div class="card-foot"><span class="price">CA$250</span><a href="#enquire" class="text-link">Enquire<svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
             </div>
           </article>
 
@@ -242,7 +242,7 @@
                 <li>Hand-wired electronics</li>
                 <li>Professional setup</li>
               </ul>
-              <div class="card-foot"><span class="price">CA$500</span></div>
+              <div class="card-foot"><span class="price">CA$500</span><a href="#enquire" class="text-link">Enquire<svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
             </div>
           </article>
 
@@ -259,7 +259,7 @@
                 <li>Carparelli handwound humbuckers + mid single</li>
                 <li>Custom wiring: killswitch, master vol/tone</li>
               </ul>
-              <div class="card-foot"><span class="price">CA$700</span></div>
+              <div class="card-foot"><span class="price">CA$700</span><a href="#enquire" class="text-link">Enquire<svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
             </div>
           </article>
 
@@ -276,7 +276,7 @@
                 <li>Hand-wired electronics</li>
                 <li>Professional setup</li>
               </ul>
-              <div class="card-foot"><span class="price">CA$900</span></div>
+              <div class="card-foot"><span class="price">CA$900</span><a href="#enquire" class="text-link">Enquire<svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
             </div>
           </article>
 
@@ -293,7 +293,7 @@
                 <li>Serviced &amp; set up</li>
                 <li>One of a kind</li>
               </ul>
-              <div class="card-foot"><span class="price">CA$1,100</span></div>
+              <div class="card-foot"><span class="price">CA$1,100</span><a href="#enquire" class="text-link">Enquire<svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
             </div>
           </article>
 
@@ -310,7 +310,7 @@
                 <li>Handwound pickups, custom wiring</li>
                 <li>Hand-finished setup</li>
               </ul>
-              <div class="card-foot"><span class="price">CA$1,900</span></div>
+              <div class="card-foot"><span class="price">CA$1,900</span><a href="#enquire" class="text-link">Enquire<svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
             </div>
           </article>
 
@@ -461,7 +461,7 @@
             <textarea id="ef-msg" name="message" rows="4" required placeholder="e.g. a Sonic Yellow S-style partscaster with a killswitch, or a full custom build in surf green…"></textarea>
           </div>
           <button type="submit" class="btn btn-primary btn-block">Send enquiry</button>
-          <p class="form-note" id="formNote">No obligation — just tells us what you&rsquo;re dreaming up.</p>
+          <p class="form-note" id="formNote" role="status" aria-live="polite">No obligation — just tells us what you&rsquo;re dreaming up.</p>
         </form>
       </div>
     </section>
