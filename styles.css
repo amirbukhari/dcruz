@@ -60,7 +60,7 @@ h3 { font-size: 1.375rem; }
 
 h1 em, h2 em { font-style: italic; color: var(--accent-strong); }
 
-p { max-width: 65ch; }
+p { max-width: 65ch; text-wrap: pretty; }
 
 .eyebrow {
   font-size: 0.8125rem;
@@ -69,6 +69,13 @@ p { max-width: 65ch; }
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: 1rem;
+}
+.sec-idx {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+  margin-right: 0.85rem;
+  padding-right: 0.85rem;
+  border-right: 1px solid var(--border-strong);
 }
 
 .lede, .section-lede {
@@ -125,13 +132,13 @@ p { max-width: 65ch; }
   background: var(--text);
   color: var(--bg);
 }
-.btn-primary:hover { background: #ffffff; }
+.btn-primary:hover { background: #ffffff; transform: translateY(-1px); }
 
 .btn-outline {
   border-color: var(--border-strong);
   color: var(--text);
 }
-.btn-outline:hover { border-color: var(--accent); color: var(--accent-strong); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent-strong); transform: translateY(-1px); }
 
 .btn-ghost { color: var(--accent-strong); padding-inline: 1rem; }
 .btn-ghost:hover { color: var(--text); }
@@ -264,7 +271,7 @@ p { max-width: 65ch; }
 
 .hero {
   position: relative;
-  padding-block: clamp(8rem, 16vh, 11rem) clamp(3rem, 8vh, 5rem);
+  padding-block: clamp(6.5rem, 12vh, 9rem) clamp(3rem, 8vh, 5rem);
   overflow: hidden;
 }
 
@@ -970,8 +977,12 @@ p { max-width: 65ch; }
   border-radius: 10px;
   padding: 0.8rem 0.9rem;
   width: 100%;
-  transition: border-color 0.2s var(--ease);
+  accent-color: var(--accent);
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
   resize: vertical;
+}
+.field input:focus, .field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(200, 155, 90, 0.16);
 }
 .field input::placeholder, .field textarea::placeholder { color: #6f6350; }
 .field input:focus, .field textarea:focus {
