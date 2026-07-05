@@ -492,7 +492,7 @@ p { max-width: 65ch; text-wrap: pretty; }
   justify-content: center;
   padding: 2rem 2rem 1.5rem;
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(200, 155, 90, 0.1), transparent 60%),
+    radial-gradient(120% 95% at 50% 0%, color-mix(in srgb, var(--cardglow, #c89b5a) 22%, transparent), transparent 62%),
     var(--surface-2);
   border-bottom: 1px solid var(--border);
 }
@@ -895,7 +895,7 @@ p { max-width: 65ch; text-wrap: pretty; }
   justify-content: center;
   padding: clamp(1.5rem, 4vw, 3rem);
   background:
-    radial-gradient(90% 70% at 50% 40%, rgba(200, 155, 90, 0.14), transparent 62%),
+    radial-gradient(90% 75% at 50% 42%, color-mix(in srgb, var(--cardglow, #c89b5a) 26%, transparent), transparent 64%),
     var(--surface-2);
   border-right: 1px solid var(--border);
 }
