@@ -53,9 +53,12 @@
 
   if (hasIO && sections.length) {
     const setActive = (id) => {
-      navLinks.forEach((link) =>
-        link.classList.toggle("active", link.getAttribute("href") === "#" + id)
-      );
+      navLinks.forEach((link) => {
+        const on = link.getAttribute("href") === "#" + id;
+        link.classList.toggle("active", on);
+        if (on) link.setAttribute("aria-current", "true");
+        else link.removeAttribute("aria-current");
+      });
     };
     const spy = new IntersectionObserver(
       (entries) => {
