@@ -25,7 +25,7 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 
 body {
   font-family: var(--font-body);
@@ -369,6 +369,7 @@ p { max-width: 65ch; text-wrap: pretty; }
 }
 .swatches { display: flex; gap: 0.55rem; }
 .swatch {
+  position: relative;
   width: 22px;
   height: 22px;
   border-radius: 50%;
@@ -378,6 +379,8 @@ p { max-width: 65ch; text-wrap: pretty; }
   padding: 0;
   transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
+/* expand the tap target to 44px without changing the visual size */
+.swatch::after { content: ""; position: absolute; inset: -11px; border-radius: 50%; }
 .swatch:hover { transform: translateY(-2px); }
 .swatch.is-active {
   box-shadow: 0 0 0 1px var(--bg), 0 0 0 2px var(--text-muted);
@@ -826,7 +829,7 @@ p { max-width: 65ch; text-wrap: pretty; }
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 0.5rem 1.1rem;
-  min-height: 40px;
+  min-height: 44px;
   cursor: pointer;
   transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background-color 0.2s var(--ease);
 }
@@ -1014,7 +1017,7 @@ p { max-width: 65ch; text-wrap: pretty; }
 .field input:focus, .field textarea:focus {
   box-shadow: 0 0 0 3px rgba(200, 155, 90, 0.16);
 }
-.field input::placeholder, .field textarea::placeholder { color: #6f6350; }
+.field input::placeholder, .field textarea::placeholder { color: #8f8168; }
 .field input:focus, .field textarea:focus {
   outline: none;
   border-color: var(--accent);

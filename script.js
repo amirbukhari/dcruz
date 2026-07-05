@@ -108,9 +108,10 @@
   if (form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const name = form.name.value.trim();
-      const email = form.email.value.trim();
-      const msg = form.message.value.trim();
+      // Use element IDs — `form.name` resolves to the form's name attribute, not the field.
+      const name = document.getElementById("ef-name").value.trim();
+      const email = document.getElementById("ef-email").value.trim();
+      const msg = document.getElementById("ef-msg").value.trim();
       if (!name || !email || !msg) {
         if (note) note.textContent = "Please fill in your name, email, and what you\u2019re after.";
         return;
