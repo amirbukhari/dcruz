@@ -1,8 +1,8 @@
 # D'Cruz Guitars
 
-A static marketing site for D'Cruz Guitars — handcrafted acoustic guitars built one at a time.
+A static marketing site for D'Cruz Guitars — custom electric guitars and partscasters, hand-wired and set up by hand in Belleville, Ontario.
 
-Plain HTML/CSS/JS with no build step. Dark heritage-luxury design (Playfair Display + Inter, wood-and-brass palette) generated with the [ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) design skill (installed at `.claude/skills/ui-ux-pro-max`).
+Plain HTML/CSS/JS with no build step. Dark editorial design (Fraunces + Inter, wood-and-brass palette) generated with the [ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) design skill (installed at `.claude/skills/ui-ux-pro-max`).
 
 ## Preview locally
 
@@ -24,7 +24,7 @@ The site will be live at `https://<owner>.github.io/dcruz/`.
 
 | File | Purpose |
 |---|---|
-| `index.html` | Single-page site: hero, collection, craft process, story, testimonials, commission CTA |
+| `index.html` | Single-page site: hero, catalogue, the build process, about, enquiry/commission CTA |
 | `styles.css` | Design system tokens + all styling (responsive, dark, reduced-motion aware) |
-| `script.js` | Sticky header, mobile nav, scroll-reveal animations |
+| `script.js` | Sticky header, mobile nav, scroll-reveal, finish switcher, catalogue filter, quick-view lightbox, enquiry form |
 | `.claude/skills/ui-ux-pro-max` | Installed UI/UX design skill used to generate the design system |
