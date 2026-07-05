@@ -79,6 +79,7 @@
         <a href="#enquire" class="btn btn-outline nav-cta">Start Your Build</a>
       </div>
     </nav>
+    <div class="scroll-progress" aria-hidden="true"><span id="progressBar"></span></div>
   </header>
 
   <main id="main">
@@ -105,9 +106,9 @@
             </a>
           </div>
           <dl class="hero-stats reveal delay-4">
-            <div><dt>$250+</dt><dd>Partscasters</dd></div>
-            <div><dt>$900+</dt><dd>Custom builds</dd></div>
-            <div><dt>7</dt><dd>Finishes</dd></div>
+            <div><dt>Partscasters</dt><dd>$250+</dd></div>
+            <div><dt>Custom builds</dt><dd>$900+</dd></div>
+            <div><dt>Finishes</dt><dd>7</dd></div>
           </dl>
         </div>
 
@@ -134,13 +135,39 @@
 
     <!-- ============ BUILD STRIP ============ -->
     <section class="strip" aria-label="What goes into a D'Cruz build">
-      <div class="container strip-inner">
-        <span>Warmoth Bodies</span><span class="dot" aria-hidden="true"></span>
-        <span>Maple Necks</span><span class="dot" aria-hidden="true"></span>
-        <span>Carparelli Pickups</span><span class="dot" aria-hidden="true"></span>
-        <span>Custom Wiring</span><span class="dot" aria-hidden="true"></span>
-        <span>Killswitch</span><span class="dot" aria-hidden="true"></span>
-        <span>Pro Setup</span>
+      <div class="strip-track">
+        <div class="strip-inner">
+          <span>Warmoth Bodies</span><span class="dot" aria-hidden="true"></span>
+          <span>Maple Necks</span><span class="dot" aria-hidden="true"></span>
+          <span>Carparelli Pickups</span><span class="dot" aria-hidden="true"></span>
+          <span>Custom Wiring</span><span class="dot" aria-hidden="true"></span>
+          <span>Killswitch</span><span class="dot" aria-hidden="true"></span>
+          <span>Pro Setup</span><span class="dot strip-end-dot" aria-hidden="true"></span>
+        </div>
+        <div class="strip-inner strip-copy" aria-hidden="true">
+          <span>Warmoth Bodies</span><span class="dot"></span>
+          <span>Maple Necks</span><span class="dot"></span>
+          <span>Carparelli Pickups</span><span class="dot"></span>
+          <span>Custom Wiring</span><span class="dot"></span>
+          <span>Killswitch</span><span class="dot"></span>
+          <span>Pro Setup</span><span class="dot strip-end-dot"></span>
+        </div>
+        <div class="strip-inner strip-copy" aria-hidden="true">
+          <span>Warmoth Bodies</span><span class="dot"></span>
+          <span>Maple Necks</span><span class="dot"></span>
+          <span>Carparelli Pickups</span><span class="dot"></span>
+          <span>Custom Wiring</span><span class="dot"></span>
+          <span>Killswitch</span><span class="dot"></span>
+          <span>Pro Setup</span><span class="dot strip-end-dot"></span>
+        </div>
+        <div class="strip-inner strip-copy" aria-hidden="true">
+          <span>Warmoth Bodies</span><span class="dot"></span>
+          <span>Maple Necks</span><span class="dot"></span>
+          <span>Carparelli Pickups</span><span class="dot"></span>
+          <span>Custom Wiring</span><span class="dot"></span>
+          <span>Killswitch</span><span class="dot"></span>
+          <span>Pro Setup</span><span class="dot strip-end-dot"></span>
+        </div>
       </div>
     </section>
 
@@ -225,7 +252,7 @@
         <div class="cards">
           <!-- Squier Partscaster $250 -->
           <article class="card reveal" data-cat="partscaster">
-            <div class="card-visual" style="--cardglow:#e8843a" aria-hidden="true">
+            <div class="card-visual" style="--cardglow:#e8843a">
               <img class="card-guitar" src="assets/guitar-orange.webp" alt="D&rsquo;Cruz Squier partscaster, silver with orange pickguard" loading="lazy" decoding="async" width="337" height="964">
             </div>
             <div class="card-body">
@@ -243,7 +270,7 @@
 
           <!-- D'Cruz Partscaster (black & gold) $500 -->
           <article class="card reveal delay-1" data-cat="partscaster">
-            <div class="card-visual" style="--cardglow:#c9a24e" aria-hidden="true">
+            <div class="card-visual" style="--cardglow:#c9a24e">
               <img class="card-guitar" src="assets/guitar-blackgold.webp" alt="D&rsquo;Cruz black and gold S-style partscaster" loading="lazy" decoding="async" width="324" height="967">
             </div>
             <div class="card-body">
@@ -261,7 +288,7 @@
 
           <!-- D'Cruz Partscaster (yellow) $700 -->
           <article class="card reveal delay-2" data-cat="partscaster">
-            <div class="card-visual" style="--cardglow:#f2c94c" aria-hidden="true">
+            <div class="card-visual" style="--cardglow:#f2c94c">
               <img class="card-guitar" src="assets/guitar-yellow.webp" alt="D&rsquo;Cruz yellow S-style partscaster with neon humbuckers" loading="lazy" decoding="async" width="384" height="1155">
             </div>
             <div class="card-body">
@@ -279,7 +306,7 @@
 
           <!-- D'Cruz Custom 003 (red) $900 -->
           <article class="card reveal" data-cat="custom">
-            <div class="card-visual" style="--cardglow:#d8402f" aria-hidden="true">
+            <div class="card-visual" style="--cardglow:#d8402f">
               <img class="card-guitar" src="assets/guitar-red.webp" alt="D&rsquo;Cruz Custom 003, candy-red T-style" loading="lazy" decoding="async" width="337" height="966">
             </div>
             <div class="card-body">
@@ -297,7 +324,7 @@
 
           <!-- Supro Americana 1582 VJB $1,100 -->
           <article class="card reveal delay-1" data-cat="vintage">
-            <div class="card-visual" style="--cardglow:#6a7f9e" aria-hidden="true">
+            <div class="card-visual" style="--cardglow:#6a7f9e">
               <img class="card-guitar" src="assets/guitar-supro.webp" alt="Supro Americana 1582 VJB, black offset electric" loading="lazy" decoding="async" width="369" height="967">
             </div>
             <div class="card-body">
@@ -315,7 +342,7 @@
 
           <!-- D'Cruz Custom 004 (maple) $1,900 -->
           <article class="card reveal delay-2" data-cat="custom">
-            <div class="card-visual" style="--cardglow:#d8b26a" aria-hidden="true">
+            <div class="card-visual" style="--cardglow:#d8b26a">
               <img class="card-guitar" src="assets/guitar-maple.webp" alt="D&rsquo;Cruz Custom 004, natural maple electric with tremolo" loading="lazy" decoding="async" width="316" height="967">
             </div>
             <div class="card-body">
@@ -494,7 +521,7 @@
         <p class="footer-tag">Custom electric guitars &amp; partscasters.<br>Built and set up in Belleville, Ontario.</p>
       </div>
       <nav aria-label="Footer">
-        <h4>Explore</h4>
+        <h3>Explore</h3>
         <ul>
           <li><a href="#guitars">Guitars</a></li>
           <li><a href="#build">The Build</a></li>
@@ -502,7 +529,7 @@
         </ul>
       </nav>
       <div>
-        <h4>D&rsquo;Cruz Guitars</h4>
+        <h3>D&rsquo;Cruz Guitars</h3>
         <ul>
           <li>Belleville, Ontario, Canada</li>
           <li>Handcrafted in Canada</li>
@@ -532,6 +559,10 @@
       </div>
     </div>
   </div>
+
+  <button class="to-top" id="toTop" aria-label="Back to top">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 16V4m0 0 5 5m-5-5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
 
   <script src="script.js"></script>
 </body>
