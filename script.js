@@ -69,20 +69,10 @@
     sections.forEach((section) => spy.observe(section));
   }
 
-  // ---- Finish switcher: swap the hero guitar + shift the page glow ----
+  // ---- Finish switcher: quietly swap the hero guitar ----
   const heroGuitar = document.getElementById("heroGuitar");
-  const heroDisc = document.querySelector(".hero-disc");
   const finishName = document.getElementById("finishName");
   const swatches = Array.from(document.querySelectorAll(".swatch"));
-
-  const glowRGBA = (hex, a) => {
-    const n = parseInt(hex.slice(1), 16);
-    return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
-  };
-  const setGlow = (hex) => {
-    if (heroDisc) heroDisc.style.background =
-      `radial-gradient(circle, ${glowRGBA(hex, 0.28)}, transparent 68%)`;
-  };
 
   // preload finish images so swaps are instant
   swatches.forEach((s) => { const i = new Image(); i.src = s.dataset.img; });
@@ -95,106 +85,15 @@
         s.setAttribute("aria-pressed", String(s === swatch));
       });
       if (finishName) finishName.textContent = swatch.dataset.name;
-      setGlow(swatch.dataset.glow);
       if (heroGuitar) {
         heroGuitar.classList.add("swapping");
         const src = swatch.dataset.img;
-        const done = () => {
+        setTimeout(() => {
           heroGuitar.src = src;
-          heroGuitar.alt = "D’Cruz " + swatch.dataset.name + " partscaster — click to strum";
+          heroGuitar.alt = "D\u2019Cruz " + swatch.dataset.name + " partscaster";
           requestAnimationFrame(() => heroGuitar.classList.remove("swapping"));
-        };
-        // wait for the fade-out, then swap
-        setTimeout(done, reduceMotion ? 0 : 200);
+        }, reduceMotion ? 0 : 180);
       }
     });
   });
-
-  // ---- Pointer tilt on the hero guitar (skipped for reduced motion / touch) ----
-  const stage = document.getElementById("heroStage");
-  if (stage && heroGuitar && !reduceMotion && window.matchMedia("(pointer: fine)").matches) {
-    stage.addEventListener("pointermove", (e) => {
-      const r = stage.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5;
-      const py = (e.clientY - r.top) / r.height - 0.5;
-      heroGuitar.style.transform =
-        `rotate(3deg) rotateY(${px * 16}deg) rotateX(${-py * 12}deg)`;
-    });
-    stage.addEventListener("pointerleave", () => {
-      heroGuitar.style.transform = "rotate(3deg)";
-    });
-  }
-
-  // ---- Click to strum: synthesize an open chord with the Web Audio API ----
-  let audioCtx = null;
-  const strumHint = document.getElementById("strumHint");
-  // E major shape (E A E G# B E), frequencies in Hz
-  const CHORD = [82.41, 123.47, 164.81, 207.65, 246.94, 329.63];
-  const pluck = (ctx, freq, when, dur) => {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const filt = ctx.createBiquadFilter();
-    osc.type = "sawtooth";
-    osc.frequency.value = freq;
-    filt.type = "lowpass";
-    filt.frequency.setValueAtTime(3200, when);
-    filt.frequency.exponentialRampToValueAtTime(900, when + dur);
-    gain.gain.setValueAtTime(0.0001, when);
-    gain.gain.exponentialRampToValueAtTime(0.22, when + 0.006);
-    gain.gain.exponentialRampToValueAtTime(0.0001, when + dur);
-    osc.connect(filt); filt.connect(gain); gain.connect(ctx.destination);
-    osc.start(when); osc.stop(when + dur);
-  };
-  const strum = () => {
-    try {
-      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === "suspended") audioCtx.resume();
-      const t0 = audioCtx.currentTime;
-      CHORD.forEach((f, i) => pluck(audioCtx, f, t0 + i * 0.045, 1.6));
-    } catch (e) { /* audio unavailable — ignore */ }
-    if (stage && !reduceMotion) {
-      if (heroGuitar) heroGuitar.style.transform = ""; // let the keyframe shake show
-      stage.classList.remove("strum");
-      void stage.offsetWidth; // restart animation
-      stage.classList.add("strum");
-    }
-    if (strumHint) strumHint.textContent = "♪";
-  };
-  if (stage) {
-    stage.addEventListener("click", strum);
-    stage.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); strum(); }
-    });
-    stage.setAttribute("tabindex", "0");
-    stage.setAttribute("role", "button");
-    stage.setAttribute("aria-label", "Strum the guitar");
-  }
-
-  // ---- Count-up hero stats when they scroll into view ----
-  const stats = Array.from(document.querySelectorAll(".hero-stats dt"));
-  if (stats.length && hasIO && !reduceMotion) {
-    const animateCount = (el) => {
-      const raw = el.textContent.trim();
-      const m = raw.match(/(\D*)(\d+)(.*)/);
-      if (!m) return;
-      const [, pre, numStr, post] = m;
-      const target = parseInt(numStr, 10);
-      const dur = 900;
-      let start = null;
-      const step = (ts) => {
-        if (!start) start = ts;
-        const p = Math.min((ts - start) / dur, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = pre + Math.round(target * eased) + post;
-        if (p < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    };
-    const statObs = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) { animateCount(entry.target); statObs.unobserve(entry.target); }
-      });
-    }, { threshold: 1 });
-    stats.forEach((s) => statObs.observe(s));
-  }
 })();
