@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-CA">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -26,9 +26,11 @@
   <meta name="twitter:image" content="https://amirbukhari.github.io/dcruz/assets/og-cover.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="image" href="assets/guitar-green.webp" fetchpriority="high">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/hero/guitar-green.webp" fetchpriority="high">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <!-- If this fails to load, drop the js class so reveal-gated content stays visible -->
+  <script src="script.js" defer onerror="document.documentElement.classList.remove('js')"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -62,6 +64,7 @@
 <body>
 
   <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#guitars">Skip to the catalogue</a>
 
   <header class="site-header" id="siteHeader">
     <nav class="nav container" aria-label="Main navigation">
@@ -82,7 +85,7 @@
           <li><a href="#build">The Build</a></li>
           <li><a href="#about">About</a></li>
         </ul>
-        <a href="#enquire" class="btn btn-outline nav-cta">Start Your Build</a>
+        <a href="#enquire" class="btn btn-outline nav-cta">Start your build</a>
       </div>
     </nav>
     <div class="scroll-progress" aria-hidden="true"><span id="progressBar"></span></div>
@@ -114,25 +117,27 @@
           <dl class="hero-stats reveal delay-4">
             <div><dt>Partscasters</dt><dd>$250+</dd></div>
             <div><dt>Custom builds</dt><dd>$900+</dd></div>
-            <div><dt>Finishes</dt><dd><a class="stat-link" href="#finishes">7</a></dd></div>
+            <div><dt>In the catalogue</dt><dd><a class="stat-link" href="#finishes">7</a></dd></div>
           </dl>
         </div>
 
         <div class="hero-visual">
           <div class="hero-disc" aria-hidden="true"></div>
           <div class="hero-stage" id="heroStage">
-            <img class="hero-guitar" id="heroGuitar" src="assets/guitar-green.webp" alt="D&rsquo;Cruz Surf Green S-style electric guitar" width="316" height="951">
+            <img class="hero-guitar" id="heroGuitar" src="assets/hero/guitar-green.webp" alt="D&rsquo;Cruz Custom 001 in Surf Green" width="363" height="951">
           </div>
           <div class="finish-picker" id="finishes">
-            <span class="finish-label" aria-live="polite">Finish: <span id="finishName">Surf Green</span></span>
-            <div class="swatches" role="radiogroup" aria-label="Choose a finish">
-              <button class="swatch is-active" style="--sw:#93cfae" data-img="assets/guitar-green.webp" data-glow="#7fd0a6" data-name="Surf Green" role="radio" aria-label="Surf Green" aria-checked="true" tabindex="0"></button>
-              <button class="swatch" style="--sw:#f2c94c" data-img="assets/guitar-yellow.webp" data-glow="#f2c94c" data-name="Sonic Yellow" role="radio" aria-label="Sonic Yellow" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch" style="--sw:#c0271f" data-img="assets/guitar-red.webp" data-glow="#d8402f" data-name="Candy Red" role="radio" aria-label="Candy Red" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch" style="--sw:#cbd0d6" data-img="assets/guitar-orange.webp" data-glow="#e8843a" data-name="Silver / Orange" role="radio" aria-label="Silver / Orange" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch swatch-split" style="--sw:#1b1b1e" data-img="assets/guitar-blackgold.webp" data-glow="#caa04a" data-name="Black &amp; Gold" role="radio" aria-label="Black &amp; Gold" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch" style="--sw:#c79a56" data-img="assets/guitar-maple.webp" data-glow="#d8b26a" data-name="Natural Maple" role="radio" aria-label="Natural Maple" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch" style="--sw:#161719" data-img="assets/guitar-supro.webp" data-glow="#5a6b86" data-name="Supro Black" role="radio" aria-label="Supro Black" aria-checked="false" tabindex="-1"></button>
+            <span class="finish-label" aria-live="polite">Now showing: <span id="finishName">Surf Green</span>
+              <a class="finish-view" id="finishView" href="#g-001">View this guitar</a>
+            </span>
+            <div class="swatches" role="radiogroup" aria-label="Preview a catalogue guitar">
+              <button class="swatch is-active" style="--sw:#93cfae" title="Surf Green" data-img="assets/hero/guitar-green.webp" data-glow="#7fd0a6" data-name="Surf Green" data-target="#g-001" role="radio" aria-label="Surf Green" aria-checked="true" tabindex="0"></button>
+              <button class="swatch" style="--sw:#f2c94c" title="Sonic Yellow" data-img="assets/hero/guitar-yellow.webp" data-glow="#f2c94c" data-name="Sonic Yellow" data-target="#g-yellow" role="radio" aria-label="Sonic Yellow" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch" style="--sw:#c0271f" title="Candy Red" data-img="assets/hero/guitar-red.webp" data-glow="#d8402f" data-name="Candy Red" data-target="#g-003" role="radio" aria-label="Candy Red" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch" style="--sw:#cbd0d6" title="Silver / Orange" data-img="assets/hero/guitar-orange.webp" data-glow="#e8843a" data-name="Silver / Orange" data-target="#g-squier" role="radio" aria-label="Silver / Orange" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch swatch-split" style="--sw:#1b1b1e" title="Black &amp; Gold" data-img="assets/hero/guitar-blackgold.webp" data-glow="#caa04a" data-name="Black &amp; Gold" data-target="#g-blackgold" role="radio" aria-label="Black &amp; Gold" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch" style="--sw:#c79a56" title="Natural Maple" data-img="assets/hero/guitar-maple.webp" data-glow="#d8b26a" data-name="Natural Maple" data-target="#g-004" role="radio" aria-label="Natural Maple" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch" style="--sw:#161719" title="Supro Black" data-img="assets/hero/guitar-supro.webp" data-glow="#5a6b86" data-name="Supro Black" data-target="#g-supro" role="radio" aria-label="Supro Black" aria-checked="false" tabindex="-1"></button>
             </div>
           </div>
         </div>
@@ -147,42 +152,74 @@
       </button>
       <div class="strip-track">
         <div class="strip-inner">
-          <span>Warmoth Bodies</span><span class="dot" aria-hidden="true"></span>
-          <span>Maple Necks</span><span class="dot" aria-hidden="true"></span>
-          <span>Carparelli Pickups</span><span class="dot" aria-hidden="true"></span>
-          <span>Custom Wiring</span><span class="dot" aria-hidden="true"></span>
-          <span>Killswitch</span><span class="dot" aria-hidden="true"></span>
-          <span>Pro Setup</span><span class="dot strip-end-dot" aria-hidden="true"></span>
+          <span>Belleville, Ontario</span>
+          <span class="dot" aria-hidden="true"></span>
+          <span>Partscasters from CA$250</span>
+          <span class="dot" aria-hidden="true"></span>
+          <span>Custom Builds to CA$1,900</span>
+          <span class="dot" aria-hidden="true"></span>
+          <span>Setups &amp; Repairs</span>
+          <span class="dot" aria-hidden="true"></span>
+          <span>Warmoth Bodies</span>
+          <span class="dot" aria-hidden="true"></span>
+          <span>Carparelli Pickups</span>
+          <span class="dot" aria-hidden="true"></span>
+          <span>One of a Kind</span>
+          <span class="dot strip-end-dot" aria-hidden="true"></span>
         </div>
         <div class="strip-inner strip-copy" aria-hidden="true">
-          <span>Warmoth Bodies</span><span class="dot"></span>
-          <span>Maple Necks</span><span class="dot"></span>
-          <span>Carparelli Pickups</span><span class="dot"></span>
-          <span>Custom Wiring</span><span class="dot"></span>
-          <span>Killswitch</span><span class="dot"></span>
-          <span>Pro Setup</span><span class="dot strip-end-dot"></span>
+          <span>Belleville, Ontario</span>
+          <span class="dot"></span>
+          <span>Partscasters from CA$250</span>
+          <span class="dot"></span>
+          <span>Custom Builds to CA$1,900</span>
+          <span class="dot"></span>
+          <span>Setups &amp; Repairs</span>
+          <span class="dot"></span>
+          <span>Warmoth Bodies</span>
+          <span class="dot"></span>
+          <span>Carparelli Pickups</span>
+          <span class="dot"></span>
+          <span>One of a Kind</span>
+          <span class="dot strip-end-dot"></span>
         </div>
         <div class="strip-inner strip-copy" aria-hidden="true">
-          <span>Warmoth Bodies</span><span class="dot"></span>
-          <span>Maple Necks</span><span class="dot"></span>
-          <span>Carparelli Pickups</span><span class="dot"></span>
-          <span>Custom Wiring</span><span class="dot"></span>
-          <span>Killswitch</span><span class="dot"></span>
-          <span>Pro Setup</span><span class="dot strip-end-dot"></span>
+          <span>Belleville, Ontario</span>
+          <span class="dot"></span>
+          <span>Partscasters from CA$250</span>
+          <span class="dot"></span>
+          <span>Custom Builds to CA$1,900</span>
+          <span class="dot"></span>
+          <span>Setups &amp; Repairs</span>
+          <span class="dot"></span>
+          <span>Warmoth Bodies</span>
+          <span class="dot"></span>
+          <span>Carparelli Pickups</span>
+          <span class="dot"></span>
+          <span>One of a Kind</span>
+          <span class="dot strip-end-dot"></span>
         </div>
         <div class="strip-inner strip-copy" aria-hidden="true">
-          <span>Warmoth Bodies</span><span class="dot"></span>
-          <span>Maple Necks</span><span class="dot"></span>
-          <span>Carparelli Pickups</span><span class="dot"></span>
-          <span>Custom Wiring</span><span class="dot"></span>
-          <span>Killswitch</span><span class="dot"></span>
-          <span>Pro Setup</span><span class="dot strip-end-dot"></span>
+          <span>Belleville, Ontario</span>
+          <span class="dot"></span>
+          <span>Partscasters from CA$250</span>
+          <span class="dot"></span>
+          <span>Custom Builds to CA$1,900</span>
+          <span class="dot"></span>
+          <span>Setups &amp; Repairs</span>
+          <span class="dot"></span>
+          <span>Warmoth Bodies</span>
+          <span class="dot"></span>
+          <span>Carparelli Pickups</span>
+          <span class="dot"></span>
+          <span>One of a Kind</span>
+          <span class="dot strip-end-dot"></span>
         </div>
       </div>
     </section>
 
     <!-- ============ STATEMENT ============ -->
-    <section class="statement" aria-label="The D'Cruz promise">
+    <section class="statement" id="promise" aria-label="The D'Cruz promise">
       <div class="container">
         <p class="statement-line reveal">One builder. One bench.<br><em>No two&nbsp;alike.</em></p>
         <p class="statement-kicker reveal delay-1">Custom electric guitars, wired &amp; set up by hand in Belleville, Ontario.</p>
@@ -231,7 +268,7 @@
           <p class="section-lede">From a ready-to-play partscaster — a guitar assembled from quality aftermarket parts — to a fully bespoke custom, every instrument is hand-wired and professionally set up before it ships. Each one is one of a kind.</p>
         </div>
 
-        <article class="feature reveal" data-cat="custom">
+        <article class="feature reveal" data-cat="custom" id="g-001">
           <div class="feature-media" style="--cardglow:#7fd0a6">
             <img src="assets/guitar-green.webp" alt="D&rsquo;Cruz Custom 001, surf-green S-style electric guitar" loading="lazy" decoding="async" width="316" height="951">
           </div>
@@ -252,19 +289,21 @@
           </div>
         </article>
 
-        <div class="filter-bar reveal" role="group" aria-label="Filter guitars">
-          <button class="filter-btn is-active" data-filter="all" aria-pressed="true">All</button>
-          <button class="filter-btn" data-filter="partscaster" aria-pressed="false">Partscasters</button>
-          <button class="filter-btn" data-filter="custom" aria-pressed="false">Custom</button>
-          <button class="filter-btn" data-filter="vintage" aria-pressed="false">Vintage</button>
-          <p class="filter-count" id="filterCount" role="status" aria-live="polite"></p>
+        <div class="filter-bar reveal">
+          <div class="filter-btns" role="radiogroup" aria-label="Filter guitars">
+            <button class="filter-btn is-active" data-filter="all" role="radio" aria-checked="true" tabindex="0">All</button>
+            <button class="filter-btn" data-filter="partscaster" role="radio" aria-checked="false" tabindex="-1">Partscasters</button>
+            <button class="filter-btn" data-filter="custom" role="radio" aria-checked="false" tabindex="-1">Custom</button>
+            <button class="filter-btn" data-filter="vintage" role="radio" aria-checked="false" tabindex="-1">Vintage</button>
+          </div>
+          <p class="filter-count" id="filterCount"></p>
         </div>
 
         <div class="cards">
           <!-- Squier Partscaster $250 -->
-          <article class="card reveal" data-cat="partscaster">
+          <article class="card reveal" data-cat="partscaster" id="g-squier">
             <div class="card-visual" style="--cardglow:#e8843a">
-              <img class="card-guitar" src="assets/guitar-orange.webp" alt="D&rsquo;Cruz Squier partscaster, silver with orange pickguard" loading="lazy" decoding="async" width="337" height="964">
+              <img class="card-guitar" src="assets/guitar-orange.webp" srcset="assets/guitar-orange-sm.webp 210w, assets/guitar-orange.webp 337w" sizes="115px" data-full="assets/guitar-orange.webp" alt="D&rsquo;Cruz Squier partscaster, silver with orange pickguard" loading="lazy" decoding="async" width="337" height="964">
             </div>
             <div class="card-body">
               <span class="tag">Partscaster</span>
@@ -280,9 +319,9 @@
           </article>
 
           <!-- D'Cruz Partscaster (black & gold) $500 -->
-          <article class="card reveal delay-1" data-cat="partscaster">
+          <article class="card reveal delay-1" data-cat="partscaster" id="g-blackgold">
             <div class="card-visual" style="--cardglow:#c9a24e">
-              <img class="card-guitar" src="assets/guitar-blackgold.webp" alt="D&rsquo;Cruz black and gold S-style partscaster" loading="lazy" decoding="async" width="324" height="967">
+              <img class="card-guitar" src="assets/guitar-blackgold.webp" srcset="assets/guitar-blackgold-sm.webp 201w, assets/guitar-blackgold.webp 324w" sizes="115px" data-full="assets/guitar-blackgold.webp" alt="D&rsquo;Cruz black and gold S-style partscaster" loading="lazy" decoding="async" width="324" height="967">
             </div>
             <div class="card-body">
               <span class="tag">Partscaster</span>
@@ -298,9 +337,9 @@
           </article>
 
           <!-- D'Cruz Partscaster (yellow) $700 -->
-          <article class="card reveal delay-2" data-cat="partscaster">
+          <article class="card reveal delay-2" data-cat="partscaster" id="g-yellow">
             <div class="card-visual" style="--cardglow:#f2c94c">
-              <img class="card-guitar" src="assets/guitar-yellow.webp" alt="D&rsquo;Cruz yellow S-style partscaster with neon humbuckers" loading="lazy" decoding="async" width="384" height="1155">
+              <img class="card-guitar" src="assets/guitar-yellow.webp" srcset="assets/guitar-yellow-sm.webp 199w, assets/guitar-yellow.webp 384w" sizes="115px" data-full="assets/guitar-yellow.webp" alt="D&rsquo;Cruz yellow S-style partscaster with neon humbuckers" loading="lazy" decoding="async" width="384" height="1155">
             </div>
             <div class="card-body">
               <span class="tag">Partscaster</span>
@@ -316,9 +355,9 @@
           </article>
 
           <!-- D'Cruz Custom 003 (red) $900 -->
-          <article class="card reveal delay-3" data-cat="custom">
+          <article class="card reveal delay-3" data-cat="custom" id="g-003">
             <div class="card-visual" style="--cardglow:#d8402f">
-              <img class="card-guitar" src="assets/guitar-red.webp" alt="D&rsquo;Cruz Custom 003, candy-red T-style" loading="lazy" decoding="async" width="337" height="966">
+              <img class="card-guitar" src="assets/guitar-red.webp" srcset="assets/guitar-red-sm.webp 209w, assets/guitar-red.webp 337w" sizes="115px" data-full="assets/guitar-red.webp" alt="D&rsquo;Cruz Custom 003, candy-red T-style" loading="lazy" decoding="async" width="337" height="966">
             </div>
             <div class="card-body">
               <span class="tag">Custom Build</span>
@@ -334,9 +373,9 @@
           </article>
 
           <!-- Supro Americana 1582 VJB $1,100 -->
-          <article class="card reveal delay-4" data-cat="vintage">
+          <article class="card reveal delay-4" data-cat="vintage" id="g-supro">
             <div class="card-visual" style="--cardglow:#6a7f9e">
-              <img class="card-guitar" src="assets/guitar-supro.webp" alt="Supro Americana 1582 VJB, black offset electric" loading="lazy" decoding="async" width="369" height="967">
+              <img class="card-guitar" src="assets/guitar-supro.webp" srcset="assets/guitar-supro-sm.webp 229w, assets/guitar-supro.webp 369w" sizes="115px" data-full="assets/guitar-supro.webp" alt="Supro Americana 1582 VJB, black offset electric" loading="lazy" decoding="async" width="369" height="967">
             </div>
             <div class="card-body">
               <span class="tag">Vintage</span>
@@ -352,9 +391,9 @@
           </article>
 
           <!-- D'Cruz Custom 004 (maple) $1,900 -->
-          <article class="card reveal delay-5" data-cat="custom">
+          <article class="card reveal delay-5" data-cat="custom" id="g-004">
             <div class="card-visual" style="--cardglow:#d8b26a">
-              <img class="card-guitar" src="assets/guitar-maple.webp" alt="D&rsquo;Cruz Custom 004, natural maple electric with tremolo" loading="lazy" decoding="async" width="316" height="967">
+              <img class="card-guitar" src="assets/guitar-maple.webp" srcset="assets/guitar-maple-sm.webp 196w, assets/guitar-maple.webp 316w" sizes="115px" data-full="assets/guitar-maple.webp" alt="D&rsquo;Cruz Custom 004, natural maple electric with tremolo" loading="lazy" decoding="async" width="316" height="967">
             </div>
             <div class="card-body">
               <span class="tag">Custom Build</span>
@@ -422,7 +461,7 @@
     </section>
 
     <!-- ============ PARTNERS ============ -->
-    <section class="partners-section" aria-label="Our partners">
+    <section class="partners-section" id="partners" aria-label="Our partners">
       <div class="container">
         <p class="eyebrow partners-eyebrow reveal">Built with parts from</p>
         <ul class="partners reveal">
@@ -498,6 +537,12 @@
             <li>Setups, repairs &amp; parts</li>
             <li>Every build one of a kind</li>
           </ul>
+          <p class="enquire-back">
+            <a href="#guitars" class="text-link">
+              <svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16 10H4m0 0 5-5m-5 5 5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Back to the catalogue
+            </a>
+          </p>
         </div>
         <form class="enquire-form reveal delay-1" id="enquireForm" novalidate>
           <div class="field">
@@ -514,10 +559,11 @@
             <label for="ef-msg">What are you after?</label>
             <textarea id="ef-msg" name="message" rows="4" required maxlength="1200" placeholder="e.g. a surf-green S-style with a killswitch" aria-describedby="ef-msg-err"></textarea>
             <p class="field-error" id="ef-msg-err" hidden>Tell us a little about what you&rsquo;re after.</p>
+            <p class="char-count" id="msgCount" aria-hidden="true" hidden></p>
           </div>
-          <button type="submit" class="btn btn-primary btn-block">Send enquiry</button>
-          <p class="form-note" id="formNote" role="status" aria-live="polite">No obligation — just tells us what you&rsquo;re dreaming up.</p>
-          <p class="form-alt">Prefer your own mail app? <a href="mailto:hello@dcruzguitars.com">hello@dcruzguitars.com</a></p>
+          <button type="submit" class="btn btn-primary btn-block" id="efSubmit">Send enquiry</button>
+          <p class="form-note" id="formNote">No obligation — just tells us what you&rsquo;re dreaming up.</p>
+          <p class="form-alt">Prefer your own mail app? <a href="mailto:hello@dcruzguitars.com?subject=Build%20enquiry">hello@dcruzguitars.com</a></p>
         </form>
       </div>
     </section>
@@ -539,7 +585,7 @@
           <li><a href="#guitars">Guitars</a></li>
           <li><a href="#build">The Build</a></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#enquire">Start Your Build</a></li>
+          <li><a href="#enquire">Start your build</a></li>
         </ul>
       </nav>
       <div>
@@ -567,10 +613,10 @@
       <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous guitar">
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6"/></svg>
       </button>
+      <div class="lightbox-img" id="lbGlow"><img id="lbImg" src="" alt=""></div>
       <button class="lightbox-nav lightbox-next" type="button" aria-label="Next guitar">
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7.5 4 6 6-6 6"/></svg>
       </button>
-      <div class="lightbox-img" id="lbGlow"><img id="lbImg" src="" alt=""></div>
       <div class="lightbox-meta">
         <span class="tag" id="lbTag"></span>
         <h3 id="lbName"></h3>
@@ -585,7 +631,5 @@
   <button class="to-top" id="toTop" aria-label="Back to top">
     <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 16V4m0 0 5 5m-5-5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
-
-  <script src="script.js"></script>
 </body>
 </html>

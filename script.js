@@ -4,9 +4,11 @@
   "use strict";
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const supportsInert = "inert" in HTMLElement.prototype;
 
   // Sticky header, scroll progress, back-to-top — one rAF-throttled handler
   const header = document.getElementById("siteHeader");
+  const mainEl = document.querySelector("main");
   const progressBar = document.getElementById("progressBar");
   const toTop = document.getElementById("toTop");
   const footer = document.querySelector(".site-footer");
@@ -52,6 +54,17 @@
     }).observe(footer);
   }
 
+  // Pause ambient animations (marquee, hero float) while they're off-screen
+  if ("IntersectionObserver" in window) {
+    const animRoots = [document.querySelector(".strip"), document.querySelector(".hero-visual")].filter(Boolean);
+    if (animRoots.length) {
+      const animIO = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => entry.target.classList.toggle("in-view", entry.isIntersecting));
+      });
+      animRoots.forEach((el) => animIO.observe(el));
+    }
+  }
+
   // Footer year
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
@@ -63,15 +76,30 @@
     menu.classList.toggle("open", open);
     toggle.setAttribute("aria-expanded", String(open));
     document.body.classList.toggle("menu-open", open);
+    // Keep assistive tech inside the open menu (scroll is locked anyway)
+    if (supportsInert && mainEl && footer) {
+      mainEl.inert = open;
+      footer.inert = open;
+    }
   };
   toggle.addEventListener("click", () => setMenu(!menu.classList.contains("open")));
   menu.addEventListener("click", (e) => {
     if (e.target.closest("a")) setMenu(false);
   });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && menu.classList.contains("open")) {
+    if (!menu.classList.contains("open")) return;
+    if (e.key === "Escape") {
       setMenu(false);
       toggle.focus();
+      return;
+    }
+    if (e.key === "Tab") {
+      // Trap focus in the open menu: toggle button + menu links
+      const focusables = [toggle].concat(Array.from(menu.querySelectorAll("a[href]")));
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     }
   });
   document.addEventListener("click", (e) => {
@@ -99,7 +127,7 @@
     .map((link) => document.querySelector(link.getAttribute("href")))
     .filter(Boolean);
   // Sections without a nav entry clear the highlight instead of leaving it stale.
-  const clearSections = ["top", "enquire"]
+  const clearSections = ["top", "promise", "partners", "enquire"]
     .map((id) => document.getElementById(id))
     .filter(Boolean);
 
@@ -152,16 +180,29 @@
     // The keyframe loops on translateX(-50%), so copies must be appended in
     // pairs to keep the halfway point seamless.
     const firstGroup = stripTrack.querySelector(".strip-inner");
-    let guard = 0;
-    while (firstGroup && stripTrack.scrollWidth < window.innerWidth * 2.2 && guard < 4) {
-      for (let i = 0; i < 2; i++) {
-        const clone = firstGroup.cloneNode(true);
-        clone.classList.add("strip-copy");
-        clone.setAttribute("aria-hidden", "true");
-        stripTrack.appendChild(clone);
+    const ensureCopies = () => {
+      if (!firstGroup) return;
+      let guard = 0;
+      while (
+        stripTrack.scrollWidth < window.innerWidth * 2.2 &&
+        stripTrack.children.length < 12 &&
+        guard < 4
+      ) {
+        for (let i = 0; i < 2; i++) {
+          const clone = firstGroup.cloneNode(true);
+          clone.classList.add("strip-copy");
+          clone.setAttribute("aria-hidden", "true");
+          stripTrack.appendChild(clone);
+        }
+        guard++;
       }
-      guard++;
-    }
+    };
+    ensureCopies();
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(ensureCopies, 250);
+    }, { passive: true });
   }
   if (stripPause) {
     stripPause.addEventListener("click", () => {
@@ -175,6 +216,7 @@
   const heroGuitar = document.getElementById("heroGuitar");
   const heroDisc = document.querySelector(".hero-disc");
   const finishName = document.getElementById("finishName");
+  const finishView = document.getElementById("finishView");
   const swatches = Array.from(document.querySelectorAll(".swatch"));
 
   const hexToRGBA = (hex, a) => {
@@ -196,6 +238,7 @@
   if ("requestIdleCallback" in window) requestIdleCallback(preloadFinishes, { timeout: 4000 });
   else setTimeout(preloadFinishes, 2500);
 
+  let swapTimer;
   const selectSwatch = (swatch) => {
     if (swatch.classList.contains("is-active")) return;
     swatches.forEach((s) => {
@@ -205,54 +248,82 @@
       s.tabIndex = on ? 0 : -1;
     });
     if (finishName) finishName.textContent = swatch.dataset.name;
+    if (finishView && swatch.dataset.target) finishView.href = swatch.dataset.target;
     setGlow(swatch.dataset.glow);
     if (!heroGuitar) return;
 
     heroGuitar.classList.add("swapping");
-    const src = swatch.dataset.img;
-    const alt = "Electric guitar in " + swatch.dataset.name + " finish";
-    const loader = new Image();
-    loader.src = src;
-    // Wait for both the fade-out AND the new image to be ready, so the
-    // stage never shows a blank gap on slow connections.
-    const fade = new Promise((r) => setTimeout(r, reduceMotion ? 0 : 180));
-    const ready = loader.decode ? loader.decode().catch(() => {}) : Promise.resolve();
-    Promise.all([fade, ready]).then(() => {
-      if (!swatch.classList.contains("is-active")) return; // superseded by a later pick
-      heroGuitar.src = src;
-      heroGuitar.alt = alt;
-      requestAnimationFrame(() => heroGuitar.classList.remove("swapping"));
+    // Debounced: arrow-key traversal shouldn't fire a decode per step
+    clearTimeout(swapTimer);
+    swapTimer = setTimeout(() => {
+      const src = swatch.dataset.img;
+      const alt = "Electric guitar in " + swatch.dataset.name + " finish";
+      const loader = new Image();
+      loader.src = src;
+      // Wait for both the fade-out AND the new image to be ready, so the
+      // stage never shows a blank gap on slow connections.
+      const fade = new Promise((r) => setTimeout(r, reduceMotion ? 0 : 160));
+      const ready = loader.decode ? loader.decode().catch(() => {}) : Promise.resolve();
+      Promise.all([fade, ready]).then(() => {
+        if (!swatch.classList.contains("is-active")) return; // superseded by a later pick
+        heroGuitar.src = src;
+        heroGuitar.alt = alt;
+        requestAnimationFrame(() => heroGuitar.classList.remove("swapping"));
+      });
+    }, 120);
+  };
+
+  // Shared roving-tabindex arrow-key navigation for radio-style button groups
+  const radioKeys = (buttons, activate) => {
+    buttons.forEach((btn, i) => {
+      btn.addEventListener("keydown", (e) => {
+        let j = null;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") j = (i + 1) % buttons.length;
+        else if (e.key === "ArrowLeft" || e.key === "ArrowUp") j = (i - 1 + buttons.length) % buttons.length;
+        else if (e.key === "Home") j = 0;
+        else if (e.key === "End") j = buttons.length - 1;
+        if (j !== null) {
+          e.preventDefault();
+          buttons[j].focus();
+          activate(buttons[j]);
+        }
+      });
     });
   };
 
-  swatches.forEach((swatch, i) => {
-    swatch.addEventListener("click", () => selectSwatch(swatch));
-    swatch.addEventListener("keydown", (e) => {
-      let j = null;
-      if (e.key === "ArrowRight" || e.key === "ArrowDown") j = (i + 1) % swatches.length;
-      else if (e.key === "ArrowLeft" || e.key === "ArrowUp") j = (i - 1 + swatches.length) % swatches.length;
-      else if (e.key === "Home") j = 0;
-      else if (e.key === "End") j = swatches.length - 1;
-      if (j !== null) {
-        e.preventDefault();
-        swatches[j].focus();
-        selectSwatch(swatches[j]);
-      }
-    });
-  });
+  swatches.forEach((swatch) => swatch.addEventListener("click", () => selectSwatch(swatch)));
+  radioKeys(swatches, selectSwatch);
 
   // ---- Enquiry form: prefill from cards, validate per field, mailto handoff ----
-  // TODO: set this to the real D'Cruz inbox (also update the two mailto links in the HTML).
-  const ENQUIRY_EMAIL = "hello@dcruzguitars.com";
+  // Single source: the visible "prefer your own mail app" link.
+  // TODO: hello@dcruzguitars.com is a placeholder — set the real inbox in the
+  // form-alt link, the footer link, and the JSON-LD block.
+  const altLink = document.querySelector(".form-alt a[href^='mailto:']");
+  const ENQUIRY_EMAIL = altLink ? altLink.href.replace(/^mailto:/, "").split("?")[0] : "hello@dcruzguitars.com";
   const form = document.getElementById("enquireForm");
   const note = document.getElementById("formNote");
   const msgField = document.getElementById("ef-msg");
+  const msgCount = document.getElementById("msgCount");
+  const submitBtn = document.getElementById("efSubmit");
+
+  // Live regions get their roles after first paint so their initial
+  // content isn't announced as an update on page load.
+  const filterCount = document.getElementById("filterCount");
+  requestAnimationFrame(() => {
+    if (note) { note.setAttribute("role", "status"); note.setAttribute("aria-live", "polite"); }
+    if (filterCount) { filterCount.setAttribute("role", "status"); filterCount.setAttribute("aria-live", "polite"); }
+  });
 
   // "Enquire" links carry the model they came from — prefill the message.
+  const PREFILL = /^Hi — I’m interested in the .+\.\s*$/;
   document.querySelectorAll("[data-model]").forEach((link) => {
     link.addEventListener("click", () => {
-      if (msgField && link.dataset.model && !msgField.value.trim()) {
+      if (!msgField || !link.dataset.model) return;
+      const value = msgField.value.trim();
+      // Fill when empty, or replace an untouched prefill from another model
+      if (!value || PREFILL.test(msgField.value)) {
         msgField.value = "Hi — I’m interested in the " + link.dataset.model + ". ";
+        msgField.dispatchEvent(new Event("input"));
       }
     });
   });
@@ -275,8 +346,18 @@
       f.el.addEventListener("input", () => {
         if (!f.err.hidden) validateField(f);
         if (note) note.classList.remove("error", "success");
+        if (submitBtn && submitBtn.disabled) submitBtn.disabled = false;
       });
     });
+
+    if (msgField && msgCount) {
+      const max = msgField.getAttribute("maxlength") || "1200";
+      msgField.addEventListener("input", () => {
+        const len = msgField.value.length;
+        msgCount.hidden = len === 0;
+        msgCount.textContent = len + " / " + max;
+      });
+    }
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -302,6 +383,8 @@
         note.classList.add("success");
         note.classList.remove("error");
       }
+      // Guard against double drafts; editing any field re-enables
+      if (submitBtn) submitBtn.disabled = true;
     });
   }
 
@@ -309,13 +392,13 @@
   const filterBtns = Array.from(document.querySelectorAll(".filter-btn"));
   const catCards = Array.from(document.querySelectorAll("#guitars .card"));
   const feature = document.querySelector("#guitars .feature");
-  const filterCount = document.getElementById("filterCount");
 
   const applyFilter = (f, updateURL) => {
     filterBtns.forEach((b) => {
       const on = b.dataset.filter === f;
       b.classList.toggle("is-active", on);
-      b.setAttribute("aria-pressed", String(on));
+      b.setAttribute("aria-checked", String(on));
+      b.tabIndex = on ? 0 : -1;
     });
     let shown = 0;
     catCards.forEach((card) => {
@@ -334,7 +417,7 @@
     }
     if (updateURL && "replaceState" in history) {
       const url = f === "all" ? location.pathname + location.hash : location.pathname + "?filter=" + f + location.hash;
-      history.replaceState(null, "", url);
+      history.replaceState(history.state, "", url);
     }
   };
 
@@ -342,6 +425,7 @@
     filterBtns.forEach((btn) => {
       btn.addEventListener("click", () => applyFilter(btn.dataset.filter, true));
     });
+    radioKeys(filterBtns, (btn) => applyFilter(btn.dataset.filter, true));
     // Restore a shared/bookmarked filter
     const param = new URLSearchParams(location.search).get("filter");
     if (param && filterBtns.some((b) => b.dataset.filter === param)) applyFilter(param, false);
@@ -368,7 +452,25 @@
     const items = feature ? [feature].concat(catCards) : catCards;
     const visibleItems = () => items.filter((el) => !el.hidden);
 
-    const fillLB = (item) => {
+    const setLbImage = (src, alt, instant) => {
+      if (instant) {
+        lbImg.src = src;
+        lbImg.alt = alt;
+        return;
+      }
+      lbImg.classList.add("lb-swapping");
+      const loader = new Image();
+      loader.src = src;
+      const ready = loader.decode ? loader.decode().catch(() => {}) : Promise.resolve();
+      const fade = new Promise((r) => setTimeout(r, reduceMotion ? 0 : 140));
+      Promise.all([ready, fade]).then(() => {
+        lbImg.src = src;
+        lbImg.alt = alt;
+        requestAnimationFrame(() => lbImg.classList.remove("lb-swapping"));
+      });
+    };
+
+    const fillLB = (item, instant) => {
       current = item;
       const img = item.querySelector("img");
       const name = item.querySelector("h3");
@@ -377,7 +479,8 @@
       const visual = item.querySelector(".card-visual, .feature-media");
       const desc = item.querySelector(".card-body > p, .feature-body > p");
       const specs = item.querySelector(".specs");
-      if (img) { lbImg.src = img.currentSrc || img.src; lbImg.alt = img.alt; }
+      // Full-resolution source for the large view (srcset may have chosen small)
+      if (img) setLbImage(img.dataset.full || img.currentSrc || img.src, img.alt, instant);
       lbName.textContent = name ? name.textContent : "";
       lbPrice.textContent = price ? price.textContent : "";
       lbTag.textContent = tag ? tag.textContent : "";
@@ -392,11 +495,17 @@
       lbNext.hidden = !many;
     };
 
+    const setPageInert = (on) => {
+      if (!supportsInert) return;
+      [header, mainEl, footer, toTop].forEach((el) => { if (el) el.inert = on; });
+    };
+
     const openLB = (item) => {
-      fillLB(item);
+      fillLB(item, true);
       lastFocus = document.activeElement;
       lightbox.hidden = false;
       document.body.classList.add("lb-open");
+      setPageInert(true);
       lbClose.focus();
       // Back button (esp. Android) should close the modal, not leave the site
       if (history.pushState && !(history.state && history.state.dcruzLb)) {
@@ -406,6 +515,7 @@
     const hideLB = (restoreFocus) => {
       lightbox.hidden = true;
       document.body.classList.remove("lb-open");
+      setPageInert(false);
       if (restoreFocus && lastFocus && lastFocus.focus) lastFocus.focus();
     };
     let restoreOnPop = true;
@@ -427,15 +537,19 @@
       const list = visibleItems();
       if (!list.length) return;
       const idx = Math.max(0, list.indexOf(current));
-      fillLB(list[(idx + dir + list.length) % list.length]);
+      fillLB(list[(idx + dir + list.length) % list.length], false);
     };
 
     lightbox.querySelectorAll("[data-close]").forEach((el) =>
       el.addEventListener("click", () => {
         // The Enquire CTA navigates to the form — restoring focus to the
         // originating card (or navigating history back) would fight that jump.
-        if (el.tagName === "A") hideLB(false);
-        else closeLB(true);
+        if (el.tagName === "A") {
+          if (history.state && history.state.dcruzLb) history.replaceState(null, "");
+          hideLB(false);
+        } else {
+          closeLB(true);
+        }
       })
     );
     lbPrev.addEventListener("click", () => step(-1));

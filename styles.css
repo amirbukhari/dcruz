@@ -415,9 +415,13 @@ p { max-width: 65ch; text-wrap: pretty; }
   letter-spacing: 0.06em;
 }
 .stat-link {
+  display: inline-block;
   color: inherit;
   text-decoration-color: var(--border-strong);
   text-underline-offset: 6px;
+  /* pad the hit area toward 44px without moving the layout */
+  padding: 0.3rem 0.45rem;
+  margin: -0.3rem -0.45rem;
 }
 .stat-link:hover { text-decoration-color: var(--accent); }
 
@@ -460,7 +464,8 @@ p { max-width: 65ch; text-wrap: pretty; }
 .hero-guitar.swapping { opacity: 0; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .js .hero-stage { animation: hero-float 7s ease-in-out infinite; }
+  .js .hero-stage { animation: hero-float 7s ease-in-out infinite; animation-play-state: paused; }
+  .js .hero-visual.in-view .hero-stage { animation-play-state: running; }
 }
 @keyframes hero-float {
   0%, 100% { transform: translateY(0); }
@@ -475,11 +480,25 @@ p { max-width: 65ch; text-wrap: pretty; }
   gap: 0.85rem;
 }
 .finish-label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
   font-size: 0.8125rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-muted);
 }
+.finish-view {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-strong);
+  text-underline-offset: 4px;
+  text-decoration-color: var(--border-strong);
+  padding: 0.55rem 0.2rem;
+  margin: -0.55rem -0.2rem;
+}
+.finish-view:hover { text-decoration-color: var(--accent); }
 .swatches { display: flex; gap: 0.9rem; }
 .swatch {
   position: relative;
@@ -499,7 +518,7 @@ p { max-width: 65ch; text-wrap: pretty; }
   box-shadow: 0 0 0 1px var(--bg), 0 0 0 2px var(--text-muted);
 }
 .swatch-split {
-  background: linear-gradient(135deg, #1b1b1e 0 55%, #caa04a 55% 100%);
+  background: linear-gradient(135deg, #1b1b1e 0 47%, rgba(255, 255, 255, 0.4) 47% 53%, #caa04a 53% 100%);
 }
 
 /* ---------- build strip (marquee) ---------- */
@@ -511,14 +530,29 @@ p { max-width: 65ch; text-wrap: pretty; }
   padding-block: 1.1rem;
   overflow: hidden;
 }
+/* soft fades at both edges so the ticker text never hard-clips
+   (and the pause button sits on the right-hand fade, not raw text) */
+.js .strip::before,
+.js .strip::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 5rem;
+  z-index: 1;
+  pointer-events: none;
+}
+.js .strip::before { left: 0; background: linear-gradient(90deg, var(--bg-elevated), transparent); }
+.js .strip::after { right: 0; background: linear-gradient(270deg, var(--bg-elevated) 40%, transparent); }
+
 .strip-pause {
   position: absolute;
   top: 50%;
-  right: 0.9rem;
+  right: 0.6rem;
   transform: translateY(-50%);
   z-index: 2;
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   display: none;
   place-items: center;
   background: var(--bg-elevated);
@@ -564,7 +598,10 @@ p { max-width: 65ch; text-wrap: pretty; }
   .js .strip-track {
     width: max-content;
     animation: strip-marquee 48s linear infinite;
+    /* runs only while on screen — JS adds .in-view via IntersectionObserver */
+    animation-play-state: paused;
   }
+  .js .strip.in-view .strip-track { animation-play-state: running; }
   .js .strip:hover .strip-track,
   .js .strip-track.paused { animation-play-state: paused; }
   .js .strip-inner {
@@ -610,6 +647,9 @@ p { max-width: 65ch; text-wrap: pretty; }
   transition: opacity 0.2s var(--ease);
 }
 .card:hover .card-zoom span, .card-zoom:focus-visible span { opacity: 1; }
+/* keep the focus ring inside the visual — the card's overflow:hidden would clip
+   an outline drawn outside the button's bounds */
+.card-zoom:focus-visible { outline-offset: -4px; }
 
 /* Touch devices have no hover, so the hint would otherwise never show —
    the whole quick-view feature would be invisible, not just unhinted. */
@@ -657,7 +697,13 @@ p { max-width: 65ch; text-wrap: pretty; }
   background: radial-gradient(80% 70% at 50% 45%, color-mix(in srgb, var(--cardglow, #c89b5a) 26%, transparent), transparent 66%);
   border-radius: var(--radius);
 }
-.lightbox-img img { max-height: 62vh; width: auto; filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6)); }
+.lightbox-img img {
+  max-height: 62vh;
+  width: auto;
+  filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6));
+  transition: opacity 0.22s var(--ease);
+}
+.lightbox-img img.lb-swapping { opacity: 0; }
 .lightbox-meta { display: flex; flex-direction: column; align-items: flex-start; gap: 0.9rem; }
 .lightbox-meta .tag { align-self: flex-start; }
 .lightbox-meta h3 { font-family: var(--font-display); font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 600; }
@@ -693,11 +739,13 @@ p { max-width: 65ch; text-wrap: pretty; }
   position: absolute;
   top: 0.75rem;
   right: 0.75rem;
+  z-index: 3;
   width: 44px;
   height: 44px;
   display: grid;
   place-items: center;
-  background: transparent;
+  /* solid backing so it stays legible over scrolling panel content */
+  background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: 50%;
   color: var(--text);
@@ -742,7 +790,7 @@ body.lb-open { overflow: hidden; }
 .section-alt { background: var(--bg-elevated); border-block: 1px solid var(--border); }
 
 /* Offset anchor targets so the fixed header never covers them */
-:where(section[id], .finish-picker) { scroll-margin-top: 88px; }
+:where(section[id], article[id], .finish-picker) { scroll-margin-top: 88px; }
 
 .section-head {
   max-width: 640px;
@@ -1014,6 +1062,12 @@ body.lb-open { overflow: hidden; }
   filter: grayscale(1);
   transition: opacity 0.25s var(--ease);
 }
+/* tall stacked-text marks (Rotosound, Ernie Ball) need more height to carry
+   the same visual weight as the wide wordmarks */
+.partners img[alt="Rotosound"],
+.partners img[alt="Ernie Ball"] {
+  height: clamp(34px, 4.6vw, 48px);
+}
 @media (hover: hover) {
   .partners img:hover { opacity: 1; }
 }
@@ -1133,6 +1187,8 @@ html:not(.js) .enquire-form .btn-block { display: none; }
   html { scroll-behavior: auto; }
   /* must out-rank the .js .reveal hide rule */
   .js .reveal, .reveal { opacity: 1; transform: none; transition: none; }
+  /* static wrapped strip: no marquee, no edge fades */
+  .js .strip::before, .js .strip::after { display: none; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
@@ -1144,8 +1200,14 @@ html:not(.js) .enquire-form .btn-block { display: none; }
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
+}
+.filter-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 .filter-btn {
   font-family: var(--font-body);
@@ -1170,10 +1232,12 @@ html:not(.js) .enquire-form .btn-block { display: none; }
   border-color: var(--text);
 }
 .filter-count {
-  align-self: center;
   margin-left: auto;
   font-size: 0.8125rem;
   color: var(--text-muted);
+}
+@media (max-width: 560px) {
+  .filter-count { flex-basis: 100%; margin-left: 0; }
 }
 .card[hidden], .feature[hidden] { display: none; }
 
@@ -1271,13 +1335,16 @@ html:not(.js) .enquire-form .btn-block { display: none; }
   margin-top: 1.75rem;
 }
 .enquire-points li {
-  display: flex; align-items: center; gap: 0.6rem;
+  display: flex; align-items: flex-start; gap: 0.6rem;
   font-size: 0.9375rem; color: var(--text-muted);
 }
 .enquire-points li::before {
   content: ""; width: 6px; height: 6px; border-radius: 50%;
   background: var(--accent); flex-shrink: 0;
+  /* pin to the first line so wrapped items don't float the dot */
+  margin-top: 0.55em;
 }
+.enquire-back { margin-top: 1.5rem; }
 .enquire-form {
   display: flex;
   flex-direction: column;
@@ -1323,6 +1390,16 @@ html:not(.js) .enquire-form .btn-block { display: none; }
   color: #e2a49b;
 }
 .field-error::before { content: "\2716"; font-size: 0.7em; }
+.char-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+.btn[disabled] {
+  opacity: 0.55;
+  cursor: default;
+  pointer-events: none;
+}
 .btn-block { width: 100%; justify-content: center; margin-top: 0.25rem; }
 .form-note { font-size: 0.8rem; color: var(--text-muted); text-align: center; }
 .form-note.error { color: #e2a49b; }
@@ -1368,9 +1445,9 @@ html:not(.js) .enquire-form .btn-block { display: none; }
     align-items: stretch;
     gap: 0.5rem;
     padding: 1.25rem 1.5rem 1.75rem;
-    background: rgba(14, 11, 7, 0.97);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    /* near-opaque already — skipping backdrop blur avoids stacking two
+       blur layers (header + menu) on low-end phones */
+    background: var(--overlay-menu);
     border-bottom: 1px solid var(--border);
     opacity: 0;
     visibility: hidden;
@@ -1420,6 +1497,13 @@ body.menu-open { overflow: hidden; }
   .to-top { right: 1rem; bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); }
 }
 
+@media (max-width: 359px) {
+  /* logo + GUITARS + labelled toggle overflow tiny screens; shed the extras */
+  .nav-toggle-text { display: none; }
+  .nav-toggle { padding: 0 0.7rem; }
+  .brand-sub { display: none; }
+}
+
 /* short landscape viewports (phones rotated): don't force a 90vh hero */
 @media (orientation: landscape) and (max-height: 500px) {
   .hero { min-height: auto; }
@@ -1445,8 +1529,16 @@ body.menu-open { overflow: hidden; }
   }
   body { background: #fff; color: var(--text); }
   .site-header, .to-top, .strip-pause, .nav-toggle, .hero-glow, .hero-disc,
-  .card-zoom, .lightbox, .scroll-progress, .finish-picker, .filter-bar { display: none !important; }
+  .card-zoom, .lightbox, .scroll-progress, .finish-picker, .filter-bar,
+  .enquire-form { display: none !important; }
   .js .reveal { opacity: 1 !important; transform: none !important; }
   .hero { min-height: auto; padding-top: 2rem; }
   a { color: inherit; text-decoration: underline; }
+  /* the form doesn't print — leave the reader a way to act on paper */
+  .enquire-points::after {
+    content: "Email: hello@dcruzguitars.com";
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+  }
 }
