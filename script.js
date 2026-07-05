@@ -210,7 +210,7 @@
 
     heroGuitar.classList.add("swapping");
     const src = swatch.dataset.img;
-    const alt = "D’Cruz " + swatch.dataset.name + " partscaster";
+    const alt = "Electric guitar in " + swatch.dataset.name + " finish";
     const loader = new Image();
     loader.src = src;
     // Wait for both the fade-out AND the new image to be ready, so the
@@ -251,7 +251,7 @@
   // "Enquire" links carry the model they came from — prefill the message.
   document.querySelectorAll("[data-model]").forEach((link) => {
     link.addEventListener("click", () => {
-      if (msgField && !msgField.value.trim()) {
+      if (msgField && link.dataset.model && !msgField.value.trim()) {
         msgField.value = "Hi — I’m interested in the " + link.dataset.model + ". ";
       }
     });
@@ -398,11 +398,30 @@
       lightbox.hidden = false;
       document.body.classList.add("lb-open");
       lbClose.focus();
+      // Back button (esp. Android) should close the modal, not leave the site
+      if (history.pushState && !(history.state && history.state.dcruzLb)) {
+        history.pushState({ dcruzLb: true }, "");
+      }
     };
-    const closeLB = (restoreFocus = true) => {
+    const hideLB = (restoreFocus) => {
       lightbox.hidden = true;
       document.body.classList.remove("lb-open");
       if (restoreFocus && lastFocus && lastFocus.focus) lastFocus.focus();
+    };
+    let restoreOnPop = true;
+    window.addEventListener("popstate", () => {
+      if (!lightbox.hidden) {
+        hideLB(restoreOnPop);
+        restoreOnPop = true;
+      }
+    });
+    const closeLB = (restoreFocus = true) => {
+      if (history.state && history.state.dcruzLb) {
+        restoreOnPop = restoreFocus;
+        history.back(); // popstate handler hides the lightbox
+      } else {
+        hideLB(restoreFocus);
+      }
     };
     const step = (dir) => {
       const list = visibleItems();
@@ -414,8 +433,9 @@
     lightbox.querySelectorAll("[data-close]").forEach((el) =>
       el.addEventListener("click", () => {
         // The Enquire CTA navigates to the form — restoring focus to the
-        // originating card would scroll the user right back out of it.
-        closeLB(el.tagName !== "A");
+        // originating card (or navigating history back) would fight that jump.
+        if (el.tagName === "A") hideLB(false);
+        else closeLB(true);
       })
     );
     lbPrev.addEventListener("click", () => step(-1));

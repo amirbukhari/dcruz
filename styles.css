@@ -135,7 +135,20 @@ p { max-width: 65ch; text-wrap: pretty; }
 :focus-visible {
   outline: 2px solid var(--accent-strong);
   outline-offset: 3px;
-  border-radius: 4px;
+  /* no border-radius here: outlines follow each element's own radius,
+     and forcing 4px visibly squared off pills and circular controls */
+}
+
+/* Windows High Contrast / forced colors: keep decorative-only styling visible */
+@media (forced-colors: active) {
+  .step-num {
+    color: CanvasText;
+    -webkit-text-stroke: 0;
+    opacity: 0.5;
+  }
+  .swatch { border: 2px solid ButtonText; }
+  .swatch.is-active { outline: 3px solid Highlight; outline-offset: 2px; }
+  .scroll-progress span { background: Highlight; }
 }
 
 /* ---------- buttons & links ---------- */
@@ -728,8 +741,8 @@ body.lb-open { overflow: hidden; }
 .section { padding-block: clamp(4.5rem, 10vh, 7.5rem); }
 .section-alt { background: var(--bg-elevated); border-block: 1px solid var(--border); }
 
-/* Offset anchored sections so the fixed header never covers their headings */
-:where(section[id]) { scroll-margin-top: 88px; }
+/* Offset anchor targets so the fixed header never covers them */
+:where(section[id], .finish-picker) { scroll-margin-top: 88px; }
 
 .section-head {
   max-width: 640px;
