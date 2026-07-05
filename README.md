@@ -13,10 +13,10 @@ python3 -m http.server 8000
 
 ## Hosting on GitHub Pages
 
-A deploy workflow is included at `.github/workflows/deploy-pages.yml`. Once this branch is merged to `main`:
+A deploy workflow is included at `.github/workflows/deploy-pages.yml`. It runs automatically on every push to the default branch (and to `main`), so no merge or PR is required:
 
-1. The workflow deploys the site automatically on every push to `main` (it can also be run manually from the Actions tab via "Run workflow").
-2. If the first run fails with a Pages permissions error, go to **Settings → Pages** and set **Source** to **GitHub Actions**, then re-run the workflow.
+1. On first run, go to **Settings → Pages** and set **Source** to **GitHub Actions** if it isn't already. The workflow can also be triggered manually from the Actions tab via "Run workflow".
+2. If a run fails with a Pages permissions error, enable Pages under **Settings → Pages** and re-run the workflow.
 
 The site will be live at `https://<owner>.github.io/dcruz/`.
 
