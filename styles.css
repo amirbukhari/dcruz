@@ -360,8 +360,14 @@ p { max-width: 65ch; text-wrap: pretty; }
 .hero-guitar {
   position: relative;
   display: block;
-  width: min(310px, 66vw);
-  height: auto;
+  width: auto;
+  max-width: 66vw;
+  /* Height-driven, not width-driven: the source photos are very tall/narrow
+     (neck-forward shot), so sizing by width alone can make this taller than
+     the viewport itself and push the CTA/stats/finish-picker below the fold
+     on common laptop heights (1366x768 etc). Clamp by viewport height instead. */
+  height: clamp(340px, 62vh, 640px);
+  height: clamp(340px, 62dvh, 640px);
   filter: drop-shadow(0 44px 56px rgba(0, 0, 0, 0.65));
   transition: opacity 0.4s var(--ease);
 }
@@ -621,12 +627,8 @@ body.lb-open { overflow: hidden; }
   gap: 1rem;
   padding: 1.6rem 1.6rem 1.4rem;
 }
-.card-title-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
+.card-body .tag { align-self: flex-start; }
+
 .tag {
   flex-shrink: 0;
   font-size: 0.6875rem;
@@ -652,7 +654,7 @@ body.lb-open { overflow: hidden; }
 }
 .specs li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.6rem;
 }
 .specs li::before {
@@ -662,6 +664,10 @@ body.lb-open { overflow: hidden; }
   border-radius: 50%;
   background: var(--accent);
   flex-shrink: 0;
+  /* Center on the first line's cap-height instead of the whole (possibly
+     wrapped, multi-line) item — align-items:center would float the dot
+     between lines once a spec wraps to two lines. */
+  margin-top: 0.6em;
 }
 
 .card-foot {
@@ -757,7 +763,16 @@ body.lb-open { overflow: hidden; }
   box-shadow: var(--shadow-card);
   transform: rotate(-1.5deg);
 }
-.story-frame svg { border-radius: 8px; }
+.story-frame svg {
+  /* The svg has no width/height attrs, only a viewBox — without an explicit
+     size it has no intrinsic dimensions to size against, so on a shrink-to-fit
+     box (any auto-margin/non-stretched ancestor, e.g. mobile) it collapses to
+     0x0 instead of filling its container. Force it to size from the frame. */
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+}
 
 .story-copy p + p { margin-top: 1.1rem; }
 .story-copy > p:not(.eyebrow) { color: var(--text-muted); }
@@ -1178,7 +1193,7 @@ body.lb-open { overflow: hidden; }
   /* copy-first on mobile so the headline + primary CTA are above the fold */
   .hero-copy { order: 0; }
   .hero-visual { order: 1; margin-top: 2.5rem; }
-  .hero-guitar { width: min(230px, 60vw); }
+  .hero-guitar { width: min(230px, 60vw); max-width: none; height: auto; }
   .story-grid { grid-template-columns: 1fr; }
   .story-visual { max-width: 420px; margin-inline: auto; }
   .enquire-grid { grid-template-columns: 1fr; }
