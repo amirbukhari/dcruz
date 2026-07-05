@@ -801,6 +801,56 @@ p { max-width: 65ch; }
   }
 }
 
+/* ---------- featured guitar ---------- */
+
+.feature {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: stretch;
+  gap: 0;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(180deg, var(--surface), var(--bg-elevated));
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.feature-media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background:
+    radial-gradient(90% 70% at 50% 40%, rgba(200, 155, 90, 0.14), transparent 62%),
+    var(--surface-2);
+  border-right: 1px solid var(--border);
+}
+.feature-media img {
+  width: auto;
+  max-height: 460px;
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55));
+  transition: transform 0.5s var(--ease);
+}
+.feature:hover .feature-media img { transform: translateY(-6px) rotate(-1deg); }
+.feature-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: clamp(1.75rem, 4vw, 3rem);
+}
+.feature-body .tag { align-self: flex-start; }
+.feature-body h3 { font-family: var(--font-display); font-size: clamp(1.75rem, 3.4vw, 2.6rem); font-weight: 500; }
+.feature-body > p { color: var(--text-muted); font-size: 1.0625rem; }
+.feature-foot {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+.feature-foot .price { font-family: var(--font-display); font-size: 1.75rem; color: var(--text); }
+
 /* ---------- why grid ---------- */
 
 .why-grid {
@@ -946,6 +996,9 @@ p { max-width: 65ch; }
   .story-visual { max-width: 420px; margin-inline: auto; }
   .enquire-grid { grid-template-columns: 1fr; }
   .part-grid { grid-template-columns: repeat(2, 1fr); }
+  .feature { grid-template-columns: 1fr; }
+  .feature-media { border-right: none; border-bottom: 1px solid var(--border); }
+  .feature-media img { max-height: 300px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 
   .nav-toggle { display: flex; }
