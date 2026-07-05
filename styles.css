@@ -1059,10 +1059,12 @@ body.lb-open { overflow: hidden; }
 }
 .site-footer a {
   color: var(--text-muted);
-  text-decoration: none;
-  transition: color 0.2s var(--ease);
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: 3px;
+  transition: color 0.2s var(--ease), text-decoration-color 0.2s var(--ease);
 }
-.site-footer a:hover { color: var(--accent-strong); }
+.site-footer a:hover { color: var(--accent-strong); text-decoration-color: var(--accent); }
 
 .footer-base {
   display: flex;
@@ -1101,7 +1103,15 @@ body.lb-open { overflow: hidden; }
 .to-top.visible { opacity: 1; visibility: visible; transform: none; }
 .to-top:hover { color: var(--text); border-color: var(--accent); }
 .to-top svg { width: 18px; height: 18px; }
-html:not(.js) .to-top { display: none; }
+
+/* Without JS these controls are inert — hide them rather than show dead UI.
+   The form's submit needs JS for the mailto handoff; the direct email link
+   in .form-alt remains as the no-JS path. */
+html:not(.js) .to-top,
+html:not(.js) .finish-picker,
+html:not(.js) .filter-bar,
+html:not(.js) .strip-pause,
+html:not(.js) .enquire-form .btn-block { display: none; }
 
 /* ---------- reveal animation ---------- */
 
