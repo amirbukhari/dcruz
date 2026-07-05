@@ -215,6 +215,7 @@ p { max-width: 65ch; }
   list-style: none;
 }
 .nav-links a {
+  position: relative;
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.9375rem;
@@ -223,6 +224,20 @@ p { max-width: 65ch; }
   transition: color 0.2s var(--ease);
 }
 .nav-links a:hover { color: var(--accent-strong); }
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  right: 0.15rem;
+  bottom: 0.2rem;
+  height: 1.5px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease);
+}
+.nav-links a.active { color: var(--accent-strong); }
+.nav-links a.active::after { transform: scaleX(1); }
 
 .nav-toggle {
   display: none;
@@ -358,6 +373,9 @@ p { max-width: 65ch; }
 
 .section { padding-block: clamp(4.5rem, 10vh, 7.5rem); }
 .section-alt { background: var(--bg-elevated); border-block: 1px solid var(--border); }
+
+/* Offset anchored sections so the fixed header never covers their headings */
+:where(section[id]) { scroll-margin-top: 88px; }
 
 .section-head {
   max-width: 640px;
@@ -675,12 +693,14 @@ p { max-width: 65ch; }
 
 /* ---------- reveal animation ---------- */
 
-.reveal {
+/* Only hide reveal elements when JS is available to bring them back —
+   without JS (or for crawlers) the content stays fully visible. */
+.js .reveal {
   opacity: 0;
   transform: translateY(22px);
   transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
 }
-.reveal.visible { opacity: 1; transform: none; }
+.js .reveal.visible { opacity: 1; transform: none; }
 .delay-1 { transition-delay: 0.1s; }
 .delay-2 { transition-delay: 0.2s; }
 .delay-3 { transition-delay: 0.3s; }

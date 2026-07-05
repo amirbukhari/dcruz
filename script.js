@@ -26,23 +26,46 @@
   // Scroll-reveal
   const reveals = document.querySelectorAll(".reveal");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const hasIO = "IntersectionObserver" in window;
 
-  if (reduceMotion || !("IntersectionObserver" in window)) {
+  if (reduceMotion || !hasIO) {
     reveals.forEach((el) => el.classList.add("visible"));
-    return;
+  } else {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    );
+    reveals.forEach((el) => revealObserver.observe(el));
   }
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
-  );
+  // Active-section highlight in the nav (scroll spy)
+  const navLinks = Array.from(document.querySelectorAll(".nav-links a"));
+  const sections = navLinks
+    .map((link) => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
 
-  reveals.forEach((el) => observer.observe(el));
+  if (hasIO && sections.length) {
+    const setActive = (id) => {
+      navLinks.forEach((link) =>
+        link.classList.toggle("active", link.getAttribute("href") === "#" + id)
+      );
+    };
+    const spy = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      // Band across the upper-middle of the viewport, below the fixed header
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    sections.forEach((section) => spy.observe(section));
+  }
 })();
