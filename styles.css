@@ -24,7 +24,17 @@
   --overlay-header: rgba(14, 11, 7, 0.85);
   --overlay-menu: rgba(14, 11, 7, 0.97);
   --scrim: rgba(10, 8, 5, 0.84);
+  --accent-soft: rgba(200, 155, 90, 0.16);
   color-scheme: dark;
+}
+
+/* users asking for more contrast get stronger borders and brighter muted text */
+@media (prefers-contrast: more) {
+  :root {
+    --border: rgba(200, 155, 90, 0.42);
+    --border-strong: rgba(200, 155, 90, 0.62);
+    --text-muted: #cfc2a9;
+  }
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -33,6 +43,8 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 88px;
   scrollbar-color: var(--accent-deep) var(--bg-elevated);
+  /* keep layout stable when modals lock scrolling and the scrollbar vanishes */
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -52,7 +64,7 @@ a, button {
   -webkit-tap-highlight-color: transparent;
 }
 
-::selection { background: var(--accent); color: #14100c; }
+::selection { background: var(--accent); color: var(--bg); }
 
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--bg-elevated); }
@@ -124,7 +136,7 @@ p { max-width: 65ch; text-wrap: pretty; }
   z-index: 100;
   padding: 0.6rem 1rem;
   background: var(--accent);
-  color: #14100c;
+  color: var(--bg);
   border-radius: 8px;
   font-weight: 600;
   text-decoration: none;
@@ -352,6 +364,7 @@ p { max-width: 65ch; text-wrap: pretty; }
   display: flex;
   align-items: center;
   padding-block: clamp(6.5rem, 12vh, 9rem) clamp(3rem, 8vh, 5rem);
+  padding-block: clamp(6.5rem, 12dvh, 9rem) clamp(3rem, 8dvh, 5rem);
   overflow: hidden;
 }
 
@@ -481,8 +494,10 @@ p { max-width: 65ch; text-wrap: pretty; }
 }
 .finish-label {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: baseline;
-  gap: 0.9rem;
+  gap: 0.2rem 0.9rem;
   font-size: 0.8125rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -490,7 +505,7 @@ p { max-width: 65ch; text-wrap: pretty; }
 }
 .finish-view {
   display: inline-block;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   letter-spacing: 0.1em;
   color: var(--accent-strong);
   text-underline-offset: 4px;
@@ -681,6 +696,7 @@ p { max-width: 65ch; text-wrap: pretty; }
   align-items: center;
   width: min(880px, 100%);
   max-height: 90vh;
+  max-height: 90dvh;
   padding: clamp(1.25rem, 3vw, 2.5rem);
   background: linear-gradient(180deg, var(--surface), var(--bg-elevated));
   border: 1px solid var(--border-strong);
@@ -694,11 +710,13 @@ p { max-width: 65ch; text-wrap: pretty; }
   justify-content: center;
   align-items: center;
   padding: 1rem;
+  background: radial-gradient(80% 70% at 50% 45%, rgba(200, 155, 90, 0.16), transparent 66%);
   background: radial-gradient(80% 70% at 50% 45%, color-mix(in srgb, var(--cardglow, #c89b5a) 26%, transparent), transparent 66%);
   border-radius: var(--radius);
 }
 .lightbox-img img {
   max-height: 62vh;
+  max-height: 62dvh;
   width: auto;
   filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6));
   transition: opacity 0.22s var(--ease);
@@ -706,6 +724,8 @@ p { max-width: 65ch; text-wrap: pretty; }
 .lightbox-img img.lb-swapping { opacity: 0; }
 .lightbox-meta { display: flex; flex-direction: column; align-items: flex-start; gap: 0.9rem; }
 .lightbox-meta .tag { align-self: flex-start; }
+.lb-head { display: flex; flex-direction: column; align-items: inherit; gap: 0.9rem; }
+.lb-count { font-size: 0.8125rem; color: var(--text-muted); letter-spacing: 0.06em; }
 .lightbox-meta h3 { font-family: var(--font-display); font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 600; }
 .lightbox-meta .price { font-family: var(--font-display); font-size: 1.6rem; color: var(--accent-strong); }
 .lb-desc { font-size: 0.9375rem; color: var(--text-muted); }
@@ -786,7 +806,10 @@ body.lb-open { overflow: hidden; }
 
 /* ---------- sections ---------- */
 
-.section { padding-block: clamp(4.5rem, 10vh, 7.5rem); }
+.section {
+  padding-block: clamp(4.5rem, 10vh, 7.5rem);
+  padding-block: clamp(4.5rem, 10dvh, 7.5rem);
+}
 .section-alt { background: var(--bg-elevated); border-block: 1px solid var(--border); }
 
 /* Offset anchor targets so the fixed header never covers them */
@@ -823,16 +846,26 @@ body.lb-open { overflow: hidden; }
     box-shadow: var(--shadow-card);
   }
 }
-.card:focus-within {
+/* keyboard-only: :has(:focus-visible) so touch taps don't leave cards stuck lifted */
+.card:has(:focus-visible) {
   transform: translateY(-6px);
   border-color: var(--border-strong);
   box-shadow: var(--shadow-card);
+}
+/* anchor-jump confirmation */
+.card:target, .feature:target {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-deep), var(--shadow-card);
 }
 
 .card-visual {
   display: flex;
   justify-content: center;
   padding: 2rem 2rem 1.5rem;
+  /* fallback first: browsers without color-mix keep a neutral warm glow */
+  background:
+    radial-gradient(120% 95% at 50% 0%, rgba(200, 155, 90, 0.14), transparent 62%),
+    var(--surface-2);
   background:
     radial-gradient(120% 95% at 50% 0%, color-mix(in srgb, var(--cardglow, #c89b5a) 22%, transparent), transparent 62%),
     var(--surface-2);
@@ -849,7 +882,7 @@ body.lb-open { overflow: hidden; }
 @media (hover: hover) {
   .card:hover .card-guitar { transform: translateY(-6px) scale(1.03); }
 }
-.card:focus-within .card-guitar { transform: translateY(-6px) scale(1.03); }
+.card:has(:focus-visible) .card-guitar { transform: translateY(-6px) scale(1.03); }
 
 .card-body {
   display: flex;
@@ -1119,6 +1152,8 @@ body.lb-open { overflow: hidden; }
   transition: color 0.2s var(--ease), text-decoration-color 0.2s var(--ease);
 }
 .site-footer a:hover { color: var(--accent-strong); text-decoration-color: var(--accent); }
+/* long unbroken addresses must wrap on narrow screens */
+.site-footer a[href^="mailto:"] { overflow-wrap: anywhere; }
 
 .footer-base {
   display: flex;
@@ -1260,6 +1295,9 @@ html:not(.js) .enquire-form .btn-block { display: none; }
   justify-content: center;
   padding: clamp(1.5rem, 4vw, 3rem);
   background:
+    radial-gradient(90% 75% at 50% 42%, rgba(200, 155, 90, 0.16), transparent 64%),
+    var(--surface-2);
+  background:
     radial-gradient(90% 75% at 50% 42%, color-mix(in srgb, var(--cardglow, #c89b5a) 26%, transparent), transparent 64%),
     var(--surface-2);
   border-right: 1px solid var(--border);
@@ -1357,7 +1395,7 @@ html:not(.js) .enquire-form .btn-block { display: none; }
 }
 .field { display: flex; flex-direction: column; gap: 0.4rem; }
 .field label {
-  font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 0.8125rem; letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--text-muted);
 }
 .field input, .field textarea {
@@ -1376,9 +1414,16 @@ html:not(.js) .enquire-form .btn-block { display: none; }
 .field input:focus, .field textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(200, 155, 90, 0.16);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 .field input::placeholder, .field textarea::placeholder { color: #8f8168; }
+/* keep WebKit autofill from painting the dark inputs yellow */
+.field input:-webkit-autofill {
+  -webkit-text-fill-color: var(--text);
+  -webkit-box-shadow: 0 0 0 1000px var(--bg) inset;
+  caret-color: var(--text);
+  transition: background-color 999999s ease-out;
+}
 .field input[aria-invalid="true"], .field textarea[aria-invalid="true"] {
   border-color: #c65b4e;
 }
@@ -1390,8 +1435,12 @@ html:not(.js) .enquire-form .btn-block { display: none; }
   color: #e2a49b;
 }
 .field-error::before { content: "\2716"; font-size: 0.7em; }
+/* browsers with alt-text syntax keep the glyph silent for screen readers */
+@supports (content: "x" / "y") {
+  .field-error::before { content: "\2716" / ""; }
+}
 .char-count {
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   color: var(--text-muted);
   text-align: right;
 }
@@ -1428,6 +1477,7 @@ html:not(.js) .enquire-form .btn-block { display: none; }
   .lightbox-panel { grid-template-columns: 1fr; overflow-y: auto; text-align: center; }
   .lightbox-meta { align-items: center; }
   .lightbox-meta .tag { align-self: center; }
+  .lightbox-meta .specs { width: fit-content; margin-inline: auto; }
   .lightbox-img img { max-height: 42vh; }
   .feature { grid-template-columns: 1fr; }
   .feature-media { border-right: none; border-bottom: 1px solid var(--border); }
@@ -1487,6 +1537,16 @@ html:not(.js) .enquire-form .btn-block { display: none; }
 }
 
 body.menu-open { overflow: hidden; }
+/* scrim under the open menu so the page reads as backgrounded */
+body.menu-open::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 40; /* under the header (50) and its dropdown menu */
+  background: var(--scrim);
+  animation: scrim-in 0.25s var(--ease);
+}
+@keyframes scrim-in { from { opacity: 0; } }
 
 @media (max-width: 560px) {
   .cards, .quotes, .steps, .why-grid, .part-grid { grid-template-columns: 1fr; }
@@ -1529,16 +1589,19 @@ body.menu-open { overflow: hidden; }
   }
   body { background: #fff; color: var(--text); }
   .site-header, .to-top, .strip-pause, .nav-toggle, .hero-glow, .hero-disc,
-  .card-zoom, .lightbox, .scroll-progress, .finish-picker, .filter-bar,
-  .enquire-form { display: none !important; }
+  .card-zoom, .lightbox, .scroll-progress, .finish-picker, .filter-bar { display: none !important; }
   .js .reveal { opacity: 1 !important; transform: none !important; }
   .hero { min-height: auto; padding-top: 2rem; }
   a { color: inherit; text-decoration: underline; }
-  /* the form doesn't print — leave the reader a way to act on paper */
-  .enquire-points::after {
-    content: "Email: hello@dcruzguitars.com";
-    display: block;
-    margin-top: 1rem;
-    font-weight: 600;
+  /* print the whole catalogue even if a filter was active on screen */
+  .card[hidden] { display: flex !important; }
+  .feature[hidden] { display: grid !important; }
+  /* the form controls don't print — keep only the direct email line */
+  .enquire-form > :not(.form-alt) { display: none !important; }
+  .enquire-form {
+    background: none;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
   }
 }

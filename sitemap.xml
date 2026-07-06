@@ -1,9 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://amirbukhari.github.io/dcruz/</loc>
     <lastmod>2026-07-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://amirbukhari.github.io/dcruz/assets/guitar-green.webp</image:loc>
+      <image:title>D'Cruz Custom 001 — surf-green S-style electric guitar</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://amirbukhari.github.io/dcruz/assets/guitar-orange.webp</image:loc>
+      <image:title>Squier Partscaster — silver with orange pickguard</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://amirbukhari.github.io/dcruz/assets/guitar-blackgold.webp</image:loc>
+      <image:title>D'Cruz Partscaster — black and gold S-style</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://amirbukhari.github.io/dcruz/assets/guitar-yellow.webp</image:loc>
+      <image:title>D'Cruz Partscaster — Sonic Yellow S-style</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://amirbukhari.github.io/dcruz/assets/guitar-red.webp</image:loc>
+      <image:title>D'Cruz Custom 003 — candy-red T-style</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://amirbukhari.github.io/dcruz/assets/guitar-supro.webp</image:loc>
+      <image:title>Supro Americana 1582 VJB — vintage offset electric</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://amirbukhari.github.io/dcruz/assets/guitar-maple.webp</image:loc>
+      <image:title>D'Cruz Custom 004 — natural maple electric with tremolo</image:title>
+    </image:image>
   </url>
 </urlset>

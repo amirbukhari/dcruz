@@ -22,6 +22,45 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - name: Validate before deploying
+        run: |
+          node --check script.js
+          python3 - <<'EOF'
+          import re, sys, os
+          from html.parser import HTMLParser
+          class P(HTMLParser):
+              VOID = {'meta','link','br','img','input','hr','source','wbr','image'}
+              def __init__(self):
+                  super().__init__(convert_charrefs=True); self.stack=[]; self.errs=[]
+              def handle_starttag(self, tag, attrs):
+                  if tag not in self.VOID: self.stack.append(tag)
+              def handle_endtag(self, tag):
+                  if tag in self.VOID: return
+                  if not self.stack or self.stack[-1] != tag:
+                      self.errs.append(f"tag mismatch near </{tag}> at {self.getpos()}")
+                  else: self.stack.pop()
+          failed = False
+          for page in ("index.html", "404.html"):
+              html = open(page).read()
+              p = P(); p.feed(html)
+              if p.errs or p.stack:
+                  print(page, "invalid:", p.errs or p.stack); failed = True
+              # every local asset the page references must exist
+              for attr, ref in re.findall(r'(src|href|srcset)="([^"#]+)"', html):
+                  if ref.startswith(("http", "data:", "mailto:", "tel:")):
+                      continue
+                  parts = ref.split(",") if attr == "srcset" else [ref]
+                  for part in parts:
+                      path = part.strip().split(" ")[0].split("?")[0]
+                      local = path.lstrip("/")
+                      if local.startswith("dcruz/"):
+                          local = local[len("dcruz/"):]
+                      if not local:  # site root
+                          continue
+                      if not os.path.exists(local):
+                          print(page, "missing asset:", path); failed = True
+          sys.exit(1 if failed else 0)
+          EOF
       - name: Assemble site directory
         run: |
           # Publish only the site itself — never repo internals (.claude, .github, README)

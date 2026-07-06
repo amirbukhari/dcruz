@@ -28,3 +28,11 @@ The site will be live at `https://<owner>.github.io/dcruz/`.
 | `styles.css` | Design system tokens + all styling (responsive, dark, reduced-motion aware) |
 | `script.js` | Sticky header, mobile nav, scroll-reveal, finish switcher, catalogue filter, quick-view lightbox, enquiry form |
 | `.claude/skills/ui-ux-pro-max` | Installed UI/UX design skill used to generate the design system |
+
+## Content & asset attribution
+
+All product photography, the D'Cruz signature logo, and brand content belong to
+D'Cruz Guitars (Belleville, Ontario) and appear here on their behalf — they are
+not covered by any open-source license. Partner brand logos (Seymour Duncan,
+D'Addario, Floyd Rose, DiMarzio, Rotosound, Ernie Ball) are the property of
+their respective owners and are shown only to indicate parts used in builds.
