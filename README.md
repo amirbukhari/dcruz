@@ -29,6 +29,22 @@ The site will be live at `https://<owner>.github.io/dcruz/`.
 | `script.js` | Sticky header, mobile nav, scroll-reveal, finish switcher, catalogue filter, quick-view lightbox, enquiry form |
 | `.claude/skills/ui-ux-pro-max` | Installed UI/UX design skill used to generate the design system |
 
+## URL contracts
+
+| Pattern | Behaviour |
+|---|---|
+| `?filter=partscaster` \| `custom` \| `vintage` | Restores that catalogue filter on load and scrolls to the catalogue; the filter also syncs back into the URL as you browse |
+| `#g-001`, `#g-squier`, `#g-blackgold`, `#g-yellow`, `#g-003`, `#g-supro`, `#g-004` | Jumps to (and pulses) that guitar's card; links copied while the quick-view is open reopen the quick-view |
+
+## Production headers (when moving off GitHub Pages)
+
+GitHub Pages can't set response headers, so today's CSP ships as a `<meta>` tag
+(which can't express every directive). On a host with header control, move it to
+a real `Content-Security-Policy` header and add what meta can't do:
+`frame-ancestors 'none'`, plus `Strict-Transport-Security`,
+`X-Content-Type-Options: nosniff`, and `Referrer-Policy: strict-origin-when-cross-origin`.
+Fonts are self-hosted, so no third-party origins are needed at all.
+
 ## Content & asset attribution
 
 All product photography, the D'Cruz signature logo, and brand content belong to

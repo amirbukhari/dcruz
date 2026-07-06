@@ -6,10 +6,9 @@
   <title>Page not found — D'Cruz Guitars</title>
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#0e0b07">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Same fonts URL as the homepage so the CSS and font files come from cache -->
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Same self-hosted fonts as the homepage so they come from cache -->
+  <link rel="preload" as="font" type="font/woff2" href="/dcruz/assets/fonts/fraunces-var.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/dcruz/assets/fonts/inter-var.woff2" crossorigin>
   <!-- GitHub Pages serves this file at whatever path 404'd, so every URL must be absolute -->
   <link rel="stylesheet" href="/dcruz/styles.css">
   <link rel="icon" type="image/png" sizes="32x32" href="/dcruz/assets/favicon-32.png">
@@ -25,7 +24,8 @@
   </style>
 </head>
 <body>
-  <main class="nf">
+  <a class="skip-link" href="#nf-main">Skip to content</a>
+  <main class="nf" id="nf-main">
     <div class="nf-inner">
       <a href="/dcruz/" class="brand" aria-label="D'Cruz Guitars — home">
         <img class="brand-logo" src="/dcruz/assets/dcruz-logo-cream-sm.png" alt="D&rsquo;Cruz" width="340" height="88">

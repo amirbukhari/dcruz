@@ -74,11 +74,26 @@ jobs:
             ./ dist/
           # Stamp the sitemap with the deploy date
           sed -i "s|<lastmod>.*</lastmod>|<lastmod>$(date -u +%F)</lastmod>|" dist/sitemap.xml
-          # Cache-bust CSS/JS so returning visitors never mix old and new assets
+          # Cache-bust CSS/JS/manifest so returning visitors never mix old and new assets
           V="${GITHUB_SHA::8}"
           sed -i "s|href=\"styles.css\"|href=\"styles.css?v=$V\"|" dist/index.html
           sed -i "s|src=\"script.js\"|src=\"script.js?v=$V\"|" dist/index.html
+          sed -i "s|href=\"site.webmanifest\"|href=\"site.webmanifest?v=$V\"|" dist/index.html
+          sed -i "s|icon-192.png\"|icon-192.png?v=$V\"|; s|icon-512.png\"|icon-512.png?v=$V\"|" dist/site.webmanifest
           sed -i "s|href=\"/dcruz/styles.css\"|href=\"/dcruz/styles.css?v=$V\"|" dist/404.html
+      - name: Runtime smoke test
+        run: |
+          # Serve the built site and prove the JS boots end-to-end in a real browser:
+          # the "(7)" filter counts only exist if every init module ran without throwing.
+          python3 -m http.server 8080 --directory dist &
+          sleep 1
+          google-chrome --headless=new --no-sandbox --disable-gpu --virtual-time-budget=5000 \
+            --dump-dom http://localhost:8080/ > rendered.html
+          grep -q "All (7)" rendered.html || { echo "JS boot failed: filter counts missing"; exit 1; }
+          grep -q "site-footer" rendered.html || { echo "page truncated: footer missing"; exit 1; }
+          grep -q "card-zoom" rendered.html || { echo "lightbox init failed: zoom buttons missing"; exit 1; }
+      - name: Lighthouse assertions
+        run: npx --yes @lhci/cli@0.13 autorun
       - uses: actions/configure-pages@v5
         with:
           enablement: true

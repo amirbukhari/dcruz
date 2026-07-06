@@ -8,13 +8,13 @@
   <meta name="description" content="Custom electric guitars and partscasters, hand-wired and professionally set up in Belleville, Ontario. Browse the catalogue or start your build.">
   <meta name="author" content="D'Cruz Guitars">
   <meta name="theme-color" content="#0e0b07">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-WZRJfWvsnNCPcxzZwvyhovnZGqhZaC+8gPGPRbx6wTk=' 'unsafe-hashes' 'sha256-NXgJIJJYQbjLZDdAmJyEXQ0ldk+Rf0iQY7WdZ1mQrZ4='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'">
   <link rel="canonical" href="https://amirbukhari.github.io/dcruz/">
   <!-- Open Graph / social preview -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="D'Cruz Guitars">
   <meta property="og:title" content="D'Cruz Guitars — Custom Electric Guitars &amp; Partscasters">
-  <meta property="og:description" content="Hand-wired, professionally set up custom electrics and partscasters. Handcrafted in Belleville, Ontario.">
+  <meta property="og:description" content="Custom electric guitars and partscasters, hand-wired and professionally set up in Belleville, Ontario. Browse the catalogue or start your build.">
   <meta property="og:url" content="https://amirbukhari.github.io/dcruz/">
   <meta property="og:image" content="https://amirbukhari.github.io/dcruz/assets/og-cover.jpg">
   <meta property="og:image:width" content="1200">
@@ -23,12 +23,11 @@
   <meta property="og:locale" content="en_CA">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="D'Cruz Guitars — Custom Electric Guitars &amp; Partscasters">
-  <meta name="twitter:description" content="Hand-wired, professionally set up custom electrics and partscasters. Handcrafted in Belleville, Ontario.">
+  <meta name="twitter:description" content="Custom electric guitars and partscasters, hand-wired and professionally set up in Belleville, Ontario. Browse the catalogue or start your build.">
   <meta name="twitter:image" content="https://amirbukhari.github.io/dcruz/assets/og-cover.jpg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/fraunces-var.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-var.woff2" crossorigin>
   <link rel="preload" as="image" href="assets/hero/guitar-green.webp" fetchpriority="high">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <!-- If this fails to load, drop the js class so reveal-gated content stays visible -->
   <script src="script.js" defer onerror="document.documentElement.classList.remove('js')"></script>
@@ -57,7 +56,8 @@
     ]
   }
   </script>
-  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.ico" sizes="16x16 32x32">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -105,11 +105,11 @@
           <p class="lede reveal delay-2">
             D&rsquo;Cruz Guitars builds partscasters and custom electric guitars from quality
             components — hand-wired, professionally set up, and easy to play the moment you
-            plug in. Browse the catalogue, or get in touch for a setup, repair, or parts.
+            plug in. Setups, repairs, and parts too.
           </p>
           <div class="hero-actions reveal delay-3">
             <a href="#enquire" class="btn btn-primary">Start your build</a>
-            <a href="#guitars" class="btn btn-ghost">
+            <a href="#guitars" class="btn btn-outline">
               See the catalogue
               <svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                 <path d="M4 10h12m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -126,13 +126,13 @@
         <div class="hero-visual">
           <div class="hero-disc" aria-hidden="true"></div>
           <div class="hero-stage" id="heroStage">
-            <img class="hero-guitar" id="heroGuitar" src="assets/hero/guitar-green.webp" alt="Electric guitar in Surf Green finish" width="363" height="951">
+            <img class="hero-guitar" id="heroGuitar" src="assets/hero/guitar-green.webp" fetchpriority="high" alt="Electric guitar in Surf Green finish" width="363" height="951">
           </div>
           <div class="finish-picker" id="finishes">
             <span class="finish-label" aria-live="polite">Now showing: <span id="finishName">Surf Green</span>
               <a class="finish-view" id="finishView" href="#g-001">View this guitar</a>
             </span>
-            <div class="swatches" role="radiogroup" aria-label="Preview a catalogue guitar" aria-describedby="finishName">
+            <div class="swatches" role="radiogroup" aria-orientation="horizontal" aria-label="Preview a catalogue guitar" aria-describedby="finishName">
               <button class="swatch is-active" style="--sw:#93cfae" data-img="assets/hero/guitar-green.webp" data-glow="#7fd0a6" data-name="Surf Green" data-target="#g-001" role="radio" aria-label="Surf Green" aria-checked="true" tabindex="0"></button>
               <button class="swatch" style="--sw:#f2c94c" data-img="assets/hero/guitar-yellow.webp" data-glow="#f2c94c" data-name="Sonic Yellow" data-target="#g-yellow" role="radio" aria-label="Sonic Yellow" aria-checked="false" tabindex="-1"></button>
               <button class="swatch" style="--sw:#c0271f" data-img="assets/hero/guitar-red.webp" data-glow="#d8402f" data-name="Candy Red" data-target="#g-003" role="radio" aria-label="Candy Red" aria-checked="false" tabindex="-1"></button>
@@ -148,7 +148,7 @@
 
     <!-- ============ BUILD STRIP ============ -->
     <section class="strip" aria-label="D'Cruz at a glance">
-      <button class="strip-pause" id="stripPause" aria-pressed="false" aria-label="Pause scrolling ticker">
+      <button class="strip-pause" id="stripPause" aria-label="Pause scrolling ticker">
         <svg class="ic-pause" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><rect x="5" y="4" width="3.5" height="12" rx="1"/><rect x="11.5" y="4" width="3.5" height="12" rx="1"/></svg>
         <svg class="ic-play" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M6.5 4.5v11l9-5.5z"/></svg>
       </button>
@@ -266,7 +266,7 @@
       <div class="container">
         <div class="section-head reveal">
           <p class="eyebrow"><span class="sec-idx" aria-hidden="true">02</span>The Guitars</p>
-          <h2>The catalogue.</h2>
+          <h2 id="catalogueHeading">The catalogue.</h2>
           <p class="section-lede">From a ready-to-play partscaster — a guitar assembled from quality aftermarket parts — to a fully bespoke custom, every instrument is hand-wired and professionally set up before it ships. Each one is one of a kind.</p>
         </div>
 
@@ -292,7 +292,8 @@
         </article>
 
         <div class="filter-bar reveal">
-          <div class="filter-btns" role="radiogroup" aria-label="Filter guitars">
+          <span class="filter-label" id="filterLabel">Filter</span>
+          <div class="filter-btns" role="radiogroup" aria-orientation="horizontal" aria-labelledby="filterLabel">
             <button class="filter-btn is-active" data-filter="all" role="radio" aria-checked="true" tabindex="0">All</button>
             <button class="filter-btn" data-filter="partscaster" role="radio" aria-checked="false" tabindex="-1">Partscasters</button>
             <button class="filter-btn" data-filter="custom" role="radio" aria-checked="false" tabindex="-1">Custom</button>
@@ -459,6 +460,9 @@
             <p>Action, intonation, and fretwork dialed in so it plays easily out of the case. Every guitar leaves set up and ready to go.</p>
           </li>
         </ol>
+        <p class="build-cta reveal">
+          <a href="#enquire" class="btn btn-outline">Start your build</a>
+        </p>
       </div>
     </section>
 
@@ -554,7 +558,7 @@
           </div>
           <div class="field">
             <label for="ef-email">Email</label>
-            <input id="ef-email" name="email" type="email" autocomplete="email" required placeholder="you@email.com" aria-describedby="ef-email-err">
+            <input id="ef-email" name="email" type="email" autocomplete="email" spellcheck="false" required placeholder="you@email.com" aria-describedby="ef-email-err">
             <p class="field-error" id="ef-email-err" hidden>Please enter a valid email address so we can reply.</p>
           </div>
           <div class="field">
@@ -620,13 +624,14 @@
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7.5 4 6 6-6 6"/></svg>
       </button>
       <div class="lightbox-meta">
-        <div class="lb-head" aria-live="polite">
+        <div class="lb-head" id="lbHead">
           <span class="tag" id="lbTag"></span>
           <h3 id="lbName"></h3>
           <p class="lb-count" id="lbCount"></p>
         </div>
         <p class="price" id="lbPrice"></p>
         <p class="lb-desc" id="lbDesc"></p>
+        <p class="lb-hint" aria-hidden="true">&larr; &rarr; browse &middot; Esc closes</p>
         <ul class="specs" id="lbSpecs"></ul>
         <a href="#enquire" class="btn btn-primary" id="lbEnquire" data-model="" data-close>Enquire about this build</a>
       </div>

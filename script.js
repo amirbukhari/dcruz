@@ -7,7 +7,7 @@
 //   initSpy           scrollspy
 //   initReveal        scroll-reveal animations
 //   initMarquee       build-strip ticker
-//   initFilter        catalogue filter (returns applyFilter for others)
+//   initFilter        catalogue filter (registers an anchor-jump hook)
 //   initFinishPicker  hero guitar switcher
 //   initForm          enquiry form validation + mailto handoff
 //   initLightbox      quick-view dialog
@@ -53,11 +53,17 @@
   function initChrome() {
     const progressBar = $("#progressBar");
     let tick = false;
+    let docHeight = document.documentElement.scrollHeight;
+    if ("ResizeObserver" in window) {
+      new ResizeObserver(() => { docHeight = document.documentElement.scrollHeight; }).observe(document.body);
+    } else {
+      window.addEventListener("resize", () => { docHeight = document.documentElement.scrollHeight; }, { passive: true });
+    }
     const onScroll = () => {
       const y = window.scrollY;
       header.classList.toggle("scrolled", y > 24);
       if (progressBar) {
-        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const max = docHeight - window.innerHeight;
         progressBar.style.transform = "scaleX(" + (max > 0 ? Math.min(y / max, 1) : 0) + ")";
       }
       if (toTop) toTop.classList.toggle("visible", y > window.innerHeight * 1.5 && !footerInView);
@@ -259,11 +265,16 @@
       }, { passive: true });
     }
     if (pause && strip) {
-      pause.addEventListener("click", () => {
-        const paused = track.classList.toggle("paused");
-        pause.setAttribute("aria-pressed", String(paused));
+      const setPaused = (paused) => {
+        track.classList.toggle("paused", paused);
+        pause.classList.toggle("is-paused", paused);
         pause.setAttribute("aria-label", paused ? "Resume scrolling ticker" : "Pause scrolling ticker");
-      });
+        try { sessionStorage.setItem("dcruz-ticker-paused", paused ? "1" : ""); } catch (err) { /* private mode */ }
+      };
+      let stored = "";
+      try { stored = sessionStorage.getItem("dcruz-ticker-paused") || ""; } catch (err) { /* private mode */ }
+      if (stored) setPaused(true);
+      pause.addEventListener("click", () => setPaused(!track.classList.contains("paused")));
     }
   }
 
@@ -275,7 +286,7 @@
     const feature = $("#guitars .feature");
     const filterCount = $("#filterCount");
     const baseTitle = document.title;
-    if (!filterBtns.length || !catCards.length) return { applyFilter: () => {} };
+    if (!filterBtns.length || !catCards.length) return;
 
     const countFor = (f) =>
       f === "all"
@@ -304,12 +315,17 @@
         feature.hidden = !showFeature;
         if (showFeature) shown++;
       }
+      const TITLES = { partscaster: "Partscasters", custom: "Custom builds", vintage: "Vintage" };
       if (filterCount) {
         const total = catCards.length + (feature ? 1 : 0);
-        filterCount.textContent = shown === total ? "Showing all " + total + " guitars" : "Showing " + shown + " of " + total + " guitars";
+        filterCount.textContent =
+          shown === total
+            ? "Showing all " + total + " guitars"
+            : TITLES[f] + ": showing " + shown + " of " + total + " guitars";
       }
-      const TITLES = { partscaster: "Partscasters", custom: "Custom builds", vintage: "Vintage" };
       document.title = f === "all" || !TITLES[f] ? baseTitle : TITLES[f] + " — D'Cruz Guitars";
+      const heading = $("#catalogueHeading");
+      if (heading) heading.textContent = f === "all" || !TITLES[f] ? "The catalogue." : TITLES[f] + ".";
       if (updateURL && "replaceState" in history) {
         // Debounced: arrow-key cycling shouldn't write history state per keypress
         clearTimeout(urlTimer);
@@ -354,8 +370,6 @@
     anchorJumpHooks.push((target) => {
       if (target.hidden && target.dataset && target.dataset.cat) applyFilter("all", true);
     });
-
-    return { applyFilter };
   }
 
   /* ---------- finish picker ---------- */
@@ -369,7 +383,9 @@
     if (!swatches.length) return;
 
     const hexToRGBA = (hex, a) => {
-      const n = parseInt(hex.slice(1), 16);
+      let h = hex.slice(1);
+      if (h.length === 3) h = h.replace(/./g, (c) => c + c);
+      const n = parseInt(h, 16);
       return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
     };
     // Single source of truth: the CSS var the stylesheet already reads.
@@ -381,9 +397,14 @@
 
     // Preload alternate finishes once the browser is idle — not during
     // initial page load, where they compete with critical resources.
-    const preload = () => swatches.forEach((s) => { const i = new Image(); i.src = s.dataset.img; });
-    if ("requestIdleCallback" in window) requestIdleCallback(preload, { timeout: 4000 });
-    else setTimeout(preload, 2500);
+    const saveData =
+      (navigator.connection && navigator.connection.saveData) ||
+      window.matchMedia("(prefers-reduced-data: reduce)").matches;
+    if (!saveData) {
+      const preload = () => swatches.forEach((s) => { const i = new Image(); i.src = s.dataset.img; });
+      if ("requestIdleCallback" in window) requestIdleCallback(preload, { timeout: 4000 });
+      else setTimeout(preload, 2500);
+    }
 
     let swapTimer;
     const select = (swatch) => {
@@ -438,6 +459,7 @@
     const msgCount = $("#msgCount");
     const submitBtn = $("#efSubmit");
     const SUBMIT_LABEL = submitBtn ? submitBtn.textContent : "";
+    const HELPER_TEXT = note ? note.textContent : "";
 
     requestAnimationFrame(() => {
       if (note) { note.setAttribute("role", "status"); note.setAttribute("aria-live", "polite"); }
@@ -476,7 +498,10 @@
       f.el.addEventListener("blur", () => { if (f.el.value.trim()) validateField(f); });
       f.el.addEventListener("input", () => {
         if (!f.err.hidden) validateField(f);
-        if (note) note.classList.remove("error", "success");
+        if (note && (note.classList.contains("error") || note.classList.contains("success"))) {
+          note.classList.remove("error", "success");
+          note.textContent = HELPER_TEXT;
+        }
         if (submitBtn && submitBtn.disabled) {
           submitBtn.disabled = false;
           submitBtn.textContent = SUBMIT_LABEL;
@@ -491,6 +516,7 @@
         msgCount.hidden = len === 0;
         msgCount.textContent = len + " / " + max;
         // Only chatty for screen readers when the limit is actually near
+        msgCount.classList.toggle("warn", max - len <= 100);
         if (max - len <= 100) {
           msgCount.setAttribute("role", "status");
           msgCount.setAttribute("aria-live", "polite");
@@ -517,7 +543,10 @@
       const name = fields[0].el.value.trim();
       const email = fields[1].el.value.trim();
       const msg = fields[2].el.value.trim();
-      const subject = encodeURIComponent(`Build enquiry from ${name}`);
+      const modelMatch = msg.match(/^Hi — I’m interested in the (.+?)\./);
+      const subject = encodeURIComponent(
+        modelMatch ? `Build enquiry — ${modelMatch[1]} — ${name}` : `Build enquiry — ${name}`
+      );
       const body = encodeURIComponent(`${msg}\n\n— ${name}\n${email}`);
       window.location.href = `mailto:${ENQUIRY_EMAIL}?subject=${subject}&body=${body}`;
       if (note) {
@@ -599,12 +628,16 @@
       if (lbEnquire && enquireLink) lbEnquire.dataset.model = enquireLink.dataset.model;
       const list = visibleItems();
       const many = list.length > 1;
+      const idx = list.indexOf(item);
       if (lbCount) {
         lbCount.hidden = !many;
-        lbCount.textContent = many ? (list.indexOf(item) + 1) + " of " + list.length : "";
+        lbCount.textContent = many ? (idx + 1) + " of " + list.length : "";
       }
       lbPrev.hidden = !many;
       lbNext.hidden = !many;
+      // clamp rather than wrap — wrapping around silently disorients
+      lbPrev.disabled = idx <= 0;
+      lbNext.disabled = idx >= list.length - 1;
     };
 
     const setPageInert = (on) => {
@@ -612,13 +645,17 @@
       [header, mainEl, footer, toTop].forEach((el) => { if (el) el.inert = on; });
     };
 
+    const lbHead = $("#lbHead");
     const openLB = (item) => {
+      if (lbHead) lbHead.removeAttribute("aria-live");
       fillLB(item, true);
       lastFocus = document.activeElement;
       lightbox.hidden = false;
       document.body.classList.add("lb-open");
       setPageInert(true);
       lbClose.focus();
+      // announce subsequent prev/next changes, but not this initial fill
+      requestAnimationFrame(() => { if (lbHead) lbHead.setAttribute("aria-live", "polite"); });
       // Back button (esp. Android) should close the modal, not leave the
       // site — and the hash makes the open guitar shareable.
       if (history.pushState && !(history.state && history.state.dcruzLb)) {
@@ -650,7 +687,9 @@
       const list = visibleItems();
       if (!list.length) return;
       const idx = Math.max(0, list.indexOf(current));
-      fillLB(list[(idx + dir + list.length) % list.length], false);
+      const next = idx + dir;
+      if (next < 0 || next >= list.length) return; // clamped, no wrap
+      fillLB(list[next], false);
       if (history.state && history.state.dcruzLb) {
         history.replaceState(history.state, "", "#" + current.id);
       }
@@ -671,17 +710,29 @@
     lbPrev.addEventListener("click", () => step(-1));
     lbNext.addEventListener("click", () => step(1));
 
-    // Touch swipe between guitars
+    // Touch swipe between guitars, with the image tracking the finger
     if (lbGlow) {
+      lbImg.draggable = false; // native image-drag ghost fights the gesture
       lbGlow.style.touchAction = "pan-y";
       let startX = null;
+      const setDrag = (dx) => {
+        lbImg.style.transition = dx === null ? "" : "none";
+        lbImg.style.transform = dx === null ? "" : "translateX(" + dx * 0.35 + "px)";
+      };
       lbGlow.addEventListener("pointerdown", (e) => { startX = e.clientX; }, { passive: true });
-      lbGlow.addEventListener("pointerup", (e) => {
+      lbGlow.addEventListener("pointermove", (e) => {
+        if (startX === null || reduceMotion) return;
+        setDrag(e.clientX - startX);
+      }, { passive: true });
+      const finish = (e) => {
         if (startX === null) return;
         const dx = e.clientX - startX;
         startX = null;
+        setDrag(null);
         if (Math.abs(dx) > 44) step(dx > 0 ? -1 : 1);
-      }, { passive: true });
+      };
+      lbGlow.addEventListener("pointerup", finish, { passive: true });
+      lbGlow.addEventListener("pointercancel", finish, { passive: true });
     }
 
     document.addEventListener("keydown", (e) => {
@@ -696,6 +747,16 @@
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       }
     });
+
+    // A shared #g-* link reopens the quick view it was copied from
+    const initialHash = location.hash && /^#g-[\w-]+$/.test(location.hash)
+      ? document.getElementById(location.hash.slice(1))
+      : null;
+    if (initialHash && items.includes(initialHash) && !initialHash.hidden) {
+      try { initialHash.scrollIntoView({ behavior: "instant", block: "center" }); }
+      catch (err) { initialHash.scrollIntoView(); }
+      openLB(initialHash);
+    }
 
     // add a zoom button over each visual (cards and the flagship feature)
     items.forEach((item) => {
