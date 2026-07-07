@@ -20,6 +20,31 @@ A deploy workflow is included at `.github/workflows/deploy-pages.yml`. It runs a
 
 The site will be live at `https://<owner>.github.io/dcruz/`.
 
+Every deploy is gated by CI: it validates the HTML structure and that every
+referenced asset (including `url()` targets inside `styles.css`) exists,
+boots the JS in a headless browser (smoke test), and asserts Lighthouse
+scores (accessibility / best-practices / SEO ≥ 0.95, performance ≥ 0.85,
+median of 3 runs). A red check means the deploy is blocked, not shipped broken.
+
+## Rolling back a bad deploy
+
+The deploy is a pure function of the default branch, so recovery is a git revert —
+there is no separate release to roll back:
+
+```bash
+# revert the last deploy commit and re-publish the previous state
+git revert --no-edit HEAD
+git push            # the push re-runs the workflow and redeploys
+
+# or reset to a known-good commit if several commits are bad
+git reset --hard <good-sha>
+git push --force-with-lease
+```
+
+The Actions run for the new push republishes automatically. To confirm which
+commit is currently live, check the most recent successful "Deploy to GitHub
+Pages" run in the Actions tab (the deploy URL is printed in its summary).
+
 ## Structure
 
 | File | Purpose |
@@ -44,6 +69,18 @@ a real `Content-Security-Policy` header and add what meta can't do:
 `frame-ancestors 'none'`, plus `Strict-Transport-Security`,
 `X-Content-Type-Options: nosniff`, and `Referrer-Policy: strict-origin-when-cross-origin`.
 Fonts are self-hosted, so no third-party origins are needed at all.
+
+### Caching
+
+The deploy stamps a short content version (`?v=<sha>`) onto `styles.css`,
+`script.js`, `site.webmanifest`, and the font `url()`s so returning visitors
+never mix old and new assets. On a host with header control, pair that with
+`Cache-Control: public, max-age=31536000, immutable` for everything under
+`/assets/` and the versioned CSS/JS, and a short (or `no-cache`) policy for the
+HTML documents themselves so a new deploy is picked up promptly. The query-string
+busting is deliberately simple; a future build step could content-hash the
+filenames instead (`styles.<hash>.css`), which busts more reliably than a query
+and lets the HTML itself stay long-lived behind an edge cache.
 
 ## Content & asset attribution
 

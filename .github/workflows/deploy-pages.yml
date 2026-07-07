@@ -21,7 +21,8 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      # Pinned to patch releases for reproducibility; ideally full commit SHAs.
+      - uses: actions/checkout@v4.2.2
       - name: Validate before deploying
         run: |
           node --check script.js
@@ -59,6 +60,14 @@ jobs:
                           continue
                       if not os.path.exists(local):
                           print(page, "missing asset:", path); failed = True
+          # every url() referenced from the stylesheet (fonts, images) must exist too
+          css = open("styles.css").read()
+          for ref in re.findall(r'url\(["\']?([^"\')]+)["\']?\)', css):
+              if ref.startswith(("http", "data:")):
+                  continue
+              path = ref.split("?")[0].split("#")[0]
+              if not os.path.exists(path):
+                  print("styles.css missing url():", path); failed = True
           sys.exit(1 if failed else 0)
           EOF
       - name: Assemble site directory
@@ -70,6 +79,9 @@ jobs:
             --exclude='.github' \
             --exclude='.claude' \
             --exclude='README.md' \
+            --exclude='.lighthouserc.json' \
+            --exclude='.lhci' \
+            --exclude='rendered.html' \
             --exclude='dist' \
             ./ dist/
           # Stamp the sitemap with the deploy date
@@ -81,6 +93,10 @@ jobs:
           sed -i "s|href=\"site.webmanifest\"|href=\"site.webmanifest?v=$V\"|" dist/index.html
           sed -i "s|icon-192.png\"|icon-192.png?v=$V\"|; s|icon-512.png\"|icon-512.png?v=$V\"|" dist/site.webmanifest
           sed -i "s|href=\"/dcruz/styles.css\"|href=\"/dcruz/styles.css?v=$V\"|" dist/404.html
+          # A ?v on the stylesheet URL doesn't bust the url() targets inside it —
+          # stamp the font files themselves so a font swap can't serve stale bytes.
+          # Anchor on the filename suffix so we never touch the format("woff2") hint.
+          sed -i "s|-var.woff2\")|-var.woff2?v=$V\")|g" dist/styles.css
       - name: Runtime smoke test
         run: |
           # Serve the built site and prove the JS boots end-to-end in a real browser:
@@ -89,16 +105,22 @@ jobs:
           sleep 1
           google-chrome --headless=new --no-sandbox --disable-gpu --virtual-time-budget=5000 \
             --dump-dom http://localhost:8080/ > rendered.html
-          grep -q "All (7)" rendered.html || { echo "JS boot failed: filter counts missing"; exit 1; }
+          # The filter count is only injected once every init module runs without
+          # throwing. Match any count so a change in inventory can't break deploys.
+          grep -qE "All \([0-9]+\)" rendered.html || { echo "JS boot failed: filter counts missing"; exit 1; }
           grep -q "site-footer" rendered.html || { echo "page truncated: footer missing"; exit 1; }
           grep -q "card-zoom" rendered.html || { echo "lightbox init failed: zoom buttons missing"; exit 1; }
+          # The custom 404 must also render (it has its own stylesheet link)
+          google-chrome --headless=new --no-sandbox --disable-gpu --virtual-time-budget=3000 \
+            --dump-dom http://localhost:8080/404.html > rendered-404.html
+          grep -q "styles.css" rendered-404.html || { echo "404.html failed to render"; exit 1; }
       - name: Lighthouse assertions
-        run: npx --yes @lhci/cli@0.13 autorun
-      - uses: actions/configure-pages@v5
+        run: npx --yes @lhci/cli@0.13.0 autorun
+      - uses: actions/configure-pages@v5.0.0
         with:
           enablement: true
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: dist
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v4.0.5

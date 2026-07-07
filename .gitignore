@@ -1,3 +1,7 @@
 __pycache__/
 *.pyc
 node_modules/
+dist/
+.lhci/
+rendered.html
+rendered-404.html

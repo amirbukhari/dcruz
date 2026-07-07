@@ -8,7 +8,8 @@
   <meta name="description" content="Custom electric guitars and partscasters, hand-wired and professionally set up in Belleville, Ontario. Browse the catalogue or start your build.">
   <meta name="author" content="D'Cruz Guitars">
   <meta name="theme-color" content="#0e0b07">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-WZRJfWvsnNCPcxzZwvyhovnZGqhZaC+8gPGPRbx6wTk=' 'unsafe-hashes' 'sha256-NXgJIJJYQbjLZDdAmJyEXQ0ldk+Rf0iQY7WdZ1mQrZ4='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-WZRJfWvsnNCPcxzZwvyhovnZGqhZaC+8gPGPRbx6wTk=' 'unsafe-hashes' 'sha256-NXgJIJJYQbjLZDdAmJyEXQ0ldk+Rf0iQY7WdZ1mQrZ4='; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'">
   <link rel="canonical" href="https://amirbukhari.github.io/dcruz/">
   <!-- Open Graph / social preview -->
   <meta property="og:type" content="website">
@@ -26,6 +27,8 @@
   <meta name="twitter:description" content="Custom electric guitars and partscasters, hand-wired and professionally set up in Belleville, Ontario. Browse the catalogue or start your build.">
   <meta name="twitter:image" content="https://amirbukhari.github.io/dcruz/assets/og-cover.jpg">
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/fraunces-var.woff2" crossorigin>
+  <!-- the hero headline's italic phrase is above the fold — preload it too so it doesn't swap late -->
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/fraunces-italic-var.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-var.woff2" crossorigin>
   <link rel="preload" as="image" href="assets/hero/guitar-green.webp" fetchpriority="high">
   <link rel="stylesheet" href="styles.css">
@@ -75,7 +78,9 @@
         <span class="brand-sub">Guitars</span>
       </a>
 
-      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">
+      <!-- compact CTA kept in the bar on mobile so the primary action isn't buried behind the hamburger -->
+      <a href="#enquire" class="nav-cta-compact">Build</a>
+      <button class="nav-toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="navMenu">
         <span class="nav-toggle-box" aria-hidden="true"><span></span><span></span><span></span></span>
         <span class="nav-toggle-text">Menu</span>
       </button>
@@ -117,29 +122,29 @@
             </a>
           </div>
           <dl class="hero-stats reveal delay-4">
-            <div><dt>Partscasters</dt><dd>$250+</dd></div>
-            <div><dt>Custom builds</dt><dd>$900+</dd></div>
-            <div><dt>In the catalogue</dt><dd><a class="stat-link" href="#finishes">7</a></dd></div>
+            <div><dt>Partscasters</dt><dd>CA$250+</dd></div>
+            <div><dt>Custom builds</dt><dd>CA$900+</dd></div>
+            <div><dt>In the catalogue</dt><dd><a class="stat-link" href="#guitars">7</a></dd></div>
           </dl>
         </div>
 
         <div class="hero-visual">
           <div class="hero-disc" aria-hidden="true"></div>
           <div class="hero-stage" id="heroStage">
-            <img class="hero-guitar" id="heroGuitar" src="assets/hero/guitar-green.webp" fetchpriority="high" alt="Electric guitar in Surf Green finish" width="363" height="951">
+            <img class="hero-guitar" id="heroGuitar" src="assets/hero/guitar-green.webp" fetchpriority="high" alt="D&rsquo;Cruz Custom 001 electric guitar in Surf Green finish" width="363" height="951">
           </div>
           <div class="finish-picker" id="finishes">
-            <span class="finish-label" aria-live="polite">Now showing: <span id="finishName">Surf Green</span>
+            <span class="finish-label">Now showing: <span id="finishName" aria-live="polite">Surf Green</span>
               <a class="finish-view" id="finishView" href="#g-001">View this guitar</a>
             </span>
             <div class="swatches" role="radiogroup" aria-orientation="horizontal" aria-label="Preview a catalogue guitar" aria-describedby="finishName">
-              <button class="swatch is-active" style="--sw:#93cfae" data-img="assets/hero/guitar-green.webp" data-glow="#7fd0a6" data-name="Surf Green" data-target="#g-001" role="radio" aria-label="Surf Green" aria-checked="true" tabindex="0"></button>
-              <button class="swatch" style="--sw:#f2c94c" data-img="assets/hero/guitar-yellow.webp" data-glow="#f2c94c" data-name="Sonic Yellow" data-target="#g-yellow" role="radio" aria-label="Sonic Yellow" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch" style="--sw:#c0271f" data-img="assets/hero/guitar-red.webp" data-glow="#d8402f" data-name="Candy Red" data-target="#g-003" role="radio" aria-label="Candy Red" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch" style="--sw:#cbd0d6" data-img="assets/hero/guitar-orange.webp" data-glow="#e8843a" data-name="Silver / Orange" data-target="#g-squier" role="radio" aria-label="Silver / Orange" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch swatch-split" style="--sw:#1b1b1e" data-img="assets/hero/guitar-blackgold.webp" data-glow="#caa04a" data-name="Black &amp; Gold" data-target="#g-blackgold" role="radio" aria-label="Black &amp; Gold" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch" style="--sw:#c79a56" data-img="assets/hero/guitar-maple.webp" data-glow="#d8b26a" data-name="Natural Maple" data-target="#g-004" role="radio" aria-label="Natural Maple" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch" style="--sw:#161719" data-img="assets/hero/guitar-supro.webp" data-glow="#5a6b86" data-name="Supro Black" data-target="#g-supro" role="radio" aria-label="Supro Black" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch is-active" type="button" data-img="assets/hero/guitar-green.webp" data-glow="#7fd0a6" data-name="Surf Green" data-guitar="D&rsquo;Cruz Custom 001" data-target="#g-001" role="radio" aria-label="Surf Green" aria-checked="true" tabindex="0"></button>
+              <button class="swatch" type="button" data-img="assets/hero/guitar-yellow.webp" data-glow="#f2c94c" data-name="Sonic Yellow" data-guitar="D&rsquo;Cruz Partscaster" data-target="#g-yellow" role="radio" aria-label="Sonic Yellow" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch" type="button" data-img="assets/hero/guitar-red.webp" data-glow="#d8402f" data-name="Candy Red" data-guitar="D&rsquo;Cruz Custom 003" data-target="#g-003" role="radio" aria-label="Candy Red" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch" type="button" data-img="assets/hero/guitar-orange.webp" data-glow="#e8843a" data-name="Silver / Orange" data-guitar="Squier Partscaster" data-target="#g-squier" role="radio" aria-label="Silver / Orange" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch swatch-split" type="button" data-img="assets/hero/guitar-blackgold.webp" data-glow="#caa04a" data-name="Black &amp; Gold" data-guitar="D&rsquo;Cruz Partscaster" data-target="#g-blackgold" role="radio" aria-label="Black &amp; Gold" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch" type="button" data-img="assets/hero/guitar-maple.webp" data-glow="#d8b26a" data-name="Natural Maple" data-guitar="D&rsquo;Cruz Custom 004" data-target="#g-004" role="radio" aria-label="Natural Maple" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch" type="button" data-img="assets/hero/guitar-supro.webp" data-glow="#5a6b86" data-name="Supro Black" data-guitar="Supro Americana 1582 VJB" data-target="#g-supro" role="radio" aria-label="Supro Black" aria-checked="false" tabindex="-1"></button>
             </div>
           </div>
         </div>
@@ -148,7 +153,7 @@
 
     <!-- ============ BUILD STRIP ============ -->
     <section class="strip" aria-label="D'Cruz at a glance">
-      <button class="strip-pause" id="stripPause" aria-label="Pause scrolling ticker">
+      <button class="strip-pause" type="button" id="stripPause" aria-label="Pause scrolling ticker">
         <svg class="ic-pause" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><rect x="5" y="4" width="3.5" height="12" rx="1"/><rect x="11.5" y="4" width="3.5" height="12" rx="1"/></svg>
         <svg class="ic-play" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M6.5 4.5v11l9-5.5z"/></svg>
       </button>
@@ -271,7 +276,7 @@
         </div>
 
         <article class="feature reveal" data-cat="custom" id="g-001">
-          <div class="feature-media" style="--cardglow:#7fd0a6">
+          <div class="feature-media">
             <img src="assets/guitar-green.webp" srcset="assets/guitar-green-sm.webp 199w, assets/guitar-green.webp 316w" sizes="(max-width: 820px) 100px, 155px" data-full="assets/guitar-green.webp" alt="D&rsquo;Cruz Custom 001, surf-green S-style electric guitar" loading="lazy" decoding="async" width="316" height="951">
           </div>
           <div class="feature-body">
@@ -294,10 +299,10 @@
         <div class="filter-bar reveal">
           <span class="filter-label" id="filterLabel">Filter</span>
           <div class="filter-btns" role="radiogroup" aria-orientation="horizontal" aria-labelledby="filterLabel">
-            <button class="filter-btn is-active" data-filter="all" role="radio" aria-checked="true" tabindex="0">All</button>
-            <button class="filter-btn" data-filter="partscaster" role="radio" aria-checked="false" tabindex="-1">Partscasters</button>
-            <button class="filter-btn" data-filter="custom" role="radio" aria-checked="false" tabindex="-1">Custom</button>
-            <button class="filter-btn" data-filter="vintage" role="radio" aria-checked="false" tabindex="-1">Vintage</button>
+            <button class="filter-btn is-active" type="button" data-filter="all" role="radio" aria-checked="true" tabindex="0">All</button>
+            <button class="filter-btn" type="button" data-filter="partscaster" role="radio" aria-checked="false" tabindex="-1">Partscasters</button>
+            <button class="filter-btn" type="button" data-filter="custom" role="radio" aria-checked="false" tabindex="-1">Custom</button>
+            <button class="filter-btn" type="button" data-filter="vintage" role="radio" aria-checked="false" tabindex="-1">Vintage</button>
           </div>
           <p class="filter-count" id="filterCount"></p>
         </div>
@@ -305,7 +310,7 @@
         <div class="cards">
           <!-- Squier Partscaster $250 -->
           <article class="card reveal" data-cat="partscaster" id="g-squier">
-            <div class="card-visual" style="--cardglow:#e8843a">
+            <div class="card-visual">
               <img class="card-guitar" src="assets/guitar-orange.webp" srcset="assets/guitar-orange-sm.webp 210w, assets/guitar-orange.webp 337w" sizes="115px" data-full="assets/guitar-orange.webp" alt="D&rsquo;Cruz Squier partscaster, silver with orange pickguard" loading="lazy" decoding="async" width="337" height="964">
             </div>
             <div class="card-body">
@@ -323,7 +328,7 @@
 
           <!-- D'Cruz Partscaster (black & gold) $500 -->
           <article class="card reveal delay-1" data-cat="partscaster" id="g-blackgold">
-            <div class="card-visual" style="--cardglow:#c9a24e">
+            <div class="card-visual">
               <img class="card-guitar" src="assets/guitar-blackgold.webp" srcset="assets/guitar-blackgold-sm.webp 201w, assets/guitar-blackgold.webp 324w" sizes="115px" data-full="assets/guitar-blackgold.webp" alt="D&rsquo;Cruz black and gold S-style partscaster" loading="lazy" decoding="async" width="324" height="967">
             </div>
             <div class="card-body">
@@ -341,7 +346,7 @@
 
           <!-- D'Cruz Partscaster (yellow) $700 -->
           <article class="card reveal delay-2" data-cat="partscaster" id="g-yellow">
-            <div class="card-visual" style="--cardglow:#f2c94c">
+            <div class="card-visual">
               <img class="card-guitar" src="assets/guitar-yellow.webp" srcset="assets/guitar-yellow-sm.webp 199w, assets/guitar-yellow.webp 384w" sizes="115px" data-full="assets/guitar-yellow.webp" alt="D&rsquo;Cruz yellow S-style partscaster with neon humbuckers" loading="lazy" decoding="async" width="384" height="1155">
             </div>
             <div class="card-body">
@@ -359,7 +364,7 @@
 
           <!-- D'Cruz Custom 003 (red) $900 -->
           <article class="card reveal delay-3" data-cat="custom" id="g-003">
-            <div class="card-visual" style="--cardglow:#d8402f">
+            <div class="card-visual">
               <img class="card-guitar" src="assets/guitar-red.webp" srcset="assets/guitar-red-sm.webp 209w, assets/guitar-red.webp 337w" sizes="115px" data-full="assets/guitar-red.webp" alt="D&rsquo;Cruz Custom 003, candy-red T-style" loading="lazy" decoding="async" width="337" height="966">
             </div>
             <div class="card-body">
@@ -377,7 +382,7 @@
 
           <!-- Supro Americana 1582 VJB $1,100 -->
           <article class="card reveal delay-4" data-cat="vintage" id="g-supro">
-            <div class="card-visual" style="--cardglow:#6a7f9e">
+            <div class="card-visual">
               <img class="card-guitar" src="assets/guitar-supro.webp" srcset="assets/guitar-supro-sm.webp 229w, assets/guitar-supro.webp 369w" sizes="115px" data-full="assets/guitar-supro.webp" alt="Supro Americana 1582 VJB, black offset electric" loading="lazy" decoding="async" width="369" height="967">
             </div>
             <div class="card-body">
@@ -395,7 +400,7 @@
 
           <!-- D'Cruz Custom 004 (maple) $1,900 -->
           <article class="card reveal delay-5" data-cat="custom" id="g-004">
-            <div class="card-visual" style="--cardglow:#d8b26a">
+            <div class="card-visual">
               <img class="card-guitar" src="assets/guitar-maple.webp" srcset="assets/guitar-maple-sm.webp 196w, assets/guitar-maple.webp 316w" sizes="115px" data-full="assets/guitar-maple.webp" alt="D&rsquo;Cruz Custom 004, natural maple electric with tremolo" loading="lazy" decoding="async" width="316" height="967">
             </div>
             <div class="card-body">
@@ -543,27 +548,22 @@
             <li>Setups, repairs &amp; parts</li>
             <li>Every build one of a kind</li>
           </ul>
-          <p class="enquire-back">
-            <a href="#guitars" class="text-link">
-              <svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 16V4m0 0 5 5m-5-5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Back to the catalogue
-            </a>
-          </p>
         </div>
         <form class="enquire-form reveal delay-1" id="enquireForm" novalidate>
+          <p class="form-required-note" id="formReq">All fields required.</p>
           <div class="field">
-            <label for="ef-name">Name</label>
+            <label for="ef-name">Name <span class="req" aria-hidden="true">*</span></label>
             <input id="ef-name" name="name" type="text" autocomplete="name" autocapitalize="words" required placeholder="Your name" aria-describedby="ef-name-err">
             <p class="field-error" id="ef-name-err" hidden>Please add your name.</p>
           </div>
           <div class="field">
-            <label for="ef-email">Email</label>
-            <input id="ef-email" name="email" type="email" autocomplete="email" spellcheck="false" required placeholder="you@email.com" aria-describedby="ef-email-err">
+            <label for="ef-email">Email <span class="req" aria-hidden="true">*</span></label>
+            <input id="ef-email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required placeholder="you@email.com" aria-describedby="ef-email-err">
             <p class="field-error" id="ef-email-err" hidden>Please enter a valid email address so we can reply.</p>
           </div>
           <div class="field">
-            <label for="ef-msg">What are you after?</label>
-            <textarea id="ef-msg" name="message" rows="4" required maxlength="1200" placeholder="e.g. a surf-green S-style with a killswitch" aria-describedby="ef-msg-err"></textarea>
+            <label for="ef-msg">What are you after? <span class="req" aria-hidden="true">*</span></label>
+            <textarea id="ef-msg" name="message" rows="4" required maxlength="800" enterkeyhint="enter" placeholder="e.g. a surf-green S-style with a killswitch" aria-describedby="ef-msg-err"></textarea>
             <p class="field-error" id="ef-msg-err" hidden>Tell us a little about what you&rsquo;re after.</p>
             <p class="char-count" id="msgCount" hidden></p>
           </div>
@@ -571,6 +571,12 @@
           <p class="form-note" id="formNote">No obligation. Sending opens a draft in your own email app — nothing is stored on this site.</p>
           <p class="form-alt">Prefer your own mail app? <a href="mailto:hello@dcruzguitars.com?subject=Build%20enquiry">hello@dcruzguitars.com</a></p>
         </form>
+        <p class="enquire-back reveal">
+          <a href="#guitars" class="text-link">
+            <svg class="icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 16V4m0 0 5 5m-5-5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Back to the catalogue
+          </a>
+        </p>
       </div>
     </section>
   </main>
@@ -601,18 +607,22 @@
           <li><a href="mailto:hello@dcruzguitars.com">hello@dcruzguitars.com</a></li>
           <li>Setups &middot; Repairs &middot; Custom builds</li>
         </ul>
+        <p class="footer-privacy">No cookies, no analytics, no tracking &mdash; nothing about your visit is stored.</p>
       </div>
     </div>
     <div class="container footer-base">
       <p>&copy; <span id="year">2026</span> D&rsquo;Cruz Guitars.</p>
       <p>Custom builds &amp; partscasters &middot; Belleville, ON</p>
+      <a class="footer-top-link" href="#top">Back to top
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 16V4m0 0 5 5m-5-5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
   </footer>
 
   <!-- Quick-view lightbox -->
   <div class="lightbox" id="lightbox" hidden>
     <div class="lightbox-backdrop" data-close></div>
-    <div class="lightbox-panel" role="dialog" aria-modal="true" aria-labelledby="lbName">
+    <div class="lightbox-panel" role="dialog" aria-modal="true" aria-labelledby="lbName" aria-describedby="lbDesc">
       <button class="lightbox-close" type="button" data-close aria-label="Close quick view">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
@@ -633,7 +643,10 @@
         <p class="lb-desc" id="lbDesc"></p>
         <p class="lb-hint" aria-hidden="true">&larr; &rarr; browse &middot; Esc closes</p>
         <ul class="specs" id="lbSpecs"></ul>
-        <a href="#enquire" class="btn btn-primary" id="lbEnquire" data-model="" data-close>Enquire about this build</a>
+        <div class="lb-actions">
+          <a href="#enquire" class="btn btn-primary" id="lbEnquire" data-model="" data-close>Enquire about this build</a>
+          <button class="lb-see text-link" type="button" id="lbSee">See in catalogue</button>
+        </div>
       </div>
     </div>
   </div>

@@ -15,10 +15,31 @@
 (function () {
   "use strict";
 
+  // Leave a breadcrumb for diagnosable bug reports: console + a small ring in
+  // sessionStorage (no network, nothing persisted beyond the tab session).
+  window.addEventListener("error", (e) => {
+    try {
+      const entry = { t: Date.now(), m: e.message, src: (e.filename || "") + ":" + (e.lineno || 0) };
+      const log = JSON.parse(sessionStorage.getItem("dcruz-errors") || "[]");
+      log.push(entry);
+      sessionStorage.setItem("dcruz-errors", JSON.stringify(log.slice(-10)));
+    } catch (err) { /* storage blocked / quota — nothing else to do */ }
+  });
+
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const hoverCapable = window.matchMedia("(hover: hover)").matches;
   const supportsInert = "inert" in HTMLElement.prototype;
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+  // Named thresholds (were magic numbers scattered through the file)
+  const SCROLL_SHADOW_Y = 24;      // px scrolled before the header gains its backing
+  const TOTOP_SHOW_VH = 1.5;       // show back-to-top after this many viewport heights
+  const INSTANT_SCROLL_Y = 4000;   // beyond this, jump to top instead of smooth-scrolling
+  const SWATCH_FADE_MS = 160;      // hero image cross-fade
+  const SWATCH_DEBOUNCE_MS = 120;  // arrow-key traversal settle before decoding
+  const LB_FADE_MS = 140;          // lightbox image cross-fade
+  const SWIPE_MIN_PX = 44;         // floor for a swipe to count (scales with viewport)
 
   const header = $("#siteHeader");
   const mainEl = $("main");
@@ -61,12 +82,12 @@
     }
     const onScroll = () => {
       const y = window.scrollY;
-      header.classList.toggle("scrolled", y > 24);
+      header.classList.toggle("scrolled", y > SCROLL_SHADOW_Y);
       if (progressBar) {
         const max = docHeight - window.innerHeight;
         progressBar.style.transform = "scaleX(" + (max > 0 ? Math.min(y / max, 1) : 0) + ")";
       }
-      if (toTop) toTop.classList.toggle("visible", y > window.innerHeight * 1.5 && !footerInView);
+      if (toTop) toTop.classList.toggle("visible", y > window.innerHeight * TOTOP_SHOW_VH && !footerInView);
       tick = false;
     };
     const request = () => {
@@ -79,7 +100,7 @@
     if (toTop) {
       toTop.addEventListener("click", () => {
         // Long smooth scrolls feel sluggish — jump instantly from deep in the page.
-        const behavior = reduceMotion || window.scrollY > 4000 ? "auto" : "smooth";
+        const behavior = reduceMotion || window.scrollY > INSTANT_SCROLL_Y ? "auto" : "smooth";
         window.scrollTo({ top: 0, behavior });
         const brand = $(".brand");
         if (brand) brand.focus({ preventScroll: true });
@@ -125,6 +146,10 @@
     menu.addEventListener("click", (e) => {
       if (e.target.closest("a")) setMenu(false);
     });
+    // The compact "Build" CTA lives in the bar (outside .nav-menu) — tapping it
+    // should also dismiss an open menu, not leave it hanging over the form.
+    const compactCta = $(".nav-cta-compact");
+    if (compactCta) compactCta.addEventListener("click", () => setMenu(false));
     document.addEventListener("keydown", (e) => {
       if (!menu.classList.contains("open")) return;
       if (e.key === "Escape") {
@@ -133,8 +158,8 @@
         return;
       }
       if (e.key === "Tab") {
-        // Trap focus in the open menu: brand, toggle, then menu links
-        const focusables = [$(".brand"), toggle].concat($$("a[href]", menu)).filter(Boolean);
+        // Trap focus in the open menu: brand, compact CTA, toggle, menu links
+        const focusables = [$(".brand"), $(".nav-cta-compact"), toggle].concat($$("a[href]", menu)).filter(Boolean);
         const first = focusables[0];
         const last = focusables[focusables.length - 1];
         if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
@@ -255,6 +280,12 @@
           void track.offsetWidth; // reflow to reset the animation
           track.style.animation = "";
           track.style.animationDuration = durationStr;
+          // Start at a different point in the loop each load so the ticker
+          // doesn't always open on "Belleville, Ontario". Set once; changing
+          // it on resize would make the strip visibly jump.
+          if (!track.style.animationDelay || track.style.animationDelay === "0s") {
+            track.style.animationDelay = "-" + (Math.random() * duration).toFixed(1) + "s";
+          }
         }
       };
       sync();
@@ -319,27 +350,43 @@
       if (filterCount) {
         const total = catCards.length + (feature ? 1 : 0);
         filterCount.textContent =
-          shown === total
-            ? "Showing all " + total + " guitars"
-            : TITLES[f] + ": showing " + shown + " of " + total + " guitars";
+          shown === 0
+            ? "No guitars in this category right now — check back soon."
+            : shown === total
+              ? "Showing all " + total + " guitars"
+              : TITLES[f] + ": showing " + shown + " of " + total + " guitars";
       }
-      document.title = f === "all" || !TITLES[f] ? baseTitle : TITLES[f] + " — D'Cruz Guitars";
-      const heading = $("#catalogueHeading");
-      if (heading) heading.textContent = f === "all" || !TITLES[f] ? "The catalogue." : TITLES[f] + ".";
-      if (updateURL && "replaceState" in history) {
-        // Debounced: arrow-key cycling shouldn't write history state per keypress
-        clearTimeout(urlTimer);
-        urlTimer = setTimeout(() => {
+      // Title/heading/URL rewrites are cosmetic — debounce them together so
+      // arrow-key cycling through the radiogroup doesn't rewrite them per key.
+      // (aria-checked + the count above update immediately as selection feedback.)
+      const commitMeta = () => {
+        document.title = f === "all" || !TITLES[f] ? baseTitle : TITLES[f] + " — D'Cruz Guitars";
+        const heading = $("#catalogueHeading");
+        if (heading) heading.textContent = f === "all" || !TITLES[f] ? "The catalogue." : TITLES[f] + ".";
+        if (updateURL && "replaceState" in history) {
           const url = f === "all" ? location.pathname + location.hash : location.pathname + "?filter=" + f + location.hash;
           history.replaceState(history.state, "", url);
-        }, 300);
-      }
+        }
+      };
+      clearTimeout(urlTimer);
+      if (updateURL) urlTimer = setTimeout(commitMeta, 300);
+      else commitMeta();
     };
 
     filterBtns.forEach((btn) => {
       btn.addEventListener("click", () => applyFilter(btn.dataset.filter, true));
     });
     radioKeys(filterBtns, (btn) => applyFilter(btn.dataset.filter, true));
+
+    // The "Filter" label looks like part of the control — make clicking it do
+    // something sensible (focus the active chip) instead of a dead no-op.
+    const filterLabel = $("#filterLabel");
+    if (filterLabel) {
+      filterLabel.style.cursor = "pointer";
+      filterLabel.addEventListener("click", () => {
+        (filterBtns.find((b) => b.classList.contains("is-active")) || filterBtns[0]).focus();
+      });
+    }
 
     // Live-region roles attach after first paint so restoring a shared
     // filter below doesn't get announced as an update on page load.
@@ -425,12 +472,14 @@
       clearTimeout(swapTimer);
       swapTimer = setTimeout(() => {
         const src = swatch.dataset.img;
-        const alt = "Electric guitar in " + swatch.dataset.name + " finish";
+        // Name the actual guitar, not only the finish colour
+        const g = swatch.dataset.guitar;
+        const alt = (g ? g + " electric guitar" : "Electric guitar") + " in " + swatch.dataset.name + " finish";
         const loader = new Image();
         loader.src = src;
         // Wait for both the fade-out AND the new image, so the stage never
         // shows a blank gap on slow connections.
-        const fade = new Promise((r) => setTimeout(r, reduceMotion ? 0 : 160));
+        const fade = new Promise((r) => setTimeout(r, reduceMotion ? 0 : SWATCH_FADE_MS));
         const ready = loader.decode ? loader.decode().catch(() => {}) : Promise.resolve();
         Promise.all([fade, ready]).then(() => {
           if (!swatch.classList.contains("is-active")) return; // superseded
@@ -438,7 +487,7 @@
           heroGuitar.alt = alt;
           requestAnimationFrame(() => heroGuitar.classList.remove("swapping"));
         });
-      }, 120);
+      }, SWATCH_DEBOUNCE_MS);
     };
 
     swatches.forEach((s) => s.addEventListener("click", () => select(s)));
@@ -476,8 +525,9 @@
           msgField.value = "Hi — I’m interested in the " + link.dataset.model + ". ";
           msgField.dispatchEvent(new Event("input"));
         }
-        // Land ready to type, not just at the section wrapper
-        msgField.focus({ preventScroll: true });
+        // Land ready to type on pointer/desktop — but not on touch, where
+        // auto-focus yanks up the keyboard and hides the context above it.
+        if (hoverCapable) msgField.focus({ preventScroll: true });
       });
     });
 
@@ -510,14 +560,17 @@
     });
 
     if (msgField && msgCount) {
-      const max = parseInt(msgField.getAttribute("maxlength") || "1200", 10);
+      const max = parseInt(msgField.getAttribute("maxlength") || "800", 10);
+      const NEAR = 100; // characters-remaining at which we start announcing
       msgField.addEventListener("input", () => {
         const len = msgField.value.length;
+        const near = max - len <= NEAR;
         msgCount.hidden = len === 0;
-        msgCount.textContent = len + " / " + max;
-        // Only chatty for screen readers when the limit is actually near
-        msgCount.classList.toggle("warn", max - len <= 100);
-        if (max - len <= 100) {
+        // When near the limit the counter is announced, so spell it out
+        // ("720 of 800 characters"); otherwise keep the compact glyph form.
+        msgCount.textContent = near ? len + " of " + max + " characters" : len + " / " + max;
+        msgCount.classList.toggle("warn", near);
+        if (near) {
           msgCount.setAttribute("role", "status");
           msgCount.setAttribute("aria-live", "polite");
         } else {
@@ -527,17 +580,33 @@
       });
     }
 
+    // Auto-grow fallback for browsers without CSS field-sizing: content —
+    // a prefill plus a real message shouldn't scroll inside a fixed box.
+    if (msgField && !(("fieldSizing" in msgField.style) || CSS.supports("field-sizing", "content"))) {
+      const grow = () => {
+        msgField.style.height = "auto";
+        msgField.style.height = Math.min(msgField.scrollHeight, 320) + "px";
+      };
+      msgField.addEventListener("input", grow);
+      requestAnimationFrame(grow);
+    }
+
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const results = fields.map(validateField);
-      const firstInvalid = fields[results.indexOf(false)];
-      if (firstInvalid) {
+      const failed = fields.filter((f, i) => !results[i]);
+      if (failed.length) {
         if (note) {
-          note.textContent = "Almost there — fix the highlighted field" + (results.filter((r) => !r).length > 1 ? "s" : "") + " above.";
+          // Name the fields that need attention, not just "the field above".
+          const names = failed.map((f) => {
+            const lab = document.querySelector('label[for="' + f.el.id + '"]');
+            return (lab ? lab.textContent : f.el.name).replace(/\*/g, "").trim();
+          });
+          note.textContent = "Almost there — please check: " + names.join(", ") + ".";
           note.classList.add("error");
           note.classList.remove("success");
         }
-        firstInvalid.el.focus();
+        failed[0].el.focus();
         return;
       }
       const name = fields[0].el.value.trim();
@@ -579,6 +648,7 @@
     const lbSpecs = $("#lbSpecs");
     const lbCount = $("#lbCount");
     const lbEnquire = $("#lbEnquire");
+    const lbSee = $("#lbSee");
     const lbClose = $(".lightbox-close", lightbox);
     const lbPrev = $(".lightbox-prev", lightbox);
     const lbNext = $(".lightbox-next", lightbox);
@@ -598,7 +668,7 @@
       const loader = new Image();
       loader.src = src;
       const ready = loader.decode ? loader.decode().catch(() => {}) : Promise.resolve();
-      const fade = new Promise((r) => setTimeout(r, reduceMotion ? 0 : 140));
+      const fade = new Promise((r) => setTimeout(r, reduceMotion ? 0 : LB_FADE_MS));
       Promise.all([ready, fade]).then(() => {
         lbImg.src = src;
         lbImg.alt = alt;
@@ -649,7 +719,14 @@
     const openLB = (item) => {
       if (lbHead) lbHead.removeAttribute("aria-live");
       fillLB(item, true);
-      lastFocus = document.activeElement;
+      // Opened from a shared #g-* link there's no real originator (activeElement
+      // is <body>) — fall back to the card itself so closing lands focus there.
+      if (document.activeElement && document.activeElement !== document.body) {
+        lastFocus = document.activeElement;
+      } else {
+        item.setAttribute("tabindex", "-1");
+        lastFocus = item;
+      }
       lightbox.hidden = false;
       document.body.classList.add("lb-open");
       setPageInert(true);
@@ -690,6 +767,10 @@
       const next = idx + dir;
       if (next < 0 || next >= list.length) return; // clamped, no wrap
       fillLB(list[next], false);
+      // Reaching an end disables the button we're standing on — don't strand
+      // keyboard focus on a disabled control; hop to the enabled sibling.
+      if (document.activeElement === lbNext && lbNext.disabled) (lbPrev.disabled ? lbClose : lbPrev).focus();
+      else if (document.activeElement === lbPrev && lbPrev.disabled) (lbNext.disabled ? lbClose : lbNext).focus();
       if (history.state && history.state.dcruzLb) {
         history.replaceState(history.state, "", "#" + current.id);
       }
@@ -710,6 +791,20 @@
     lbPrev.addEventListener("click", () => step(-1));
     lbNext.addEventListener("click", () => step(1));
 
+    // Secondary exit: close and scroll to the guitar's card in the catalogue
+    if (lbSee) {
+      lbSee.addEventListener("click", () => {
+        const target = current;
+        closeLB(false);
+        if (target) {
+          try { target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" }); }
+          catch (err) { target.scrollIntoView(); }
+          target.setAttribute("tabindex", "-1");
+          target.focus({ preventScroll: true });
+        }
+      });
+    }
+
     // Touch swipe between guitars, with the image tracking the finger
     if (lbGlow) {
       lbImg.draggable = false; // native image-drag ghost fights the gesture
@@ -729,7 +824,10 @@
         const dx = e.clientX - startX;
         startX = null;
         setDrag(null);
-        if (Math.abs(dx) > 44) step(dx > 0 ? -1 : 1);
+        // Scale the commit distance to the viewport so it feels right on
+        // phones and tablets alike, with a sane floor on tiny screens.
+        const threshold = Math.max(SWIPE_MIN_PX, window.innerWidth * 0.15);
+        if (Math.abs(dx) > threshold) step(dx > 0 ? -1 : 1);
       };
       lbGlow.addEventListener("pointerup", finish, { passive: true });
       lbGlow.addEventListener("pointercancel", finish, { passive: true });
@@ -752,10 +850,15 @@
     const initialHash = location.hash && /^#g-[\w-]+$/.test(location.hash)
       ? document.getElementById(location.hash.slice(1))
       : null;
-    if (initialHash && items.includes(initialHash) && !initialHash.hidden) {
-      try { initialHash.scrollIntoView({ behavior: "instant", block: "center" }); }
-      catch (err) { initialHash.scrollIntoView(); }
-      openLB(initialHash);
+    if (initialHash && items.includes(initialHash)) {
+      // A shared ?filter= may be hiding this card — run the same hook the
+      // finish picker/deep links use to clear it, so the quick view can open.
+      anchorJumpHooks.forEach((hook) => hook(initialHash));
+      if (!initialHash.hidden) {
+        try { initialHash.scrollIntoView({ behavior: "instant", block: "center" }); }
+        catch (err) { initialHash.scrollIntoView(); }
+        openLB(initialHash);
+      }
     }
 
     // add a zoom button over each visual (cards and the flagship feature)
