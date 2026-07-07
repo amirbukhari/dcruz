@@ -146,7 +146,7 @@ a, button {
 ::-webkit-scrollbar-track { background: var(--bg-elevated); }
 ::-webkit-scrollbar-thumb {
   background: var(--accent-deep);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   border: 2px solid var(--bg-elevated);
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
@@ -213,7 +213,7 @@ p { max-width: 65ch; text-wrap: pretty; }
   padding: 0.6rem 1rem;
   background: var(--accent);
   color: var(--bg);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-weight: 600;
   text-decoration: none;
   transition: top var(--dur-fast) var(--ease);
@@ -1132,7 +1132,7 @@ body.lb-open { overflow: hidden; }
   height: 46px;
   display: grid;
   place-items: center;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   color: var(--accent-strong);
   background: rgba(200, 155, 90, 0.1);
   border: 1px solid var(--border);
@@ -1170,7 +1170,7 @@ body.lb-open { overflow: hidden; }
   display: block;
   width: 100%;
   aspect-ratio: 1 / 1;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
 }
 
 .story-copy p + p { margin-top: 1.1rem; }
@@ -1525,7 +1525,7 @@ html:not(.js) .enquire-form .btn-block { display: none; }
 .why-icon {
   width: 46px; height: 46px;
   display: grid; place-items: center;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   color: var(--accent-strong);
   background: rgba(200, 155, 90, 0.1);
   border: 1px solid var(--border);
