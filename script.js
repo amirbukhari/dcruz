@@ -26,8 +26,16 @@
     } catch (err) { /* storage blocked / quota — nothing else to do */ }
   });
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const hoverCapable = window.matchMedia("(hover: hover)").matches;
+  // Kept live (not snapshotted at load) so toggling Reduce Motion / switching
+  // input device mid-session takes effect without a reload — matching the CSS,
+  // which re-evaluates its media queries automatically.
+  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const hoverQuery = window.matchMedia("(hover: hover)");
+  let reduceMotion = motionQuery.matches;
+  let hoverCapable = hoverQuery.matches;
+  const onMQ = (q, fn) => (q.addEventListener ? q.addEventListener("change", fn) : q.addListener(fn));
+  onMQ(motionQuery, (e) => { reduceMotion = e.matches; });
+  onMQ(hoverQuery, (e) => { hoverCapable = e.matches; });
   const supportsInert = "inert" in HTMLElement.prototype;
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
@@ -179,6 +187,10 @@
 
   function initAnchors() {
     $$('a[href^="#"]').forEach((link) => {
+      // Lightbox anchors (Enquire CTA) run their own data-close handler and
+      // navigate via the native hash — focusing the target here would fire
+      // while the page is still inert (focus silently lost).
+      if (link.closest("#lightbox")) return;
       link.addEventListener("click", () => {
         const target = document.querySelector(link.getAttribute("href"));
         if (!target) return;
@@ -210,12 +222,19 @@
         else link.removeAttribute("aria-current");
       });
     };
+    const intersecting = new Set();
     const spy = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          setActive(clearSections.includes(entry.target) ? null : entry.target.id);
+          if (entry.isIntersecting) intersecting.add(entry.target);
+          else intersecting.delete(entry.target);
         });
+        // Decide from the full set, not last-entry-wins: highlight the topmost
+        // real nav section in the band; only clear when *only* a non-nav
+        // section (top/promise/partners/enquire) is present.
+        const active = spySections.find((s) => intersecting.has(s));
+        if (active) setActive(active.id);
+        else if (spySections.concat(clearSections).some((s) => intersecting.has(s))) setActive(null);
       },
       // Band across the upper-middle of the viewport, below the fixed header
       { rootMargin: "-45% 0px -50% 0px" }
@@ -256,6 +275,7 @@
     if (!reduceMotion) {
       const firstGroup = $(".strip-inner", track);
       const PX_PER_SECOND = 90;
+      let startOffset = null; // negative animation-delay, chosen once per load
       const sync = () => {
         if (!firstGroup) return;
         let changed = false;
@@ -281,11 +301,11 @@
           track.style.animation = "";
           track.style.animationDuration = durationStr;
           // Start at a different point in the loop each load so the ticker
-          // doesn't always open on "Belleville, Ontario". Set once; changing
-          // it on resize would make the strip visibly jump.
-          if (!track.style.animationDelay || track.style.animationDelay === "0s") {
-            track.style.animationDelay = "-" + (Math.random() * duration).toFixed(1) + "s";
-          }
+          // doesn't always open on "Belleville, Ontario". Chosen once and
+          // re-applied — clearing `animation` above wipes the inline delay, so
+          // recomputing here would re-randomize (and visibly jump) on resize.
+          if (startOffset === null) startOffset = "-" + (Math.random() * duration).toFixed(1) + "s";
+          track.style.animationDelay = startOffset;
         }
       };
       sync();
@@ -415,7 +435,9 @@
     // Anchor jumps (finish picker, deep links) may target a filter-hidden
     // card — clear the filter so the jump actually lands somewhere.
     anchorJumpHooks.push((target) => {
-      if (target.hidden && target.dataset && target.dataset.cat) applyFilter("all", true);
+      // Clear the filter for display only — don't rewrite the address, or a
+      // shared ?filter=…#g-001 link would silently lose its filter on landing.
+      if (target.hidden && target.dataset && target.dataset.cat) applyFilter("all", false);
     });
   }
 
@@ -537,9 +559,12 @@
       { el: $("#ef-email"), err: $("#ef-email-err") },
       { el: msgField, err: $("#ef-msg-err") },
     ];
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const validateField = (f) => {
-      const filled = f.el.value.trim().length > 0;
-      const ok = filled && (f.el.type !== "email" || f.el.validity.valid);
+      // Validate the trimmed value — the browser's email validity checks the
+      // raw value, so a stray trailing space would fail here yet send fine.
+      const val = f.el.value.trim();
+      const ok = val.length > 0 && (f.el.type !== "email" || EMAIL_RE.test(val));
       f.err.hidden = ok;
       f.el.setAttribute("aria-invalid", String(!ok));
       return ok;
@@ -562,20 +587,25 @@
     if (msgField && msgCount) {
       const max = parseInt(msgField.getAttribute("maxlength") || "800", 10);
       const NEAR = 100; // characters-remaining at which we start announcing
+      // Announce via a separate polite region, debounced — the visible counter
+      // updates every keystroke, but a screen reader shouldn't hear a new number
+      // on every character typed (a chatty-live-region anti-pattern).
+      const announcer = document.createElement("span");
+      announcer.className = "sr-only";
+      announcer.setAttribute("aria-live", "polite");
+      msgCount.after(announcer);
+      let annTimer;
       msgField.addEventListener("input", () => {
         const len = msgField.value.length;
         const near = max - len <= NEAR;
         msgCount.hidden = len === 0;
-        // When near the limit the counter is announced, so spell it out
-        // ("720 of 800 characters"); otherwise keep the compact glyph form.
-        msgCount.textContent = near ? len + " of " + max + " characters" : len + " / " + max;
+        msgCount.textContent = len + " / " + max;
         msgCount.classList.toggle("warn", near);
-        if (near) {
-          msgCount.setAttribute("role", "status");
-          msgCount.setAttribute("aria-live", "polite");
+        clearTimeout(annTimer);
+        if (near && len > 0) {
+          annTimer = setTimeout(() => { announcer.textContent = (max - len) + " characters left"; }, 700);
         } else {
-          msgCount.removeAttribute("role");
-          msgCount.removeAttribute("aria-live");
+          announcer.textContent = "";
         }
       });
     }
@@ -628,6 +658,9 @@
         submitBtn.disabled = true;
         submitBtn.textContent = "Draft opened — edit to send again";
       }
+      // Disabling the button drops focus to <body>; move it to the status note
+      // so keyboard/SR users land on the outcome instead of the top of the page.
+      if (note) { note.setAttribute("tabindex", "-1"); note.focus({ preventScroll: true }); }
     });
   }
 
@@ -795,7 +828,13 @@
     if (lbSee) {
       lbSee.addEventListener("click", () => {
         const target = current;
-        closeLB(false);
+        // Close synchronously (hideLB, not the async history.back path) so the
+        // page is no longer inert by the time we move focus to the card —
+        // otherwise focus() is a no-op and lands on <body>.
+        if (history.state && history.state.dcruzLb) {
+          history.replaceState(null, "", target ? "#" + target.id : location.pathname + location.search);
+        }
+        hideLB(false);
         if (target) {
           try { target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" }); }
           catch (err) { target.scrollIntoView(); }
@@ -814,7 +853,12 @@
         lbImg.style.transition = dx === null ? "" : "none";
         lbImg.style.transform = dx === null ? "" : "translateX(" + dx * 0.35 + "px)";
       };
-      lbGlow.addEventListener("pointerdown", (e) => { startX = e.clientX; }, { passive: true });
+      lbGlow.addEventListener("pointerdown", (e) => {
+        startX = e.clientX;
+        // Capture so pointermove/up keep firing on lbGlow even if the finger
+        // drifts off the image mid-swipe (otherwise the drag gets stuck).
+        try { lbGlow.setPointerCapture(e.pointerId); } catch (err) { /* unsupported */ }
+      }, { passive: true });
       lbGlow.addEventListener("pointermove", (e) => {
         if (startX === null || reduceMotion) return;
         setDrag(e.clientX - startX);

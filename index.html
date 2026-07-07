@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <script>document.documentElement.classList.add("js");</script>
-  <title>D'Cruz Guitars | Custom Electrics &amp; Partscasters — Belleville, ON</title>
+  <title>D'Cruz Guitars | Custom Electric Guitars &amp; Partscasters — Belleville, ON</title>
   <meta name="description" content="Custom electric guitars and partscasters, hand-wired and professionally set up in Belleville, Ontario. Browse the catalogue or start your build.">
   <meta name="author" content="D'Cruz Guitars">
   <meta name="theme-color" content="#0e0b07">
@@ -26,9 +26,12 @@
   <meta name="twitter:title" content="D'Cruz Guitars — Custom Electric Guitars &amp; Partscasters">
   <meta name="twitter:description" content="Custom electric guitars and partscasters, hand-wired and professionally set up in Belleville, Ontario. Browse the catalogue or start your build.">
   <meta name="twitter:image" content="https://amirbukhari.github.io/dcruz/assets/og-cover.jpg">
+  <meta name="twitter:image:alt" content="A surf-green D'Cruz custom electric guitar on a dark background">
+  <meta property="og:image:type" content="image/jpeg">
+  <!-- Preload only the roman display + body faces (both paint above the fold).
+       The italic face is decorative (a two-word h1 phrase) and font-display:swap,
+       so preloading it only competed with the LCP hero image for bandwidth. -->
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/fraunces-var.woff2" crossorigin>
-  <!-- the hero headline's italic phrase is above the fold — preload it too so it doesn't swap late -->
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/fraunces-italic-var.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-var.woff2" crossorigin>
   <link rel="preload" as="image" href="assets/hero/guitar-green.webp" fetchpriority="high">
   <link rel="stylesheet" href="styles.css">
@@ -49,13 +52,13 @@
     "areaServed": "CA",
     "priceRange": "CA$250–CA$1,900",
     "makesOffer": [
-      { "@type": "Offer", "priceCurrency": "CAD", "price": "250", "itemOffered": { "@type": "Product", "name": "Squier Partscaster", "image": "https://amirbukhari.github.io/dcruz/assets/guitar-orange.webp" } },
-      { "@type": "Offer", "priceCurrency": "CAD", "price": "500", "itemOffered": { "@type": "Product", "name": "D'Cruz Partscaster (Black & Gold)", "image": "https://amirbukhari.github.io/dcruz/assets/guitar-blackgold.webp" } },
-      { "@type": "Offer", "priceCurrency": "CAD", "price": "700", "itemOffered": { "@type": "Product", "name": "D'Cruz Partscaster (Sonic Yellow)", "image": "https://amirbukhari.github.io/dcruz/assets/guitar-yellow.webp" } },
-      { "@type": "Offer", "priceCurrency": "CAD", "price": "900", "itemOffered": { "@type": "Product", "name": "D'Cruz Custom 003", "image": "https://amirbukhari.github.io/dcruz/assets/guitar-red.webp" } },
-      { "@type": "Offer", "priceCurrency": "CAD", "price": "1100", "itemOffered": { "@type": "Product", "name": "Supro Americana 1582 VJB", "image": "https://amirbukhari.github.io/dcruz/assets/guitar-supro.webp" } },
-      { "@type": "Offer", "priceCurrency": "CAD", "price": "1900", "itemOffered": { "@type": "Product", "name": "D'Cruz Custom 001", "image": "https://amirbukhari.github.io/dcruz/assets/guitar-green.webp" } },
-      { "@type": "Offer", "priceCurrency": "CAD", "price": "1900", "itemOffered": { "@type": "Product", "name": "D'Cruz Custom 004", "image": "https://amirbukhari.github.io/dcruz/assets/guitar-maple.webp" } }
+      { "@type": "Offer", "priceCurrency": "CAD", "price": "250", "availability": "https://schema.org/InStock", "url": "https://amirbukhari.github.io/dcruz/#g-squier", "itemOffered": { "@type": "Product", "name": "Squier Partscaster", "image": "https://amirbukhari.github.io/dcruz/assets/guitar-orange.webp" } },
+      { "@type": "Offer", "priceCurrency": "CAD", "price": "500", "availability": "https://schema.org/InStock", "url": "https://amirbukhari.github.io/dcruz/#g-blackgold", "itemOffered": { "@type": "Product", "name": "D'Cruz Partscaster (Black & Gold)", "image": "https://amirbukhari.github.io/dcruz/assets/guitar-blackgold.webp" } },
+      { "@type": "Offer", "priceCurrency": "CAD", "price": "700", "availability": "https://schema.org/InStock", "url": "https://amirbukhari.github.io/dcruz/#g-yellow", "itemOffered": { "@type": "Product", "name": "D'Cruz Partscaster (Sonic Yellow)", "image": "https://amirbukhari.github.io/dcruz/assets/guitar-yellow.webp" } },
+      { "@type": "Offer", "priceCurrency": "CAD", "price": "900", "availability": "https://schema.org/InStock", "url": "https://amirbukhari.github.io/dcruz/#g-003", "itemOffered": { "@type": "Product", "name": "D'Cruz Custom 003", "image": "https://amirbukhari.github.io/dcruz/assets/guitar-red.webp" } },
+      { "@type": "Offer", "priceCurrency": "CAD", "price": "1100", "availability": "https://schema.org/InStock", "url": "https://amirbukhari.github.io/dcruz/#g-supro", "itemOffered": { "@type": "Product", "name": "Supro Americana 1582 VJB", "image": "https://amirbukhari.github.io/dcruz/assets/guitar-supro.webp" } },
+      { "@type": "Offer", "priceCurrency": "CAD", "price": "1900", "availability": "https://schema.org/InStock", "url": "https://amirbukhari.github.io/dcruz/#g-001", "itemOffered": { "@type": "Product", "name": "D'Cruz Custom 001", "image": "https://amirbukhari.github.io/dcruz/assets/guitar-green.webp" } },
+      { "@type": "Offer", "priceCurrency": "CAD", "price": "1900", "availability": "https://schema.org/InStock", "url": "https://amirbukhari.github.io/dcruz/#g-004", "itemOffered": { "@type": "Product", "name": "D'Cruz Custom 004", "image": "https://amirbukhari.github.io/dcruz/assets/guitar-maple.webp" } }
     ]
   }
   </script>
@@ -63,7 +66,7 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
 </head>
 <body>
@@ -80,7 +83,7 @@
 
       <!-- compact CTA kept in the bar on mobile so the primary action isn't buried behind the hamburger -->
       <a href="#enquire" class="nav-cta-compact">Build</a>
-      <button class="nav-toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="navMenu">
+      <button class="nav-toggle" type="button" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navMenu">
         <span class="nav-toggle-box" aria-hidden="true"><span></span><span></span><span></span></span>
         <span class="nav-toggle-text">Menu</span>
       </button>
@@ -124,7 +127,7 @@
           <dl class="hero-stats reveal delay-4">
             <div><dt>Partscasters</dt><dd>CA$250+</dd></div>
             <div><dt>Custom builds</dt><dd>CA$900+</dd></div>
-            <div><dt>In the catalogue</dt><dd><a class="stat-link" href="#guitars">7</a></dd></div>
+            <div><dt>In the catalogue</dt><dd><a class="stat-link" href="#guitars" aria-label="See all 7 guitars in the catalogue">7</a></dd></div>
           </dl>
         </div>
 
@@ -134,17 +137,17 @@
             <img class="hero-guitar" id="heroGuitar" src="assets/hero/guitar-green.webp" fetchpriority="high" alt="D&rsquo;Cruz Custom 001 electric guitar in Surf Green finish" width="363" height="951">
           </div>
           <div class="finish-picker" id="finishes">
-            <span class="finish-label">Now showing: <span id="finishName" aria-live="polite">Surf Green</span>
+            <span class="finish-label">Now showing: <span id="finishName">Surf Green</span>
               <a class="finish-view" id="finishView" href="#g-001">View this guitar</a>
             </span>
-            <div class="swatches" role="radiogroup" aria-orientation="horizontal" aria-label="Preview a catalogue guitar" aria-describedby="finishName">
-              <button class="swatch is-active" type="button" data-img="assets/hero/guitar-green.webp" data-glow="#7fd0a6" data-name="Surf Green" data-guitar="D&rsquo;Cruz Custom 001" data-target="#g-001" role="radio" aria-label="Surf Green" aria-checked="true" tabindex="0"></button>
-              <button class="swatch" type="button" data-img="assets/hero/guitar-yellow.webp" data-glow="#f2c94c" data-name="Sonic Yellow" data-guitar="D&rsquo;Cruz Partscaster" data-target="#g-yellow" role="radio" aria-label="Sonic Yellow" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch" type="button" data-img="assets/hero/guitar-red.webp" data-glow="#d8402f" data-name="Candy Red" data-guitar="D&rsquo;Cruz Custom 003" data-target="#g-003" role="radio" aria-label="Candy Red" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch" type="button" data-img="assets/hero/guitar-orange.webp" data-glow="#e8843a" data-name="Silver / Orange" data-guitar="Squier Partscaster" data-target="#g-squier" role="radio" aria-label="Silver / Orange" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch swatch-split" type="button" data-img="assets/hero/guitar-blackgold.webp" data-glow="#caa04a" data-name="Black &amp; Gold" data-guitar="D&rsquo;Cruz Partscaster" data-target="#g-blackgold" role="radio" aria-label="Black &amp; Gold" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch" type="button" data-img="assets/hero/guitar-maple.webp" data-glow="#d8b26a" data-name="Natural Maple" data-guitar="D&rsquo;Cruz Custom 004" data-target="#g-004" role="radio" aria-label="Natural Maple" aria-checked="false" tabindex="-1"></button>
-              <button class="swatch" type="button" data-img="assets/hero/guitar-supro.webp" data-glow="#5a6b86" data-name="Supro Black" data-guitar="Supro Americana 1582 VJB" data-target="#g-supro" role="radio" aria-label="Supro Black" aria-checked="false" tabindex="-1"></button>
+            <div class="swatches" role="radiogroup" aria-orientation="horizontal" aria-label="Preview a catalogue guitar">
+              <button class="swatch is-active" type="button" data-img="assets/hero/guitar-green.webp" data-glow="#7fd0a6" data-name="Surf Green" data-guitar="D&rsquo;Cruz Custom 001" data-target="#g-001" role="radio" aria-label="Surf Green — D&rsquo;Cruz Custom 001" aria-checked="true" tabindex="0"></button>
+              <button class="swatch" type="button" data-img="assets/hero/guitar-yellow.webp" data-glow="#f2c94c" data-name="Sonic Yellow" data-guitar="D&rsquo;Cruz Partscaster" data-target="#g-yellow" role="radio" aria-label="Sonic Yellow — D&rsquo;Cruz Partscaster" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch" type="button" data-img="assets/hero/guitar-red.webp" data-glow="#d8402f" data-name="Candy Red" data-guitar="D&rsquo;Cruz Custom 003" data-target="#g-003" role="radio" aria-label="Candy Red — D&rsquo;Cruz Custom 003" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch" type="button" data-img="assets/hero/guitar-orange.webp" data-glow="#e8843a" data-name="Silver / Orange" data-guitar="Squier Partscaster" data-target="#g-squier" role="radio" aria-label="Silver / Orange — Squier Partscaster" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch swatch-split" type="button" data-img="assets/hero/guitar-blackgold.webp" data-glow="#caa04a" data-name="Black &amp; Gold" data-guitar="D&rsquo;Cruz Partscaster" data-target="#g-blackgold" role="radio" aria-label="Black &amp; Gold — D&rsquo;Cruz Partscaster" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch" type="button" data-img="assets/hero/guitar-maple.webp" data-glow="#d8b26a" data-name="Natural Maple" data-guitar="D&rsquo;Cruz Custom 004" data-target="#g-004" role="radio" aria-label="Natural Maple — D&rsquo;Cruz Custom 004" aria-checked="false" tabindex="-1"></button>
+              <button class="swatch" type="button" data-img="assets/hero/guitar-supro.webp" data-glow="#5a6b86" data-name="Supro Black" data-guitar="Supro Americana 1582 VJB" data-target="#g-supro" role="radio" aria-label="Supro Black — Supro Americana 1582 VJB" aria-checked="false" tabindex="-1"></button>
             </div>
           </div>
         </div>

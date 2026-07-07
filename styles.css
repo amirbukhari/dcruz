@@ -63,6 +63,10 @@
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-body: "Inter", system-ui, -apple-system, sans-serif;
   --radius: 14px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  /* single source for the fixed-header anchor offset (header is 76px / 62px scrolled) */
+  --anchor-offset: 88px;
   --shadow-card: 0 24px 48px -20px rgba(0, 0, 0, 0.55);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   /* overlay tones — keep every translucent black on the same base hue */
@@ -101,7 +105,9 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 88px;
+  /* the ONLY anchor offset — scroll-margin-top on targets used to stack on top
+     of this, pushing jumps ~176px down (a big empty gap under the header) */
+  scroll-padding-top: var(--anchor-offset);
   scrollbar-color: var(--accent-deep) var(--bg-elevated);
   /* keep layout stable when modals lock scrolling and the scrollbar vanishes */
   scrollbar-gutter: stable;
@@ -153,7 +159,7 @@ h1, h2, h3 {
 
 h1 { font-size: clamp(3.1rem, 7.2vw, 5.75rem); letter-spacing: -0.03em; }
 h2 { font-size: clamp(2rem, 3.9vw, 3rem); letter-spacing: -0.02em; }
-h3 { font-size: 1.375rem; font-weight: 500; text-wrap: balance; }
+h3 { font-size: 1.375rem; font-weight: 500; }
 
 h1 em, h2 em { font-style: italic; font-weight: 500; color: var(--accent-strong); }
 
@@ -798,6 +804,8 @@ p { max-width: 65ch; text-wrap: pretty; }
   width: min(880px, 100%);
   max-height: 90vh;
   max-height: 90dvh;
+  /* a guitar with a long description/spec list must scroll, not clip, at any width */
+  overflow-y: auto;
   padding: clamp(1.25rem, 3vw, 2.5rem);
   background: linear-gradient(180deg, var(--surface), var(--bg-elevated));
   border: 1px solid var(--border-strong);
@@ -923,8 +931,8 @@ body.lb-open { overflow: hidden; }
 }
 .section-alt { background: var(--bg-elevated); border-block: 1px solid var(--border); }
 
-/* Offset anchor targets so the fixed header never covers them */
-:where(section[id], article[id], .finish-picker) { scroll-margin-top: 88px; }
+/* Anchor offset is handled once by html { scroll-padding-top } above — a
+   scroll-margin-top here would stack with it and double the gap. */
 
 .section-head {
   max-width: 640px;
@@ -1522,9 +1530,10 @@ html:not(.js) .enquire-form .btn-block { display: none; }
   gap: clamp(2rem, 5vw, 4rem);
   align-items: start;
 }
-/* desktop: sits under the copy column; mobile (1-col): flows after the form,
-   so the "return to catalogue" link never reads as an exit before the form */
-.enquire-back { grid-column: 1; }
+/* Full-width row under both columns on desktop (so it doesn't sit orphaned in
+   a pool of whitespace beside the tall form); on mobile (1-col) it naturally
+   flows last, after the form, so the "return" link never precedes the form. */
+.enquire-back { grid-column: 1 / -1; margin-top: 1.5rem; }
 .enquire-points {
   list-style: none;
   display: grid;
@@ -1541,7 +1550,6 @@ html:not(.js) .enquire-form .btn-block { display: none; }
   /* pin to the first line so wrapped items don't float the dot */
   margin-top: 0.55em;
 }
-.enquire-back { margin-top: 1.5rem; align-self: end; }
 .enquire-form {
   display: flex;
   flex-direction: column;
@@ -1568,7 +1576,6 @@ html:not(.js) .enquire-form .btn-block { display: none; }
   width: 100%;
   accent-color: var(--accent);
   transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
-  resize: vertical;
 }
 .field input:focus, .field textarea:focus {
   outline: none;
@@ -1621,7 +1628,9 @@ html:not(.js) .enquire-form .btn-block { display: none; }
 .field input { min-height: 48px; }
 /* auto-grow the message field so a prefill + a real message never scrolls
    inside a fixed 4-row box; the rows attr is the pre-JS / unsupported floor */
-.field textarea { field-sizing: content; min-height: 7.5rem; max-height: 20rem; }
+/* auto-grows (field-sizing, or the JS fallback), so a manual drag-handle would
+   only fight it — the height is content-driven */
+.field textarea { field-sizing: content; min-height: 7.5rem; max-height: 20rem; resize: none; }
 
 /* ---------- responsive ---------- */
 
@@ -1708,6 +1717,9 @@ html:not(.js) .enquire-form .btn-block { display: none; }
 }
 
 body.menu-open { overflow: hidden; }
+/* the floating back-to-top button (z 60) would otherwise paint above the menu
+   scrim (z 40) and the dropdown — hide it while the menu is open */
+body.menu-open .to-top { display: none; }
 /* scrim under the open menu so the page reads as backgrounded */
 body.menu-open::before {
   content: "";
@@ -1729,11 +1741,20 @@ body.menu-open::before {
   .card-guitar { height: 360px; }
 }
 
-@media (max-width: 359px) {
-  /* logo + GUITARS + labelled toggle overflow tiny screens; shed the extras */
+/* Once the compact "Build" CTA joins the bar (<=820), the logo + GUITARS +
+   Build + labelled toggle crowd/overflow common phones (390–420px). Shed the
+   sub-label and the toggle's "Menu" text early — the toggle keeps its
+   aria-label, so it stays named for screen readers. */
+@media (max-width: 480px) {
   .nav-toggle-text { display: none; }
   .nav-toggle { padding: 0 0.7rem; }
   .brand-sub { display: none; }
+}
+
+@media (max-width: 360px) {
+  /* the min clamp (2.6rem), not 8vw, governs at this width — shrink it so the
+     nbsp-joined "No two alike" can't overrun the ~272px content box */
+  .statement-line { font-size: 2.2rem; }
 }
 
 /* short landscape viewports (phones rotated): don't force a 90vh hero */
@@ -1777,7 +1798,7 @@ body.menu-open::before {
     color-scheme: light;
   }
   body { background: #fff; color: var(--text); }
-  .site-header, .to-top, .strip-pause, .nav-toggle, .nav-cta-compact, .hero-glow, .hero-disc,
+  .site-header, .to-top, .strip, .nav-toggle, .nav-cta-compact, .hero-glow, .hero-disc,
   .card-zoom, .lightbox, .scroll-progress, .finish-picker, .filter-bar,
   .build-cta, .enquire-back, .lb-hint, .footer-top-link { display: none !important; }
   .js .reveal { opacity: 1 !important; transform: none !important; }

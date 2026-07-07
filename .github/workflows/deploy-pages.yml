@@ -23,6 +23,10 @@ jobs:
     steps:
       # Pinned to patch releases for reproducibility; ideally full commit SHAs.
       - uses: actions/checkout@v4.2.2
+      # Pin Node so `node --check` and @lhci/cli don't drift with the runner image
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version: "20"
       - name: Validate before deploying
         run: |
           node --check script.js
