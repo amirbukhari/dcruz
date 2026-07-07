@@ -103,6 +103,14 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* The `hidden` attribute must win over component `display` values. Author rules
+   like `.field-error { display: flex }` and `.lightbox-nav { display: grid }`
+   otherwise override the UA `[hidden] { display: none }`, leaving the form's
+   error messages permanently visible and the lightbox arrows shown for a
+   single-item view. The print rules that re-show `.card[hidden]` are more
+   specific, so they still win there. */
+[hidden] { display: none !important; }
+
 html {
   scroll-behavior: smooth;
   /* the ONLY anchor offset — scroll-margin-top on targets used to stack on top
