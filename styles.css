@@ -1454,6 +1454,10 @@ html:not(.js) .enquire-form .btn-block { display: none; }
   overflow: hidden;
 }
 .feature-media {
+  /* positioning context for the injected .card-zoom (position:absolute inset:0);
+     without this the flagship's zoom button escaped to the initial containing
+     block — an invisible click-catcher over the hero, "View" chip in the corner */
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
