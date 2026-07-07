@@ -71,7 +71,9 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   /* overlay tones — keep every translucent black on the same base hue */
   --overlay-header: rgba(14, 11, 7, 0.85);
-  --overlay-menu: rgba(14, 11, 7, 0.97);
+  /* fully opaque: the mobile dropdown has no backdrop-blur, so a translucent
+     panel let ~3% of the hero headline bleed behind the links */
+  --overlay-menu: #16110c;
   --scrim: rgba(10, 8, 5, 0.84);
   --accent-soft: rgba(200, 155, 90, 0.16);
   /* letter-spacing scale for uppercase labels */
