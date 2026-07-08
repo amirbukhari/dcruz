@@ -498,19 +498,56 @@
                 <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0%" stop-color="#3A2412"/><stop offset="50%" stop-color="#5C3A1C"/><stop offset="100%" stop-color="#2A1708"/>
                 </linearGradient>
+                <radialGradient id="benchGlow" cx="50%" cy="40%" r="58%">
+                  <stop offset="0%" stop-color="#F0C889" stop-opacity=".30"/><stop offset="100%" stop-color="#F0C889" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="bodyFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#E7B978" stop-opacity=".34"/><stop offset="100%" stop-color="#8A6430" stop-opacity=".20"/>
+                </linearGradient>
+                <linearGradient id="plank" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#6B441F"/><stop offset="100%" stop-color="#3A2412"/>
+                </linearGradient>
               </defs>
               <rect width="400" height="400" rx="8" fill="url(#panel)"/>
-              <g stroke="#C89B5A" stroke-opacity=".22" stroke-width="1.5">
-                <path d="M-20 70 Q 200 44 420 78"/><path d="M-20 140 Q 200 116 420 150"/>
-                <path d="M-20 210 Q 200 190 420 222"/><path d="M-20 280 Q 200 264 420 292"/>
-                <path d="M-20 350 Q 200 340 420 360"/>
+              <rect width="400" height="400" rx="8" fill="url(#benchGlow)"/>
+              <!-- ambient string lines -->
+              <g stroke="#C89B5A" stroke-opacity=".14" stroke-width="1.2">
+                <path d="M-20 58 Q 200 38 420 64"/><path d="M-20 104 Q 200 86 420 110"/><path d="M-20 330 Q 200 340 420 326"/>
               </g>
-              <g transform="translate(200 205)">
-                <circle r="118" fill="none" stroke="#C89B5A" stroke-opacity=".7" stroke-width="2"/>
-                <circle r="102" fill="none" stroke="#C89B5A" stroke-opacity=".4" stroke-width="1.4"/>
-                <image href="assets/dcruz-logo-cream-sm.png" x="-82" y="-27.5" width="164" height="55"/>
+              <!-- workbench -->
+              <g stroke="#C89B5A" stroke-linecap="round">
+                <rect x="34" y="266" width="332" height="20" rx="3" fill="url(#plank)" stroke-opacity=".5" stroke-width="1.5"/>
+                <path d="M50 276 H350" stroke-opacity=".22" stroke-width="1"/>
+                <path d="M72 286 V346" stroke-opacity=".45" stroke-width="4"/><path d="M328 286 V346" stroke-opacity=".45" stroke-width="4"/>
+                <path d="M72 332 H328" stroke-opacity=".28" stroke-width="2.5"/>
               </g>
-              <text x="200" y="352" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" letter-spacing="4" fill="#C89B5A">BELLEVILLE &middot; ONTARIO</text>
+              <!-- guitar body resting on the bench (S-style, neck to the right) -->
+              <g transform="translate(196 224) rotate(-6)">
+                <path d="M84 -12 H152 V16 H84 Z" fill="#6B441F" fill-opacity=".7" stroke="#C89B5A" stroke-opacity=".5" stroke-width="1.2"/>
+                <g stroke="#C89B5A" stroke-opacity=".38" stroke-width="1">
+                  <path d="M102 -12 V16"/><path d="M120 -12 V16"/><path d="M138 -12 V16"/>
+                </g>
+                <path d="M 84 -14 C 92 -30 92 -46 74 -47 C 60 -48 56 -34 44 -34 C 20 -34 6 -50 -18 -50 C -60 -50 -86 -24 -86 2 C -86 30 -60 54 -18 54 C 6 54 18 40 40 40 C 54 40 60 50 74 50 C 92 50 92 34 84 18 Z"
+                      fill="url(#bodyFill)" stroke="#EDC37F" stroke-opacity=".9" stroke-width="2.2"/>
+                <path d="M -66 -20 C -30 -30 44 -26 60 0 C 46 26 -30 32 -64 20 C -74 4 -74 -8 -66 -20 Z"
+                      fill="#F7F1E5" fill-opacity=".08" stroke="#C89B5A" stroke-opacity=".55" stroke-width="1.2"/>
+                <g fill="none" stroke="#EDC37F" stroke-opacity=".75" stroke-width="1.4">
+                  <rect x="-34" y="-12" width="8" height="26" rx="2"/><rect x="-8" y="-11" width="8" height="26" rx="2"/><rect x="18" y="-9" width="8" height="26" rx="2"/>
+                </g>
+                <rect x="40" y="-6" width="16" height="20" rx="2" fill="none" stroke="#EDC37F" stroke-opacity=".75" stroke-width="1.4"/>
+                <g fill="#C89B5A" fill-opacity=".6"><circle cx="-2" cy="26" r="3.5"/><circle cx="14" cy="26" r="3.5"/></g>
+              </g>
+              <!-- tools on the bench -->
+              <g stroke="#C89B5A" stroke-linecap="round" fill="none">
+                <g stroke-opacity=".55" stroke-width="2"><path d="M296 92 l40 22"/><path d="M334 112 l14 8"/></g>
+                <g stroke-opacity=".5" stroke-width="2"><path d="M58 118 l34 -14"/><path d="M90 104 l12 -5"/></g>
+                <g stroke-opacity=".45" stroke-width="1.3">
+                  <rect x="68" y="150" width="26" height="40" rx="4"/>
+                  <circle cx="81" cy="162" r="1.6" fill="#C89B5A" stroke="none"/><circle cx="81" cy="170" r="1.6" fill="#C89B5A" stroke="none"/><circle cx="81" cy="178" r="1.6" fill="#C89B5A" stroke="none"/>
+                </g>
+                <g stroke-opacity=".45" stroke-width="1.3"><circle cx="318" cy="166" r="18"/><circle cx="318" cy="166" r="10"/></g>
+              </g>
+              <text x="200" y="374" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" letter-spacing="4" fill="#C89B5A" fill-opacity=".85">BELLEVILLE &middot; ONTARIO</text>
             </svg>
           </div>
         </div>
