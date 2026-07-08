@@ -1154,16 +1154,22 @@ body.lb-open { overflow: hidden; }
   box-shadow: var(--shadow-card);
   transform: rotate(-1.5deg);
 }
-.story-frame svg {
-  /* The svg has no width/height attrs, only a viewBox — without an explicit
-     size it has no intrinsic dimensions to size against, so on a shrink-to-fit
-     box (any auto-margin/non-stretched ancestor, e.g. mobile) it collapses to
-     0x0 instead of filling its container. Force it to size from the frame. */
+.story-frame img {
   display: block;
   width: 100%;
   aspect-ratio: 1 / 1;
+  object-fit: cover;
   border-radius: var(--radius-sm);
 }
+.story-credit {
+  margin-top: 0.9rem;
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+}
+.story-credit a { color: var(--text-muted); text-decoration: underline; text-underline-offset: 2px; }
+.story-credit a:hover { color: var(--accent-strong); }
 
 .story-copy p + p { margin-top: 1.1rem; }
 .story-copy > p:not(.eyebrow) { color: var(--text-muted); }
