@@ -141,6 +141,7 @@
   function initMenu() {
     const toggle = $("#navToggle");
     const menu = $("#navMenu");
+    if (!toggle || !menu) return;
     const setMenu = (open) => {
       menu.classList.toggle("open", open);
       toggle.setAttribute("aria-expanded", String(open));

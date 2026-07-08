@@ -790,7 +790,6 @@ p { max-width: 65ch; text-wrap: pretty; }
   place-items: center;
   padding: clamp(1rem, 4vw, 3rem);
 }
-.lightbox[hidden] { display: none; }
 .lightbox-backdrop {
   position: absolute;
   inset: 0;
@@ -1233,6 +1232,59 @@ body.lb-open { overflow: hidden; }
   .partners img { opacity: 0.8; filter: grayscale(0.4); }
 }
 
+/* ---------- testimonials ---------- */
+.testimonials {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+.testimonial {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+}
+.testimonial blockquote {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+.testimonial-attr {
+  margin-top: auto;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+@media (max-width: 820px) {
+  .testimonials { grid-template-columns: 1fr; }
+}
+
+/* "what to expect" reassurance line under the enquiry points */
+.enquire-expect {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+.enquire-expect strong { color: var(--text); }
+
+/* placeholder markers — clearly-editable copy that still needs real content.
+   The dotted underline signals "swap me" without breaking the page's look. */
+.ph {
+  color: var(--accent);
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
 /* ---------- footer ---------- */
 
 .site-footer {
@@ -1441,7 +1493,6 @@ html:not(.js) .enquire-form .btn-block { display: none; }
   .filter-count { flex-basis: 100%; margin-left: 0; }
   .filter-btn { padding-inline: 0.8rem; }
 }
-.card[hidden], .feature[hidden] { display: none; }
 
 /* ---------- featured guitar ---------- */
 
@@ -1586,8 +1637,10 @@ html:not(.js) .enquire-form .btn-block { display: none; }
 }
 .field input:focus, .field textarea:focus {
   outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
+  border-color: var(--accent-strong);
+  /* inset 1px keeps a crisp solid edge (the 3px soft glow alone was fainter
+     than the 2px accent-strong :focus-visible ring the rest of the UI uses) */
+  box-shadow: 0 0 0 3px var(--accent-soft), inset 0 0 0 1px var(--accent-strong);
 }
 .field input::placeholder, .field textarea::placeholder { color: var(--placeholder); }
 /* keep WebKit autofill from painting the dark inputs yellow */
