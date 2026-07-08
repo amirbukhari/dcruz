@@ -348,13 +348,6 @@ p { max-width: 65ch; text-wrap: pretty; }
   transform: translateY(-2px);
 }
 .brand-logo-lg { height: 44px; }
-.brand-sub {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: var(--track-6);
-  text-transform: uppercase;
-  color: var(--accent);
-}
 
 .nav-menu {
   display: flex;
@@ -1755,14 +1748,13 @@ body.menu-open::before {
   .card-guitar { height: 360px; }
 }
 
-/* Once the compact "Build" CTA joins the bar (<=820), the logo + GUITARS +
-   Build + labelled toggle crowd/overflow common phones (390–420px). Shed the
-   sub-label and the toggle's "Menu" text early — the toggle keeps its
-   aria-label, so it stays named for screen readers. */
+/* Once the compact "Build" CTA joins the bar (<=820), the logo + Build +
+   labelled toggle crowd/overflow common phones (390–420px). Shed the toggle's
+   "Menu" text early — the toggle keeps its aria-label, so it stays named for
+   screen readers. */
 @media (max-width: 480px) {
   .nav-toggle-text { display: none; }
   .nav-toggle { padding: 0 0.7rem; }
-  .brand-sub { display: none; }
 }
 
 @media (max-width: 360px) {
