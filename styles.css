@@ -1277,14 +1277,6 @@ body.lb-open { overflow: hidden; }
 }
 .enquire-expect strong { color: var(--text); }
 
-/* placeholder markers — clearly-editable copy that still needs real content.
-   The dotted underline signals "swap me" without breaking the page's look. */
-.ph {
-  color: var(--accent);
-  text-decoration: underline dotted;
-  text-underline-offset: 3px;
-}
-
 /* ---------- footer ---------- */
 
 .site-footer {
