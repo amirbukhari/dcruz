@@ -1,0 +1,201 @@
+/* ==========================================================================
+   Logo Playground — internal comparison page
+   Reuses tokens, type, and .container/.eyebrow/.text-link from ../styles.css
+   ========================================================================== */
+
+.lp-body { padding-top: 0; }
+
+.lp-header {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+.lp-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1.1rem;
+  flex-wrap: wrap;
+}
+.lp-back {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+.lp-back:hover { color: var(--accent-strong); }
+.lp-crumb {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.lp-main { padding-block: 3.5rem 5rem; }
+.lp-main h1 { margin-bottom: 0.75rem; }
+.lp-main .section-lede { margin-bottom: 2.25rem; }
+
+.lp-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 4rem;
+}
+.lp-stats li {
+  background: var(--surface);
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-align: center;
+}
+.lp-stat-num {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 600;
+  color: var(--accent-strong);
+}
+.lp-stat-label {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.lp-section { margin-block: 4.5rem; }
+.lp-section h2 { margin-bottom: 0.5rem; }
+.lp-section code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  background: var(--surface-2);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.lp-chip {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 2rem;
+}
+.lp-chip-cream { background: #f7f1e5; }
+.lp-chip-dark { background: var(--bg); }
+
+.lp-compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.lp-panel { margin: 0; min-width: 0; }
+.lp-panel figcaption {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.lp-panel figcaption strong { font-size: 0.9375rem; }
+.lp-panel figcaption span { font-size: 0.8125rem; color: var(--text-muted); }
+
+.lp-logo-img { width: 100%; height: auto; max-width: 420px; display: block; }
+
+/* ---------- overlay slider ---------- */
+.lp-slider-wrap { display: block; padding: 2rem; }
+.lp-slider-stage {
+  position: relative;
+  max-width: 560px;
+  margin-inline: auto;
+  aspect-ratio: 895 / 291;
+}
+.lp-slider-under, .lp-slider-over img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+.lp-slider-over {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(0 50% 0 0);
+}
+.lp-slider-handle {
+  position: absolute;
+  top: -8px;
+  bottom: -8px;
+  left: 50%;
+  width: 2px;
+  background: var(--accent-strong);
+  transform: translateX(-1px);
+  pointer-events: none;
+}
+.lp-slider-handle::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent-strong);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+.lp-slider-input {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  margin: 1.5rem auto 0;
+  accent-color: var(--accent-strong);
+}
+.lp-slider-caption {
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-top: 0.75rem;
+}
+
+/* ---------- scale test ---------- */
+.lp-compare-grid-big .lp-chip-scroll {
+  overflow-x: auto;
+  align-items: flex-start;
+}
+.lp-logo-big { max-width: none; width: 1400px; }
+
+/* ---------- color grid (CSS mask so one SVG file drives every hue) ---------- */
+.lp-color-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.lp-mask-logo {
+  width: 100%;
+  aspect-ratio: 3578 / 1163.98;
+  -webkit-mask-image: url("../assets/logo-playground/dcruz-wordmark.svg");
+  mask-image: url("../assets/logo-playground/dcruz-wordmark.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+.lp-color-cream { background: var(--text); }
+.lp-color-black { background: #14100b; }
+.lp-color-gold { background: var(--accent-strong); }
+
+.lp-footer {
+  border-top: 1px solid var(--border);
+  padding-block: 2rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 720px) {
+  .lp-compare-grid, .lp-color-grid { grid-template-columns: 1fr; }
+  .lp-chip { padding: 1.75rem 1.25rem; }
+}
