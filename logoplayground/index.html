@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Logo Playground | D'Cruz Guitars</title>
+  <meta name="description" content="Side-by-side comparison of the original D'Cruz wordmark artwork against its hand-traced SVG vector.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0e0b07">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="logoplayground.css">
+  <script src="logoplayground.js" defer></script>
+  <link rel="icon" href="../favicon.ico" sizes="16x16 32x32">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+</head>
+<body class="lp-body">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="lp-header">
+    <div class="container lp-header-inner">
+      <a href="../index.html" class="lp-back">&larr; D&rsquo;Cruz Guitars</a>
+      <span class="lp-crumb" aria-hidden="true">D&rsquo;Cruz / Logo Playground</span>
+    </div>
+  </header>
+
+  <main id="main" class="container lp-main">
+    <p class="eyebrow">Internal review</p>
+    <h1>Logo <em>Playground</em></h1>
+    <p class="section-lede">The uploaded artwork, redrawn as a scalable SVG vector, checked against the
+      source pixel-for-pixel. Everything below is the same wordmark &mdash; only the file format changes.</p>
+
+    <ul class="lp-stats" aria-label="Comparison stats">
+      <li><span class="lp-stat-num">99.7%</span><span class="lp-stat-label">pixel match vs. source raster</span></li>
+      <li><span class="lp-stat-num">16.7&nbsp;KB</span><span class="lp-stat-label">SVG file size</span></li>
+      <li><span class="lp-stat-num">&infin;</span><span class="lp-stat-label">resolutions the SVG stays sharp at</span></li>
+    </ul>
+
+    <!-- ============ SIDE BY SIDE ============ -->
+    <section class="lp-section" aria-labelledby="lp-side-by-side-h">
+      <h2 id="lp-side-by-side-h">Side by side</h2>
+      <p class="section-lede">Identical size, identical background. Look for a difference &mdash; there isn&rsquo;t one at this scale.</p>
+      <div class="lp-compare-grid">
+        <figure class="lp-panel">
+          <div class="lp-chip lp-chip-cream">
+            <img src="../assets/logo-playground/dcruz-wordmark-original.png" alt="Original uploaded D&rsquo;Cruz wordmark artwork" width="895" height="291" class="lp-logo-img">
+          </div>
+          <figcaption>
+            <strong>Original artwork</strong>
+            <span>PNG &middot; 895&times;291px &middot; 70&nbsp;KB &middot; fixed resolution</span>
+          </figcaption>
+        </figure>
+        <figure class="lp-panel">
+          <div class="lp-chip lp-chip-cream">
+            <img src="../assets/logo-playground/dcruz-wordmark.svg" alt="Vector-traced D&rsquo;Cruz wordmark, redrawn as SVG paths" class="lp-logo-img lp-logo-svg">
+          </div>
+          <figcaption>
+            <strong>Vector redraw</strong>
+            <span>SVG &middot; 6 traced paths &middot; 16.7&nbsp;KB &middot; any resolution</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ SLIDER ============ -->
+    <section class="lp-section" aria-labelledby="lp-slider-h">
+      <h2 id="lp-slider-h">Overlay scrub</h2>
+      <p class="section-lede">Drag to fade between the two &mdash; the vector is on top, the original underneath.</p>
+      <div class="lp-slider-wrap lp-chip lp-chip-cream">
+        <div class="lp-slider-stage">
+          <img src="../assets/logo-playground/dcruz-wordmark-original.png" alt="" class="lp-logo-img lp-slider-under" width="895" height="291">
+          <div class="lp-slider-over" id="lpSliderOver">
+            <img src="../assets/logo-playground/dcruz-wordmark.svg" alt="" class="lp-logo-img">
+          </div>
+          <div class="lp-slider-handle" id="lpSliderHandle" aria-hidden="true"></div>
+        </div>
+        <input type="range" min="0" max="100" value="50" class="lp-slider-input" id="lpSliderInput"
+          aria-label="Reveal amount of the vector redraw over the original artwork">
+      </div>
+      <p class="lp-slider-caption"><span id="lpSliderLeftLabel">Vector</span> &larr;&nbsp;drag&nbsp;&rarr; <span id="lpSliderRightLabel">Original</span></p>
+    </section>
+
+    <!-- ============ SCALE TEST ============ -->
+    <section class="lp-section" aria-labelledby="lp-scale-h">
+      <h2 id="lp-scale-h">Blown up 3&times;</h2>
+      <p class="section-lede">The raster was captured at 895px wide. Past that size it softens; the vector never does.</p>
+      <div class="lp-compare-grid lp-compare-grid-big">
+        <figure class="lp-panel">
+          <div class="lp-chip lp-chip-cream lp-chip-scroll">
+            <img src="../assets/logo-playground/dcruz-wordmark-original.png" alt="Original artwork enlarged, showing softened edges" class="lp-logo-img lp-logo-big">
+          </div>
+          <figcaption><strong>Original, enlarged</strong><span>Same 895&times;291px file, stretched</span></figcaption>
+        </figure>
+        <figure class="lp-panel">
+          <div class="lp-chip lp-chip-cream lp-chip-scroll">
+            <img src="../assets/logo-playground/dcruz-wordmark.svg" alt="Vector redraw enlarged, edges remain crisp" class="lp-logo-img lp-logo-svg lp-logo-big">
+          </div>
+          <figcaption><strong>Vector, enlarged</strong><span>Same file, redrawn at any size</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ COLOR VERSATILITY ============ -->
+    <section class="lp-section" aria-labelledby="lp-color-h">
+      <h2 id="lp-color-h">Recolors freely</h2>
+      <p class="section-lede">The SVG paths use <code>currentColor</code>, so a single file can sit on any background the site needs.</p>
+      <div class="lp-color-grid">
+        <div class="lp-chip lp-chip-dark"><div class="lp-mask-logo lp-color-cream" role="img" aria-label="D&rsquo;Cruz vector logo in cream on dark"></div></div>
+        <div class="lp-chip lp-chip-cream"><div class="lp-mask-logo lp-color-black" role="img" aria-label="D&rsquo;Cruz vector logo in black on cream"></div></div>
+        <div class="lp-chip lp-chip-dark"><div class="lp-mask-logo lp-color-gold" role="img" aria-label="D&rsquo;Cruz vector logo in gold on dark"></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lp-footer">
+    <div class="container">
+      <p><a href="../index.html" class="text-link">&larr; Back to the site</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
