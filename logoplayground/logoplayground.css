@@ -110,7 +110,7 @@
   position: relative;
   max-width: 560px;
   margin-inline: auto;
-  aspect-ratio: 1536 / 610;
+  aspect-ratio: 1536 / 536;
 }
 .lp-slider-under, .lp-slider-over img {
   position: absolute;
@@ -176,9 +176,9 @@
 }
 .lp-mask-logo {
   width: 100%;
-  aspect-ratio: 1536 / 610;
-  -webkit-mask-image: url("../assets/logo-playground/dcruz-wordmark-v2.svg");
-  mask-image: url("../assets/logo-playground/dcruz-wordmark-v2.svg");
+  aspect-ratio: 1536 / 536;
+  -webkit-mask-image: url("../assets/logo-playground/dcruz-wordmark-v3.svg");
+  mask-image: url("../assets/logo-playground/dcruz-wordmark-v3.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
